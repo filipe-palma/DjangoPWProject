@@ -1,0 +1,17 @@
+{% extends "portfolio/base.html" %}
+{% block title %}Tecnologias{% endblock %}
+{% block content %}
+  <h2>Tecnologias Utilizadas</h2>
+  <a href="{% url 'portfolio:criar_tecnologia' %}">+ Nova Tecnologia</a>
+  <ul>
+    {% for t in techs %}
+      <li>
+        <img src="{{ t.logo.url }}" alt="{{ t.nome }}" width="50">
+        <strong><a href="{{ t.repositorio }}">{{ t.nome }}</a></strong>: {{ t.descricao }}
+        <em>(usada em {% for p in t.projeto_set.all %}{{ p.titulo }}{% if not forloop.last %}, {% endif %}{% endfor %})</em>
+        [<a href="{% url 'portfolio:editar_tecnologia' t.id %}">Editar</a> |
+         <a href="{% url 'portfolio:apagar_tecnologia' t.id %}">Apagar</a>]
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

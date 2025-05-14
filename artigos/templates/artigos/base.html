@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Meu Blog{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <header>
+    <h1>Artigos</h1>
+    <nav>
+      <a href="{% url 'artigos:artigo-list' %}">Todos os Artigos</a> |
+      <a href="{% url 'artigos:artigo-create' %}">Criar Artigo</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    <p>© 2025 - Artigos.</p>
+  </footer>
+</body>
+</html>

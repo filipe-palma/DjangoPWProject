@@ -1,0 +1,82 @@
+[
+    {
+        "nome": "Rockers United",
+        "ano_formacao": 1985,
+        "genero": "Rock",
+        "pais_origem": "Portugal",
+        "descricao": "Banda clássica de rock com influência progressiva.",
+        "website": "http://rockersunited.pt"
+    },
+    {
+        "nome": "Vibração Rock",
+        "ano_formacao": 1987,
+        "genero": "Rock",
+        "pais_origem": "Brasil",
+        "descricao": "Banda brasileira com ritmos intensos e guitarras marcantes.",
+        "website": "http://vibraçãorock.com.br"
+    },
+    {
+        "nome": "Sons do Norte",
+        "ano_formacao": 1990,
+        "genero": "Rock",
+        "pais_origem": "Portugal",
+        "descricao": "Mistura rock e influências folclóricas do Norte.",
+        "website": "http://sonsdonorte.pt"
+    },
+    {
+        "nome": "Ecos do Silêncio",
+        "ano_formacao": 1995,
+        "genero": "Rock",
+        "pais_origem": "Brasil",
+        "descricao": "Banda que traz o peso do rock alternativo com atmosferas intensas.",
+        "website": "http://ecosdosilencio.com.br"
+    },
+    {
+        "nome": "Tempestade Sonora",
+        "ano_formacao": 2000,
+        "genero": "Rock",
+        "pais_origem": "Portugal",
+        "descricao": "Banda moderna com energia e originalidade sonora.",
+        "website": "http://tempestadesonora.pt"
+    },
+    {
+        "nome": "Fúria Elétrica",
+        "ano_formacao": 1988,
+        "genero": "Rock",
+        "pais_origem": "Brasil",
+        "descricao": "Mistura riffs de rock pesado com batidas eletrificadas.",
+        "website": "http://furiaeletrica.com.br"
+    },
+    {
+        "nome": "Ritmo Urbano",
+        "ano_formacao": 1992,
+        "genero": "Rock",
+        "pais_origem": "Portugal",
+        "descricao": "Banda que une elementos do rock clássico com influências urbanas.",
+        "website": "http://ritmourbano.pt"
+    },
+    {
+        "nome": "Vento de Aço",
+        "ano_formacao": 1998,
+        "genero": "Rock",
+        "pais_origem": "Brasil",
+        "descricao": "Banda poderosa com solos de guitarra inspiradores.",
+        "website": "http://ventodeaco.com.br"
+    },
+    {
+        "nome": "Fusão Musical",
+        "ano_formacao": 2003,
+        "genero": "Rock",
+        "pais_origem": "Portugal",
+        "descricao": "Banda que funde rock com toques experimentais.",
+        "website": "http://fusãomusical.pt"
+    },
+    {
+        "nome": "Chamas da Liberdade",
+        "ano_formacao": 2010,
+        "genero": "Rock",
+        "pais_origem": "Brasil",
+        "descricao": "Banda jovem e dinâmica que exala paixão pelo rock.",
+        "website": "http://chamasdaliberdade.com.br"
+    }
+]

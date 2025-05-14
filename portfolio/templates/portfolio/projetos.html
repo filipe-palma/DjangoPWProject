@@ -1,0 +1,35 @@
+{% extends "portfolio/base.html" %}
+{% block title %}Meus Projetos{% endblock %}
+{% block content %}
+  <h2>Projetos</h2>
+  <a href="{% url 'portfolio:criar_projeto' %}">+ Novo Projeto</a>
+  {% for p in projetos %}
+    <article>
+      <h3>{{ p.titulo }}</h3>
+      {# Vídeo Demo #}
+      {% if p.video_demo %}
+        <div class="video-container">
+          <iframe
+            width="560" height="315"
+            src="{{ p.video_demo }}"
+            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      {% endif %}
+      <p>{{ p.descricao }}</p>
+      <strong><p><a href="{{ p.github }}">Repositório no GitHub</a></p></strong>
+      <p><strong>Disciplina:</strong> {{ p.disciplina }}</p>
+      <p><strong>Tecnologias:</strong>
+        {% for t in p.tecnologias.all %}{{ t.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}
+      </p>
+      {% for img in p.imagens.all %}
+        <img src="{{ img.imagem.url }}" alt="{{ p.titulo }}" width="200">
+      <p><strong>Conceito:</strong> {{ p.conceito }}</p>
+      <p><strong>Desafios:</strong> {{ p.desafios }}</p>
+      {% endfor %}
+      <a href="{% url 'portfolio:editar_projeto' p.id %}">Editar</a> |
+<a href="{% url 'portfolio:apagar_projeto' p.id %}">Apagar</a>
+    </article>
+  {% endfor %}
+{% endblock %}

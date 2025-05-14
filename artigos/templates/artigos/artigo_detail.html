@@ -1,0 +1,53 @@
+{% extends 'artigos/base.html' %}
+{% block content %}
+<article>
+  <h1>{{ artigo.titulo }}</h1>
+  <p><em>{{ artigo.subtitulo }}</em></p>
+  <div>{{ artigo.conteudo|linebreaks }}</div>
+  {% if artigo.imagem_capa %}
+    <img src="{{ artigo.imagem_capa.url }}" alt="Capa de {{ artigo.titulo }}">
+  {% endif %}
+
+  <hr>
+  <h2>Comentários ({{ comentarios|length }})</h2>
+  <ul>
+    {% for c in comentarios %}
+      <li>
+        <strong>{{ c.nome }}</strong> em {{ c.data_criacao|date:"d/m/Y H:i" }}<br>
+        {{ c.conteudo|linebreaks }}
+      </li>
+    {% empty %}
+      <li>Nenhum comentário aprovado.</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Deixe um comentário</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form_comentario.as_p }}
+    <button type="submit" name="submit_comentario" class="btn btn-secondary">Enviar Comentário</button>
+  </form>
+
+  <hr>
+  <h2>Avaliações</h2>
+  <ul>
+    {% for a in avaliacoes %}
+      <li>{{ a.nome }} — {{ a.get_pontuacao_display }} — {{ a.comentario }}</li>
+    {% empty %}
+      <li>Nenhuma avaliação.</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Avalie este artigo</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form_avaliacao.as_p }}
+    <button type="submit" name="submit_avaliacao" class="btn btn-secondary">Enviar Avaliação</button>
+  </form>
+
+  <hr>
+  <a href="{% url 'artigos:artigo-update' artigo.slug %}" class="btn btn-warning">Editar Artigo</a>
+  <a href="{% url 'artigos:artigo-delete' artigo.slug %}" class="btn btn-danger">Apagar Artigo</a>
+  <a href="{% url 'artigos:artigo-list' %}" class="btn btn-link">Voltar à lista</a>
+</article>
+{% endblock %}

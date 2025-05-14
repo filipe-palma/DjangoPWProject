@@ -1,0 +1,10 @@
+{% extends 'artigos/base.html' %}
+{% block content %}
+<h1>Confirmar exclusão</h1>
+<p>Tem certeza de que deseja apagar o artigo “{{ object.titulo }}”?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Sim, apagar</button>
+  <a href="{{ object.get_absolute_url }}" class="btn btn-link">Não, voltar</a>
+</form>
+{% endblock %}

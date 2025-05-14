@@ -1,0 +1,29 @@
+{% extends 'artigos/base.html' %}
+{% block content %}
+<h1>Todos os Artigos</h1>
+<a href="{% url 'artigos:artigo-create' %}" class="btn btn-primary">Criar Novo Artigo</a>
+<ul>
+  {% for artigo in artigos %}
+    <li>
+      <a href="{{ artigo.get_absolute_url }}">{{ artigo.titulo }}</a>
+      — {{ artigo.status }} — publicado em {{ artigo.data_publicacao|date:"d/m/Y" }}
+      <a href="{% url 'artigos:artigo-update' artigo.slug %}">[Editar]</a>
+      <a href="{% url 'artigos:artigo-delete' artigo.slug %}">[Apagar]</a>
+    </li>
+  {% empty %}
+    <li>Nenhum artigo disponível.</li>
+  {% endfor %}
+</ul>
+
+{% if is_paginated %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">« anterior</a>
+    {% endif %}
+    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">próxima »</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

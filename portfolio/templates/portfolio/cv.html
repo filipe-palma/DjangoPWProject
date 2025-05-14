@@ -1,0 +1,19 @@
+{% extends "portfolio/base.html" %}
+{% load static %}
+{% block title %}CV{% endblock %}
+{% block content %}
+  <h2>Curriculum Vitae</h2>
+  <img src="{% static 'portfolio/images/foto.jpg' %}" alt="Foto" width="1000">
+  <h3>Dados Pessoais</h3>
+  <p>Nome: Filipe Palma</p>
+  <p>Email: filipepalma9@hotmail.com</p>
+  <h3>Educação</h3>
+  <ul>
+    <li>Estudante de Licenciatura em Engenharia Informática, Universidade Lusófona</li>
+  </ul>
+  <h3>Experiência</h3>
+  <ul>
+    <li>Voluntariado na Web Summit</li>
+  </ul>
+  <p>Consulta os <a href="{% url 'portfolio:projetos' %}">Meus Projetos</a> e <a href="{% url 'portfolio:tecnologias' %}">Tecnologias</a>.</p>
+{% endblock %}

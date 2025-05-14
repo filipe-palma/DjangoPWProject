@@ -1,0 +1,14 @@
+{% extends 'artigos/base.html' %}
+{% block content %}
+<h1>
+  {% if object %}Editar Artigo{% else %}Criar Novo Artigo{% endif %}
+</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">
+    {% if object %}Salvar Alterações{% else %}Criar Artigo{% endif %}
+  </button>
+  <a href="{% url 'artigos:artigo-list' %}" class="btn btn-link">Cancelar</a>
+</form>
+{% endblock %}

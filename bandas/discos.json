@@ -1,0 +1,182 @@
+[
+    {
+        "titulo": "Primeiro Impacto",
+        "ano_lancamento": 1986,
+        "banda": "Rockers United",
+        "musicas": [
+            {"titulo": "Arranque", "duracao": "03:45"},
+            {"titulo": "Despertar", "duracao": "04:10"}
+        ]
+    },
+    {
+        "titulo": "Ritmo Infinito",
+        "ano_lancamento": 1988,
+        "banda": "Rockers United",
+        "musicas": [
+            {"titulo": "Caminho Sem Fim", "duracao": "04:05"},
+            {"titulo": "Noite Eterna", "duracao": "03:50"}
+        ]
+    },
+    {
+        "titulo": "Vibração Inicial",
+        "ano_lancamento": 1988,
+        "banda": "Vibração Rock",
+        "musicas": [
+            {"titulo": "Estrela Cadente", "duracao": "03:30"},
+            {"titulo": "Pulso Forte", "duracao": "04:20"}
+        ]
+    },
+    {
+        "titulo": "Som Ardente",
+        "ano_lancamento": 1990,
+        "banda": "Vibração Rock",
+        "musicas": [
+            {"titulo": "Labareda", "duracao": "03:55"},
+            {"titulo": "Coração de Fogo", "duracao": "04:15"}
+        ]
+    },
+    {
+        "titulo": "Vozes do Norte",
+        "ano_lancamento": 1991,
+        "banda": "Sons do Norte",
+        "musicas": [
+            {"titulo": "Brisa Gelada", "duracao": "04:00"},
+            {"titulo": "Montanha Sagrada", "duracao": "04:25"}
+        ]
+    },
+    {
+        "titulo": "Eco Profundo",
+        "ano_lancamento": 1993,
+        "banda": "Sons do Norte",
+        "musicas": [
+            {"titulo": "Sussurro", "duracao": "03:40"},
+            {"titulo": "Resgate", "duracao": "04:00"}
+        ]
+    },
+    {
+        "titulo": "Silêncio que Fala",
+        "ano_lancamento": 1996,
+        "banda": "Ecos do Silêncio",
+        "musicas": [
+            {"titulo": "Voz Interior", "duracao": "03:50"},
+            {"titulo": "Mistério", "duracao": "04:05"}
+        ]
+    },
+    {
+        "titulo": "Ressonância",
+        "ano_lancamento": 1998,
+        "banda": "Ecos do Silêncio",
+        "musicas": [
+            {"titulo": "Caminho Oculto", "duracao": "04:10"},
+            {"titulo": "Ecos Noturnos", "duracao": "03:45"}
+        ]
+    },
+    {
+        "titulo": "Tempestade de Som",
+        "ano_lancamento": 2001,
+        "banda": "Tempestade Sonora",
+        "musicas": [
+            {"titulo": "Vórtice", "duracao": "04:00"},
+            {"titulo": "Sopro Vital", "duracao": "03:55"}
+        ]
+    },
+    {
+        "titulo": "Calma Após a Fúria",
+        "ano_lancamento": 2003,
+        "banda": "Tempestade Sonora",
+        "musicas": [
+            {"titulo": "Onda Suave", "duracao": "03:40"},
+            {"titulo": "Horizonte", "duracao": "04:20"}
+        ]
+    },
+    {
+        "titulo": "Energia em Chamas",
+        "ano_lancamento": 1989,
+        "banda": "Fúria Elétrica",
+        "musicas": [
+            {"titulo": "Faísca", "duracao": "03:35"},
+            {"titulo": "Tempestade", "duracao": "04:00"}
+        ]
+    },
+    {
+        "titulo": "Circuito Aberto",
+        "ano_lancamento": 1991,
+        "banda": "Fúria Elétrica",
+        "musicas": [
+            {"titulo": "Corrente", "duracao": "03:50"},
+            {"titulo": "Pulso", "duracao": "04:10"}
+        ]
+    },
+    {
+        "titulo": "Ritmo da Rua",
+        "ano_lancamento": 1993,
+        "banda": "Ritmo Urbano",
+        "musicas": [
+            {"titulo": "Pulsação", "duracao": "03:45"},
+            {"titulo": "Esquina", "duracao": "04:05"}
+        ]
+    },
+    {
+        "titulo": "Passo Firme",
+        "ano_lancamento": 1995,
+        "banda": "Ritmo Urbano",
+        "musicas": [
+            {"titulo": "Marcha", "duracao": "04:00"},
+            {"titulo": "Cruzamento", "duracao": "03:55"}
+        ]
+    },
+    {
+        "titulo": "Força de Aço",
+        "ano_lancamento": 1999,
+        "banda": "Vento de Aço",
+        "musicas": [
+            {"titulo": "Impacto", "duracao": "03:50"},
+            {"titulo": "Resistência", "duracao": "04:15"}
+        ]
+    },
+    {
+        "titulo": "Rugido do Vento",
+        "ano_lancamento": 2001,
+        "banda": "Vento de Aço",
+        "musicas": [
+            {"titulo": "Trovão", "duracao": "03:40"},
+            {"titulo": "Redemoinho", "duracao": "04:05"}
+        ]
+    },
+    {
+        "titulo": "Harmonia da Fusão",
+        "ano_lancamento": 2004,
+        "banda": "Fusão Musical",
+        "musicas": [
+            {"titulo": "Convergência", "duracao": "04:10"},
+            {"titulo": "Sintonia", "duracao": "03:55"}
+        ]
+    },
+    {
+        "titulo": "Mistura Singular",
+        "ano_lancamento": 2006,
+        "banda": "Fusão Musical",
+        "musicas": [
+            {"titulo": "Caleidoscópio", "duracao": "04:05"},
+            {"titulo": "Universo", "duracao": "03:50"}
+        ]
+    },
+    {
+        "titulo": "Liberdade em Chamas",
+        "ano_lancamento": 2011,
+        "banda": "Chamas da Liberdade",
+        "musicas": [
+            {"titulo": "Voo Livre", "duracao": "03:45"},
+            {"titulo": "Caminho da Luz", "duracao": "04:20"}
+        ]
+    },
+    {
+        "titulo": "Revolução Sonora",
+        "ano_lancamento": 2013,
+        "banda": "Chamas da Liberdade",
+        "musicas": [
+            {"titulo": "Despertar Rebelde", "duracao": "04:00"},
+            {"titulo": "Alvorada", "duracao": "03:55"}
+        ]
+    }
+]

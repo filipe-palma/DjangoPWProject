@@ -1,0 +1,35 @@
+{% extends "portfolio/base.html" %}
+{% load static %}
+
+{% block title %}Apresentação Técnica{% endblock %}
+
+{% block content %}
+  <h2>Apresentação Técnica</h2>
+
+  <h3>Arquitetura MVT</h3>
+  <p>O Django adota o padrão Model-View-Template (MVT), onde:</p>
+  <ul>
+    <li><strong>Model</strong>: define a estrutura de dados e as regras de acesso ao banco (classes em <code>models.py</code>).</li>
+    <li><strong>View</strong>: trata a lógica de negócio e o fluxo de requisição/resposta (funções ou classes em <code>views.py</code>).</li>
+    <li><strong>Template</strong>: cuida da renderização e apresentação (arquivos HTML com linguagem de templates).</li>
+  </ul>
+  <img src="{% static 'portfolio/images/diagrama.png' %}" alt="Diagrama MVT">
+
+  <h3>Diagrama de Entidade-Relacionamento (DER)</h3>
+  <p>O DER abaixo mostra os principais relacionamentos entre modelos no projeto:</p>
+  <ul>
+    <li><strong>One-to-One</strong>: mapeado com <code>OneToOneField</code>, ex. <code>Autor ↔ User</code> e <code>Extras ↔ Projeto</code>.</li>
+    <li><strong>One-to-Many</strong>: mapeado com <code>ForeignKey</code>, ex. cada <code>Comentário</code> pertence a um <code>Artigo</code>.</li>
+    <li><strong>Many-to-Many</strong>: mapeado com <code>ManyToManyField</code>, ex. <code>Artigo ↔ Categoria</code> e <code>Artigo ↔ Tag</code>.</li>
+  </ul>
+
+  <h3>Mapa de Páginas</h3>
+  <pre>
+    /
+    ├─ index/
+    ├─ sobre/
+    └─ projetos/
+  </pre>
+
+  <p>Veja o código completo no <a href="https://github.com/teu_user/repo">repositório no GitHub</a>.</p>
+{% endblock %}
