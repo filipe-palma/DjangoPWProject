@@ -15,17 +15,21 @@ def login_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
+        # Especificar o backend explicitamente
+        user = authenticate(
+            request,
+            username=username,
+            password=password,
+            backend='django.contrib.auth.backends.ModelBackend'
+        )
 
         if user is not None:
             login(request, user)
-            # Redirecionar para a página solicitada ou página inicial
             next_page = request.GET.get('next', '/')
             return redirect(next_page)
         else:
-            messages.error(request, 'Credenciais inválidas. Tente novamente.')
+            messages.error(request, 'Credenciais inválidas.')
 
-    # Se o usuário já estiver autenticado, redirecione para a página inicial
     if request.user.is_authenticated:
         return redirect('/')
 
@@ -36,10 +40,16 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # Faça login após o registro
-            login(request, user)
-            messages.success(request, 'Conta criada com sucesso!')
-            return redirect('/')
+            # Especificar o backend ao fazer login
+            user_auth = authenticate(
+                request,
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1']
+            )
+            if user_auth:
+                login(request, user_auth)  # Este usuário já tem o backend configurado
+                messages.success(request, 'Conta criada com sucesso!')
+                return redirect('/')
     else:
         form = UserCreationForm()
 
@@ -112,6 +122,16 @@ def verify_magic_link_view(request, token):
             email=magic_link.email,
             defaults={'username': magic_link.email.split('@')[0]}
         )
+
+        # Se um usuário foi criado, defina uma senha aleatória
+        if created:
+            random_password = User.objects.make_random_password()
+            user.set_password(random_password)
+            user.save()
+
+        # Autenticar o usuário explicitamente antes de fazer login
+        backend = 'django.contrib.auth.backends.ModelBackend'
+        user.backend = backend
 
         # Login do usuário
         login(request, user)

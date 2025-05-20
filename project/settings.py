@@ -151,9 +151,7 @@ STATIC_ROOT = '/home/a22402827/project/static'
 STATIC_URL = '/static/'
 
 AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin
     'django.contrib.auth.backends.ModelBackend',
-    # `allauth` specific authentication methods
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
