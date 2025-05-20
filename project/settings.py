@@ -151,9 +151,13 @@ STATIC_ROOT = '/home/a22402827/project/static'
 STATIC_URL = '/static/'
 
 # Diretórios adicionais onde o Django procurará por arquivos estáticos
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# No ambiente de desenvolvimento, usamos o diretório local /static/
+# No PythonAnywhere, isso será ignorado e o STATIC_ROOT será usado
+import os
+if not os.path.exists('/home/a22402827'):  # Verificar se estamos em desenvolvimento local
+    STATICFILES_DIRS = [
+        BASE_DIR / "static",
+    ]
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
