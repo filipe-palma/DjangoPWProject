@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProjetoForm, TecnologiaForm
 from datetime import datetime
 from .models import Projeto, Tecnologia
+from django.contrib.auth.decorators import login_required
 
 def index_view(request):
     return render(request, "portfolio/index.html", {"data_atual": datetime.now()})
@@ -26,6 +27,7 @@ def apresentacao_view(request):
 def cv_view(request):
     return render(request, "portfolio/cv.html")
 
+@login_required
 def criar_projeto(request):
     form = ProjetoForm(request.POST or None)
     if form.is_valid():
@@ -33,6 +35,7 @@ def criar_projeto(request):
         return redirect('portfolio:projetos')
     return render(request, 'portfolio/form_projeto.html', {'form': form})
 
+@login_required
 def editar_projeto(request, id):
     projeto = get_object_or_404(Projeto, pk=id)
     form = ProjetoForm(request.POST or None, instance=projeto)
@@ -41,6 +44,7 @@ def editar_projeto(request, id):
         return redirect('portfolio:projetos')
     return render(request, 'portfolio/form_projeto.html', {'form': form})
 
+@login_required
 def apagar_projeto(request, id):
     projeto = get_object_or_404(Projeto, pk=id)
     if request.method == 'POST':
@@ -48,6 +52,7 @@ def apagar_projeto(request, id):
         return redirect('portfolio:projetos')
     return render(request, 'portfolio/confirmar_apagar.html', {'obj': projeto})
 
+@login_required
 def criar_tecnologia(request):
     form = TecnologiaForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -55,6 +60,7 @@ def criar_tecnologia(request):
         return redirect('portfolio:tecnologias')
     return render(request, 'portfolio/form_tecnologia.html', {'form': form, 'novo': True})
 
+@login_required
 def editar_tecnologia(request, id):
     tech = get_object_or_404(Tecnologia, pk=id)
     form = TecnologiaForm(request.POST or None, request.FILES or None, instance=tech)
@@ -63,6 +69,7 @@ def editar_tecnologia(request, id):
         return redirect('portfolio:tecnologias')
     return render(request, 'portfolio/form_tecnologia.html', {'form': form, 'novo': False})
 
+@login_required
 def apagar_tecnologia(request, id):
     tech = get_object_or_404(Tecnologia, pk=id)
     if request.method == 'POST':

@@ -23,6 +23,13 @@
       <a href="{% url 'portfolio:tecnologias' %}">Tecnologias</a>
       <a href="{% url 'portfolio:apresentacao' %}">Técnica</a>
       <a href="{% url 'portfolio:cv' %}">CV</a>
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'profile' %}">{{ user.username }}</a></li>
+        <li><a href="{% url 'logout' %}">Sair</a></li>
+      {% else %}
+        <li><a href="{% url 'login' %}">Entrar</a></li>
+        <li><a href="{% url 'register' %}">Registrar</a></li>
+      {% endif %}
     </nav>
   </header>
   <main>
@@ -30,6 +37,9 @@
   </main>
   <footer>
     <p>&copy;2025 Filipe Palma</p>
+    <div class="visitor-counter">
+        <p>Total de visitantes: {{ visitor_count }}</p>
+    </div>
   </footer>
 </body>
 </html>

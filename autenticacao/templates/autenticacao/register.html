@@ -1,0 +1,25 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Registro</h2>
+    
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+    
+    <div class="auth-options">
+        <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login</a></p>
+    </div>
+</div>
+{% endblock %}

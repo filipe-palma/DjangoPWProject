@@ -41,3 +41,16 @@ class ImagemProjeto(models.Model):
 class Extras(models.Model):
     projeto = models.OneToOneField(Projeto, on_delete=models.CASCADE)
     info_adicional = models.TextField()
+
+class Visitor(models.Model):
+    session_key = models.CharField(max_length=40, unique=True)
+    first_visit = models.DateTimeField(auto_now_add=True)
+
+    @classmethod
+    def get_total_count(cls):
+        return cls.objects.count()
+
+    @classmethod
+    def get_or_create_visitor(cls, session_key):
+        visitor, created = cls.objects.get_or_create(session_key=session_key)
+        return visitor

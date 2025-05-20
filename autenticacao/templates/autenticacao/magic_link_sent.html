@@ -1,0 +1,15 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Link Mágico Enviado</h2>
+    
+    <p>Um link de acesso foi enviado para o seu email. Por favor, verifique sua caixa de entrada e clique no link para fazer login.</p>
+    
+    <p>O link é válido por 1 hora.</p>
+    
+    <div class="auth-options">
+        <p><a href="{% url 'login' %}">Voltar para login</a></p>
+    </div>
+</div>
+{% endblock %}

@@ -41,7 +41,12 @@ INSTALLED_APPS = [
     "bandas",
     "artigos",
     "noobsite",
-    "portfolio"
+    "portfolio",
+    "autenticacao",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
 
 # settings.py
@@ -60,6 +65,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "portfolio.middleware.VisitorMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "project.urls"
@@ -75,6 +82,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "portfolio.context_processors.visitor_count",
             ],
         },
     },
@@ -141,3 +149,38 @@ MEDIA_ROOT = '/home/a22402827/project/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/a22402827/project/static'
 STATIC_URL = '/static/'
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1  # Required for django-allauth
+
+LOGIN_URL = '/autenticacao/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/autenticacao/login/'
+
+# Credenciais Google OAuth
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+# Configurações de Email (para link mágico)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'filipe.escola1914@gmail.com'  # Substitua pelo seu email
+EMAIL_HOST_PASSWORD = 'qjfl ujuz teyw swqi'  # Senha de aplicativo do Google
+DEFAULT_FROM_EMAIL = 'filipe.escola1914@gmail.com'  # Substitua pelo seu email

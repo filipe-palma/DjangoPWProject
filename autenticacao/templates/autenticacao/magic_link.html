@@ -1,0 +1,30 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Login com Link Mágico</h2>
+    
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <p>Digite seu email para receber um link de acesso:</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar Link Mágico</button>
+    </form>
+    
+    <div class="auth-options">
+        <p>Prefere login tradicional? <a href="{% url 'login' %}">Faça login com senha</a></p>
+    </div>
+</div>
+{% endblock %}
