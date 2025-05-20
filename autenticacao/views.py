@@ -25,7 +25,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            next_page = request.GET.get('next', '/')
+            next_page = request.GET.get('next', '/portfolio/index/')
             return redirect(next_page)
         else:
             messages.error(request, 'Credenciais inválidas.')
@@ -49,7 +49,7 @@ def register_view(request):
             if user_auth:
                 login(request, user_auth)  # Este usuário já tem o backend configurado
                 messages.success(request, 'Conta criada com sucesso!')
-                return redirect('/')
+                return redirect('/portfolio/index/')
     else:
         form = UserCreationForm()
 
@@ -131,13 +131,10 @@ def verify_magic_link_view(request, token):
 
         # Autenticar o usuário explicitamente antes de fazer login
         backend = 'django.contrib.auth.backends.ModelBackend'
-        user.backend = backend
-
-        # Login do usuário
+        user.backend = backend        # Login do usuário
         login(request, user)
-
         messages.success(request, 'Login realizado com sucesso via link mágico!')
-        return redirect('/')
+        return redirect('/portfolio/index/')
 
     except MagicLink.DoesNotExist:
         messages.error(request, 'Link mágico inválido.')

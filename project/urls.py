@@ -4,6 +4,7 @@
 
 from django.contrib import admin
 from django.urls import path, include   # incluir include
+from django.views.generic.base import RedirectView
 
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path('artigos/', include('artigos.urls')),
     path('autenticacao/', include('autenticacao.urls')),
     path('accounts/', include('allauth.urls')),
+    path('', RedirectView.as_view(url='/portfolio/index/', permanent=True)),  # Redirecionar raiz para index do portfolio
 ]

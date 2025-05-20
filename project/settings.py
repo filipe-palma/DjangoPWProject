@@ -163,7 +163,7 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1  # Required for django-allauth
 
 LOGIN_URL = '/autenticacao/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/portfolio/index/'
 LOGOUT_REDIRECT_URL = '/autenticacao/login/'
 
 # Credenciais Google OAuth
