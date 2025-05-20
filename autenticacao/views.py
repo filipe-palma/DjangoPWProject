@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from .models import MagicLink
 from django.contrib.auth.models import User
 from django.utils import timezone
+from .forms import CustomUserCreationForm
 import uuid
 
 def login_view(request):
@@ -37,9 +38,14 @@ def login_view(request):
 
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.email = form.cleaned_data['email']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.save()
+            
             # Especificar o backend ao fazer login
             user_auth = authenticate(
                 request,
@@ -51,7 +57,7 @@ def register_view(request):
                 messages.success(request, 'Conta criada com sucesso!')
                 return redirect('/portfolio/index/')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
 
     return render(request, 'autenticacao/register.html', {'form': form})
 
