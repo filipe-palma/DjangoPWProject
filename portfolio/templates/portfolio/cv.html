@@ -1,19 +1,414 @@
 {% extends "portfolio/base.html" %}
 {% load static %}
-{% block title %}CV{% endblock %}
+{% block title %}Currículo{% endblock %}
+
+{% block extra_css %}
+<style>
+  .cv-hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    padding: 3rem 0;
+    color: #fff;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+  }
+  
+  .profile-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .profile-img:hover {
+    transform: scale(1.05);
+  }
+  
+  .cv-section {
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    background-color: var(--card-bg);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+  }
+  
+  .cv-section:hover {
+    transform: translateY(-5px);
+  }
+  
+  .cv-section-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .timeline {
+    position: relative;
+    margin: 2rem 0;
+  }
+  
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+  }
+  
+  .timeline-item {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 2rem;
+  }
+  
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    border: 3px solid var(--card-bg);
+    z-index: 1;
+  }
+  
+  .timeline-item-content {
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: var(--hover-color);
+  }
+  
+  .timeline-date {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .skill-badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    transition: all 0.3s ease;
+  }
+  
+  .skill-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  }
+  
+  .contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 50%;
+    margin-right: 1rem;
+  }
+  
+  .cv-footer {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  
+  .cv-download {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .cv-download:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    color: white;
+  }
+  
+  .cv-download i {
+    margin-right: 0.5rem;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-  <h2>Curriculum Vitae</h2>
-  <img src="{% static 'portfolio/images/foto.jpg' %}" alt="Foto" width="1000">
-  <h3>Dados Pessoais</h3>
-  <p>Nome: Filipe Palma</p>
-  <p>Email: filipepalma9@hotmail.com</p>
-  <h3>Educação</h3>
-  <ul>
-    <li>Estudante de Licenciatura em Engenharia Informática, Universidade Lusófona</li>
-  </ul>
-  <h3>Experiência</h3>
-  <ul>
-    <li>Voluntariado na Web Summit</li>
-  </ul>
-  <p>Consulta os <a href="{% url 'portfolio:projetos' %}">Meus Projetos</a> e <a href="{% url 'portfolio:tecnologias' %}">Tecnologias</a>.</p>
+  <!-- Hero Section -->
+  <section class="cv-hero text-center" data-aos="fade-up">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <img src="{% static 'portfolio/images/foto.jpg' %}" alt="Filipe Palma" class="profile-img mb-4" data-aos="zoom-in">
+          <h1 class="display-4 mb-3" data-aos="fade-up" data-aos-delay="200">Filipe Palma</h1>
+          <p class="lead mb-4" data-aos="fade-up" data-aos-delay="300">Desenvolvedor Web | Engenharia Informática</p>
+          <div class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="400">
+            <a href="#" class="btn btn-light btn-lg me-3">
+              <i class="fab fa-linkedin me-2"></i>LinkedIn
+            </a>
+            <a href="#" class="btn btn-outline-light btn-lg">
+              <i class="fab fa-github me-2"></i>GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="row">
+    <!-- Coluna Esquerda -->
+    <div class="col-lg-8">
+      <!-- Educação -->
+      <section class="cv-section" data-aos="fade-up">
+        <div class="cv-section-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h2 class="mb-4">Educação</h2>
+        
+        <div class="timeline">
+          <div class="timeline-item" data-aos="fade-right">
+            <div class="timeline-item-content">
+              <div class="timeline-date">2021 - Presente</div>
+              <h4>Licenciatura em Engenharia Informática</h4>
+              <p>Universidade Lusófona, Lisboa</p>
+              <p class="text-muted">Áreas de foco: Desenvolvimento Web, Algoritmos, Bases de Dados, Inteligência Artificial</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
+            <div class="timeline-item-content">
+              <div class="timeline-date">2018 - 2021</div>
+              <h4>Ensino Secundário</h4>
+              <p>Ciências e Tecnologias</p>
+              <p class="text-muted">Concluído com média de 17 valores</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Experiência -->
+      <section class="cv-section" data-aos="fade-up">
+        <div class="cv-section-icon">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <h2 class="mb-4">Experiência</h2>
+        
+        <div class="timeline">
+          <div class="timeline-item" data-aos="fade-right">
+            <div class="timeline-item-content">
+              <div class="timeline-date">2023</div>
+              <h4>Voluntário</h4>
+              <p>Web Summit, Lisboa</p>
+              <p>Auxiliei na organização do evento, proporcionando suporte técnico aos participantes e palestrantes.</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
+            <div class="timeline-item-content">
+              <div class="timeline-date">2022 - 2023</div>
+              <h4>Projeto Acadêmico</h4>
+              <p>Universidade Lusófona</p>
+              <p>Desenvolvimento de uma aplicação web utilizando Django para gerenciamento de portfólio, com foco em boas práticas de programação e experiência do usuário.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Projetos Relevantes -->
+      <section class="cv-section" data-aos="fade-up">
+        <div class="cv-section-icon">
+          <i class="fas fa-project-diagram"></i>
+        </div>
+        <h2 class="mb-4">Projetos Relevantes</h2>
+        
+        <div class="card mb-3" data-aos="fade-right">
+          <div class="card-body">
+            <h4 class="card-title">Portfólio Pessoal</h4>
+            <p class="card-subtitle mb-2 text-muted">Django, HTML, CSS, JavaScript</p>
+            <p class="card-text">Desenvolvimento de um site de portfólio pessoal com sistema de autenticação, upload de projetos e tecnologias, e interface responsiva.</p>
+            <a href="{% url 'portfolio:projetos' %}" class="btn btn-sm btn-primary">Ver Detalhes</a>
+          </div>
+        </div>
+        
+        <div class="card" data-aos="fade-right" data-aos-delay="100">
+          <div class="card-body">
+            <h4 class="card-title">Biblioteca Virtual</h4>
+            <p class="card-subtitle mb-2 text-muted">Python, Django, SQLite</p>
+            <p class="card-text">Sistema de gerenciamento de livros e empréstimos com interface administrativa e dashboard para usuários.</p>
+            <a href="#" class="btn btn-sm btn-primary">Ver Detalhes</a>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Coluna Direita -->
+    <div class="col-lg-4">
+      <!-- Informações Pessoais -->
+      <section class="cv-section" data-aos="fade-left">
+        <div class="cv-section-icon">
+          <i class="fas fa-user"></i>
+        </div>
+        <h2 class="mb-4">Informações Pessoais</h2>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div>
+            <strong>Email</strong><br>
+            <a href="mailto:filipepalma9@hotmail.com">filipepalma9@hotmail.com</a>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div>
+            <strong>Localização</strong><br>
+            Lisboa, Portugal
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-language"></i>
+          </div>
+          <div>
+            <strong>Idiomas</strong><br>
+            Português (Nativo), Inglês (Fluente)
+          </div>
+        </div>
+      </section>
+      
+      <!-- Habilidades -->
+      <section class="cv-section" data-aos="fade-left" data-aos-delay="100">
+        <div class="cv-section-icon">
+          <i class="fas fa-laptop-code"></i>
+        </div>
+        <h2 class="mb-4">Habilidades Técnicas</h2>
+        
+        <div data-aos="fade-up">
+          <h5>Linguagens de Programação</h5>
+          <div class="mb-3">
+            <span class="skill-badge">Python</span>
+            <span class="skill-badge">JavaScript</span>
+            <span class="skill-badge">Java</span>
+            <span class="skill-badge">C#</span>
+          </div>
+        </div>
+        
+        <div data-aos="fade-up" data-aos-delay="100">
+          <h5>Frontend</h5>
+          <div class="mb-3">
+            <span class="skill-badge">HTML5</span>
+            <span class="skill-badge">CSS3</span>
+            <span class="skill-badge">React</span>
+            <span class="skill-badge">Bootstrap</span>
+          </div>
+        </div>
+        
+        <div data-aos="fade-up" data-aos-delay="200">
+          <h5>Backend</h5>
+          <div class="mb-3">
+            <span class="skill-badge">Django</span>
+            <span class="skill-badge">Flask</span>
+            <span class="skill-badge">Node.js</span>
+          </div>
+        </div>
+        
+        <div data-aos="fade-up" data-aos-delay="300">
+          <h5>Bancos de Dados</h5>
+          <div class="mb-3">
+            <span class="skill-badge">MySQL</span>
+            <span class="skill-badge">PostgreSQL</span>
+            <span class="skill-badge">MongoDB</span>
+            <span class="skill-badge">SQLite</span>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Certificações -->
+      <section class="cv-section" data-aos="fade-left" data-aos-delay="200">
+        <div class="cv-section-icon">
+          <i class="fas fa-certificate"></i>
+        </div>
+        <h2 class="mb-4">Certificações</h2>
+        
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-item-content">
+              <div class="timeline-date">2023</div>
+              <h5>Python for Everybody</h5>
+              <p class="text-muted">Coursera</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-item-content">
+              <div class="timeline-date">2022</div>
+              <h5>Web Development Bootcamp</h5>
+              <p class="text-muted">Udemy</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  <!-- Botão de Download -->
+  <div class="cv-footer" data-aos="fade-up">
+    <a href="#" class="cv-download">
+      <i class="fas fa-file-download"></i> Baixar CV em PDF
+    </a>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Adicionar animações aos elementos quando visíveis
+    const sections = document.querySelectorAll('.cv-section');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    sections.forEach(section => {
+      section.style.opacity = 0;
+      observer.observe(section);
+    });
+  });
+</script>
 {% endblock %}

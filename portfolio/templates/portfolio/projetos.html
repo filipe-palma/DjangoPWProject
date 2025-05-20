@@ -1,35 +1,285 @@
 {% extends "portfolio/base.html" %}
 {% block title %}Meus Projetos{% endblock %}
+
+{% block extra_css %}
+<style>
+  .projeto-card {
+    height: 100%;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .projeto-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  }
+  
+  .projeto-image {
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .projeto-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .projeto-card:hover .projeto-image img {
+    transform: scale(1.1);
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  
+  .tech-badge {
+    display: inline-block;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .projeto-actions {
+    margin-top: 1rem;
+  }
+  
+  .btn-action {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .btn-action i {
+    margin-right: 0.5rem;
+  }
+  
+  .projeto-details {
+    margin: 1.5rem 0;
+  }
+  
+  .projeto-details h4 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+  }
+  
+  .highlight-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 3rem 0;
+    margin-bottom: 3rem;
+    border-radius: 10px;
+  }
+  
+  .modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-  <h2>Projetos</h2>
-  <a href="{% url 'portfolio:criar_projeto' %}">+ Novo Projeto</a>
-  {% for p in projetos %}
-    <article>
-      <h3>{{ p.titulo }}</h3>
-      {# Vídeo Demo #}
-      {% if p.video_demo %}
-        <div class="video-container">
-          <iframe
-            width="560" height="315"
-            src="{{ p.video_demo }}"
-            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        </div>
+  <!-- Hero Section para Projetos -->
+  <section class="highlight-section text-center mb-5">
+    <div class="container">
+      <h1 class="display-4 mb-3" data-aos="fade-up">Meus <span style="color: var(--primary-color);">Projetos</span></h1>
+      <p class="lead mb-4" data-aos="fade-up" data-aos-delay="200">Confira alguns dos meus trabalhos e projetos desenvolvidos</p>
+      {% if user.is_authenticated %}
+        <a href="{% url 'portfolio:criar_projeto' %}" class="btn btn-primary btn-lg" data-aos="fade-up" data-aos-delay="300">
+          <i class="fas fa-plus-circle me-2"></i>Novo Projeto
+        </a>
       {% endif %}
-      <p>{{ p.descricao }}</p>
-      <strong><p><a href="{{ p.github }}">Repositório no GitHub</a></p></strong>
-      <p><strong>Disciplina:</strong> {{ p.disciplina }}</p>
-      <p><strong>Tecnologias:</strong>
-        {% for t in p.tecnologias.all %}{{ t.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}
-      </p>
-      {% for img in p.imagens.all %}
-        <img src="{{ img.imagem.url }}" alt="{{ p.titulo }}" width="200">
-      <p><strong>Conceito:</strong> {{ p.conceito }}</p>
-      <p><strong>Desafios:</strong> {{ p.desafios }}</p>
-      {% endfor %}
-      <a href="{% url 'portfolio:editar_projeto' p.id %}">Editar</a> |
-<a href="{% url 'portfolio:apagar_projeto' p.id %}">Apagar</a>
-    </article>
-  {% endfor %}
+    </div>
+  </section>
+
+  <!-- Filtro de Projetos -->
+  <div class="mb-4" data-aos="fade-up">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <h2 class="mb-0">Todos os Projetos</h2>
+      <div class="input-group w-auto">
+        <input type="text" class="form-control" id="projetoSearch" placeholder="Buscar projetos...">
+        <button class="btn btn-primary" type="button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+    <hr>
+  </div>
+  
+  <!-- Lista de Projetos -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+    {% for p in projetos %}
+      <div class="col projeto-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
+        <div class="card projeto-card h-100">
+          {% if p.imagens.all %}
+            {% with first_img=p.imagens.all.0 %}
+              <div class="projeto-image">
+                <img src="{{ first_img.imagem.url }}" alt="{{ p.titulo }}" class="card-img-top">
+              </div>
+            {% endwith %}
+          {% else %}
+            <div class="projeto-image bg-light d-flex align-items-center justify-content-center">
+              <i class="fas fa-project-diagram fa-3x text-secondary"></i>
+            </div>
+          {% endif %}
+          
+          <div class="card-body">
+            <h3 class="card-title mb-3">{{ p.titulo }}</h3>
+            <p class="card-text">{{ p.descricao|truncatechars:150 }}</p>
+            
+            <div class="mb-3">
+              <p class="mb-2"><strong><i class="fas fa-graduation-cap me-2"></i>Disciplina:</strong> {{ p.disciplina }}</p>
+              <div>
+                <strong><i class="fas fa-laptop-code me-2"></i>Tecnologias:</strong><br>
+                {% for t in p.tecnologias.all %}
+                  <span class="tech-badge">{{ t.nome }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            
+            <div class="projeto-actions">
+              <button type="button" class="btn btn-primary btn-sm btn-action" data-bs-toggle="modal" data-bs-target="#projetoModal{{ p.id }}">
+                <i class="fas fa-eye"></i> Detalhes
+              </button>
+              <a href="{{ p.github }}" target="_blank" class="btn btn-dark btn-sm btn-action">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+              {% if user.is_authenticated %}
+                <div class="mt-2">
+                  <a href="{% url 'portfolio:editar_projeto' p.id %}" class="btn btn-warning btn-sm btn-action">
+                    <i class="fas fa-edit"></i> Editar
+                  </a>
+                  <a href="{% url 'portfolio:apagar_projeto' p.id %}" class="btn btn-danger btn-sm btn-action">
+                    <i class="fas fa-trash"></i> Apagar
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Modal de Detalhes do Projeto -->
+      <div class="modal fade" id="projetoModal{{ p.id }}" tabindex="-1" aria-labelledby="projetoModalLabel{{ p.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="projetoModalLabel{{ p.id }}">{{ p.titulo }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              {% if p.video_demo %}
+                <div class="video-container">
+                  <iframe
+                    src="{{ p.video_demo }}"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              {% endif %}
+              
+              <p>{{ p.descricao }}</p>
+              
+              <div class="projeto-details">
+                <h4><i class="fas fa-lightbulb me-2"></i>Conceito</h4>
+                <p>{{ p.conceito }}</p>
+              </div>
+              
+              <div class="projeto-details">
+                <h4><i class="fas fa-mountain me-2"></i>Desafios</h4>
+                <p>{{ p.desafios }}</p>
+              </div>
+              
+              <div class="row mt-4">
+                {% for img in p.imagens.all %}
+                  <div class="col-md-4 mb-3">
+                    <a href="{{ img.imagem.url }}" target="_blank">
+                      <img src="{{ img.imagem.url }}" alt="{{ p.titulo }} - Imagem {{ forloop.counter }}" class="img-fluid rounded">
+                    </a>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="{{ p.github }}" target="_blank" class="btn btn-dark">
+                <i class="fab fa-github me-2"></i>Ver no GitHub
+              </a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12 text-center py-5">
+        <div class="card p-5">
+          <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
+          <h3>Nenhum projeto encontrado</h3>
+          <p>Ainda não há projetos cadastrados.</p>
+          {% if user.is_authenticated %}
+            <div class="mt-3">
+              <a href="{% url 'portfolio:criar_projeto' %}" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-2"></i>Adicionar Projeto
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Busca de projetos
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('projetoSearch');
+    if (searchInput) {
+      searchInput.addEventListener('keyup', function() {
+        const searchValue = this.value.toLowerCase();
+        const projetoItems = document.querySelectorAll('.projeto-item');
+        
+        projetoItems.forEach(item => {
+          const titulo = item.querySelector('.card-title').textContent.toLowerCase();
+          const descricao = item.querySelector('.card-text').textContent.toLowerCase();
+          const tecnologias = Array.from(item.querySelectorAll('.tech-badge')).map(badge => badge.textContent.toLowerCase());
+          
+          const match = titulo.includes(searchValue) || 
+                        descricao.includes(searchValue) || 
+                        tecnologias.some(tech => tech.includes(searchValue));
+          
+          if (match) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    }
+  });
+</script>
 {% endblock %}

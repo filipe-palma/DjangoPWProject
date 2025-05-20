@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-o(xya8pk$qn#=_8i48-ujs$tvht2(#ah0o6$=euqbqw$$1kfxw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['a22402827.pythonanywhere.com']
+ALLOWED_HOSTS = ['a22402827.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -136,7 +136,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -149,6 +149,11 @@ MEDIA_ROOT = '/home/a22402827/project/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/a22402827/project/static'
 STATIC_URL = '/static/'
+
+# Diretórios adicionais onde o Django procurará por arquivos estáticos
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
