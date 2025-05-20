@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2ecc71;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f39c12;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#9b59b6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3498db;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa" rx="10" ry="10" />
+  <text x="400" y="50" font-family="Arial" font-size="24" text-anchor="middle" fill="#2c3e50" font-weight="bold">Arquitetura Django MVT (Model-View-Template)</text>
+  
+  <!-- Model Box -->
+  <rect x="100" y="150" width="180" height="100" fill="url(#grad1)" rx="10" ry="10" />
+  <text x="190" y="200" font-family="Arial" font-size="22" text-anchor="middle" fill="white" font-weight="bold">Model</text>
+  <text x="190" y="230" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Dados e Lógica de Negócio</text>
+  
+  <!-- View Box -->
+  <rect x="500" y="150" width="180" height="100" fill="url(#grad2)" rx="10" ry="10" />
+  <text x="590" y="200" font-family="Arial" font-size="22" text-anchor="middle" fill="white" font-weight="bold">View</text>
+  <text x="590" y="230" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Lógica de Controle</text>
+  
+  <!-- Template Box -->
+  <rect x="300" y="350" width="180" height="100" fill="url(#grad3)" rx="10" ry="10" />
+  <text x="390" y="400" font-family="Arial" font-size="22" text-anchor="middle" fill="white" font-weight="bold">Template</text>
+  <text x="390" y="430" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Apresentação (HTML)</text>
+  
+  <!-- Database -->
+  <rect x="100" y="350" width="100" height="60" fill="#34495e" rx="10" ry="10" />
+  <text x="150" y="385" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Database</text>
+  
+  <!-- Browser -->
+  <rect x="580" y="350" width="100" height="60" fill="#34495e" rx="10" ry="10" />
+  <text x="630" y="385" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Browser</text>
+  
+  <!-- Arrows -->
+  <!-- Model to View -->
+  <path d="M 280 200 L 500 200" stroke="#2c3e50" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  <text x="390" y="180" font-family="Arial" font-size="12" text-anchor="middle" fill="#2c3e50">Fornece dados</text>
+  
+  <!-- View to Template -->
+  <path d="M 590 250 L 590 300 L 390 300 L 390 350" stroke="#2c3e50" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  <text x="500" y="290" font-family="Arial" font-size="12" text-anchor="middle" fill="#2c3e50">Passa contexto</text>
+  
+  <!-- Template to Browser -->
+  <path d="M 480 400 L 580 400" stroke="#2c3e50" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  <text x="530" y="380" font-family="Arial" font-size="12" text-anchor="middle" fill="#2c3e50">Renderiza HTML</text>
+  
+  <!-- Model to Database -->
+  <path d="M 190 250 L 190 300 L 150 350" stroke="#2c3e50" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  <text x="180" y="300" font-family="Arial" font-size="12" text-anchor="middle" fill="#2c3e50">ORM</text>
+  
+  <!-- Legend -->
+  <rect x="300" y="500" width="200" height="30" fill="url(#grad1)" rx="5" ry="5" />
+  <text x="400" y="520" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Modelo (models.py)</text>
+  
+  <rect x="300" y="540" width="200" height="30" fill="url(#grad2)" rx="5" ry="5" />
+  <text x="400" y="560" font-family="Arial" font-size="14" text-anchor="middle" fill="white">View (views.py)</text>
+  
+  <rect x="300" y="580" width="200" height="30" fill="url(#grad3)" rx="5" ry="5" />
+  <text x="400" y="600" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Template (HTML)</text>
+  
+  <!-- Arrow definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2c3e50" />
+    </marker>
+  </defs>
+</svg>

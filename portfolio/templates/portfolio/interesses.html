@@ -1,10 +1,471 @@
 {% extends "portfolio/base.html" %}
 {% block title %}Interesses{% endblock %}
+
+{% block extra_css %}
+<style>
+  .interest-hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    padding: 3rem 0;
+    color: #fff;
+    border-radius: 10px;
+    margin-bottom: 3rem;
+  }
+  
+  .interest-card {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    position: relative;
+    height: 250px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  .interest-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+  
+  .interest-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.5s ease;
+  }
+  
+  .interest-card:hover img {
+    transform: scale(1.1);
+  }
+  
+  .interest-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+  }
+  
+  .interest-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .interest-detail {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  }
+  
+  .progress-bar {
+    height: 8px;
+    border-radius: 10px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  }
+  
+  .animate-hover:hover {
+    animation: pulse 1s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  .project-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: var(--bg-color);
+    transition: all 0.3s ease;
+  }
+  
+  .project-item:hover {
+    background-color: var(--hover-color);
+    transform: translateX(5px);
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-  <h2>Interesses</h2>
-  <ul>
-    <li>Desenvolvimento Web</li>
-    <li>Inteligência Artificial</li>
-    <li>Jogos e Simulações</li>
-  </ul>
+  <!-- Hero Section -->
+  <section class="interest-hero text-center" data-aos="fade-up">
+    <div class="container">
+      <h1 class="display-4 mb-3">Meus <span style="text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Interesses</span></h1>
+      <p class="lead">Áreas de tecnologia e temas que me fascinam</p>
+    </div>
+  </section>
+  
+  <!-- Interesses Cards -->
+  <div class="row mb-5">
+    <div class="col-md-4" data-aos="fade-up">
+      <div class="interest-card">
+        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Desenvolvimento Web">
+        <div class="interest-overlay">
+          <h3>Desenvolvimento Web</h3>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+      <div class="interest-card">
+        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Inteligência Artificial">
+        <div class="interest-overlay">
+          <h3>Inteligência Artificial</h3>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+      <div class="interest-card">
+        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Jogos e Simulações">
+        <div class="interest-overlay">
+          <h3>Jogos e Simulações</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Detalhes de Interesses -->
+  <div class="row">
+    <!-- Desenvolvimento Web -->
+    <div class="col-md-12 mb-5" data-aos="fade-up">
+      <div class="interest-detail">
+        <div class="d-flex align-items-center mb-4">
+          <div class="interest-icon text-primary me-3">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <div>
+            <h2 class="mb-0">Desenvolvimento Web</h2>
+            <p class="text-muted">Frontend & Backend</p>
+          </div>
+        </div>
+        
+        <p class="lead">Sou apaixonado por criar experiências web modernas e interativas que combinam design atraente com funcionalidade robusta.</p>
+        
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h4>Tecnologias Frontend</h4>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>HTML5/CSS3</span>
+                <span>90%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>JavaScript</span>
+                <span>85%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>React</span>
+                <span>75%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <h4>Tecnologias Backend</h4>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Django</span>
+                <span>90%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Python</span>
+                <span>85%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Bancos de Dados SQL</span>
+                <span>80%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <h4 class="mb-3">Projetos Relacionados</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="project-item">
+              <h5><i class="fas fa-project-diagram me-2 text-primary"></i> Portfólio Pessoal</h5>
+              <p class="mb-0">Site de portfólio desenvolvido em Django, com design responsivo e sistema de gerenciamento de conteúdo.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="project-item">
+              <h5><i class="fas fa-project-diagram me-2 text-primary"></i> E-commerce</h5>
+              <p class="mb-0">Sistema de loja online desenvolvido com React e Django Rest Framework.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Inteligência Artificial -->
+    <div class="col-md-12 mb-5" data-aos="fade-up">
+      <div class="interest-detail">
+        <div class="d-flex align-items-center mb-4">
+          <div class="interest-icon text-success me-3">
+            <i class="fas fa-brain"></i>
+          </div>
+          <div>
+            <h2 class="mb-0">Inteligência Artificial</h2>
+            <p class="text-muted">Machine Learning & Data Science</p>
+          </div>
+        </div>
+        
+        <p class="lead">Estou especialmente interessado em como a IA está transformando o desenvolvimento de software e criando novas possibilidades para aplicações web inteligentes.</p>
+        
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h4>Conhecimentos</h4>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Python para IA</span>
+                <span>75%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Machine Learning</span>
+                <span>70%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>TensorFlow/PyTorch</span>
+                <span>65%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <h4>Áreas de Interesse</h4>
+            <ul class="list-group">
+              <li class="list-group-item d-flex align-items-center">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Análise de Dados e Visualização
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Processamento de Linguagem Natural
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Integração de IA em Aplicações Web
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Computer Vision
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <h4 class="mb-3">Projetos Relacionados</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="project-item">
+              <h5><i class="fas fa-project-diagram me-2 text-success"></i> Classificador de Imagens</h5>
+              <p class="mb-0">Modelo de classificação de imagens desenvolvido com TensorFlow e integrado a uma aplicação web.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="project-item">
+              <h5><i class="fas fa-project-diagram me-2 text-success"></i> Análise de Sentimentos</h5>
+              <p class="mb-0">Sistema de análise de sentimentos para avaliações de produtos usando NLP.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Jogos e Simulações -->
+    <div class="col-md-12" data-aos="fade-up">
+      <div class="interest-detail">
+        <div class="d-flex align-items-center mb-4">
+          <div class="interest-icon text-info me-3">
+            <i class="fas fa-gamepad"></i>
+          </div>
+          <div>
+            <h2 class="mb-0">Jogos e Simulações</h2>
+            <p class="text-muted">Game Development & Virtual Environments</p>
+          </div>
+        </div>
+        
+        <p class="lead">Tenho grande interesse no desenvolvimento de jogos e ambientes virtuais interativos, explorando a combinação de programação, design e narrativa.</p>
+        
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h4>Tecnologias de Interesse</h4>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Unity</span>
+                <span>70%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>C#</span>
+                <span>75%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Desenvolvimento Web para Jogos</span>
+                <span>80%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <h4>Aspectos Favoritos</h4>
+            <ul class="list-group">
+              <li class="list-group-item d-flex align-items-center">
+                <i class="fas fa-check-circle text-info me-2"></i>
+                Design de Mecânicas de Jogo
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <i class="fas fa-check-circle text-info me-2"></i>
+                Programação de Comportamentos de IA
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <i class="fas fa-check-circle text-info me-2"></i>
+                Desenvolvimento de Interfaces de Usuário
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <i class="fas fa-check-circle text-info me-2"></i>
+                Implementação de Física e Simulações
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <h4 class="mb-3">Projetos Relacionados</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="project-item">
+              <h5><i class="fas fa-project-diagram me-2 text-info"></i> Mini-game em JavaScript</h5>
+              <p class="mb-0">Jogo simples desenvolvido com HTML5 Canvas e JavaScript para experiências interativas na web.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="project-item">
+              <h5><i class="fas fa-project-diagram me-2 text-info"></i> Simulador de Física</h5>
+              <p class="mb-0">Simulação básica de física desenvolvida em Unity para visualizar conceitos de dinâmica.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Call to Action -->
+  <div class="text-center py-5 mt-4" data-aos="fade-up">
+    <h2 class="mb-4">Interessado em saber mais?</h2>
+    <p class="lead mb-4">Confira meus projetos para ver como aplico esses interesses na prática</p>
+    <a href="{% url 'portfolio:projetos' %}" class="btn btn-primary btn-lg animate-hover">
+      <i class="fas fa-project-diagram me-2"></i>Ver Projetos
+    </a>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animar as barras de progresso quando visíveis
+    const progressBars = document.querySelectorAll('.progress-bar');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const width = entry.target.style.width;
+          entry.target.style.width = '0';
+          setTimeout(() => {
+            entry.target.style.width = width;
+          }, 200);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    progressBars.forEach(bar => {
+      observer.observe(bar);
+    });
+    
+    // Adicionar efeito de hover para os cards de interesse
+    const interestCards = document.querySelectorAll('.interest-card');
+    interestCards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        const overlay = this.querySelector('.interest-overlay');
+        overlay.style.height = '100%';
+        overlay.style.background = 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.5))';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        const overlay = this.querySelector('.interest-overlay');
+        overlay.style.height = 'auto';
+        overlay.style.background = 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)';
+      });
+    });
+  });
+</script>
 {% endblock %}

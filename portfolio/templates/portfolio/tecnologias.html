@@ -1,17 +1,240 @@
 {% extends "portfolio/base.html" %}
 {% block title %}Tecnologias{% endblock %}
+
+{% block extra_css %}
+<style>
+  .tech-card {
+    transition: all 0.3s ease;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 100%;
+  }
+  
+  .tech-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+  
+  .tech-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    filter: grayscale(0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .tech-card:hover .tech-logo {
+    filter: grayscale(0);
+    transform: scale(1.1);
+  }
+  
+  .tech-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 3rem;
+    border-radius: 10px;
+  }
+  
+  .tech-usage {
+    display: inline-block;
+    background-color: var(--bg-color);
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-color);
+  }
+  
+  .tech-filter {
+    margin-bottom: 2rem;
+  }
+  
+  .sortable-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .sort-option {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .sort-option.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-  <h2>Tecnologias Utilizadas</h2>
-  <a href="{% url 'portfolio:criar_tecnologia' %}">+ Nova Tecnologia</a>
-  <ul>
+  <!-- Hero Section para Tecnologias -->
+  <section class="tech-header text-center mb-5" data-aos="fade-up">
+    <div class="container py-4">
+      <h1 class="display-4 mb-3">Minhas <span style="text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Tecnologias</span></h1>
+      <p class="lead mb-0">Ferramentas e linguagens que utilizo em meus projetos</p>
+    </div>
+  </section>
+
+  <!-- Filtro e Ordenação -->
+  <div class="tech-filter" data-aos="fade-up">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mb-3 mb-md-0">
+        <input type="text" class="form-control" id="techSearch" placeholder="Buscar tecnologia...">
+      </div>
+      
+      <div>
+        <label class="me-2">Ordenar por:</label>
+        <div class="sortable-options">
+          <span class="sort-option active" data-sort="name">Nome</span>
+          <span class="sort-option" data-sort="projects">Projetos</span>
+        </div>
+      </div>
+    </div>
+    
+    {% if user.is_authenticated %}
+      <div class="mt-3 text-end">
+        <a href="{% url 'portfolio:criar_tecnologia' %}" class="btn btn-primary">
+          <i class="fas fa-plus-circle me-2"></i>Nova Tecnologia
+        </a>
+      </div>
+    {% endif %}
+    
+    <hr>
+  </div>
+
+  <!-- Lista de Tecnologias -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5" id="techGrid">
     {% for t in techs %}
-      <li>
-        <img src="{{ t.logo.url }}" alt="{{ t.nome }}" width="50">
-        <strong><a href="{{ t.repositorio }}">{{ t.nome }}</a></strong>: {{ t.descricao }}
-        <em>(usada em {% for p in t.projeto_set.all %}{{ p.titulo }}{% if not forloop.last %}, {% endif %}{% endfor %})</em>
-        [<a href="{% url 'portfolio:editar_tecnologia' t.id %}">Editar</a> |
-         <a href="{% url 'portfolio:apagar_tecnologia' t.id %}">Apagar</a>]
-      </li>
+      <div class="col tech-item" data-name="{{ t.nome|lower }}" data-projects="{{ t.projeto_set.count }}" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
+        <div class="card tech-card h-100">
+          <div class="card-body text-center">
+            <img src="{{ t.logo.url }}" alt="{{ t.nome }}" class="tech-logo mb-3">
+            <h3 class="card-title">{{ t.nome }}</h3>
+            <p class="card-text">{{ t.descricao }}</p>
+            
+            <div class="mt-3 mb-3">
+              <a href="{{ t.repositorio }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-code-branch me-1"></i> Repositório
+              </a>
+            </div>
+            
+            <div class="mt-3">
+              <p class="mb-2"><strong>Utilizada em:</strong></p>
+              <div>
+                {% for p in t.projeto_set.all %}
+                  <span class="tech-usage">{{ p.titulo }}</span>
+                {% empty %}
+                  <span class="text-muted">Nenhum projeto</span>
+                {% endfor %}
+              </div>
+            </div>
+            
+            {% if user.is_authenticated %}
+              <div class="mt-4 pt-3 border-top">
+                <a href="{% url 'portfolio:editar_tecnologia' t.id %}" class="btn btn-sm btn-warning me-2">
+                  <i class="fas fa-edit me-1"></i> Editar
+                </a>
+                <a href="{% url 'portfolio:apagar_tecnologia' t.id %}" class="btn btn-sm btn-danger">
+                  <i class="fas fa-trash me-1"></i> Apagar
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12 text-center py-5">
+        <div class="card p-5">
+          <i class="fas fa-microchip fa-4x text-muted mb-3"></i>
+          <h3>Nenhuma tecnologia encontrada</h3>
+          <p>Ainda não há tecnologias cadastradas.</p>
+          {% if user.is_authenticated %}
+            <div class="mt-3">
+              <a href="{% url 'portfolio:criar_tecnologia' %}" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-2"></i>Adicionar Tecnologia
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
     {% endfor %}
-  </ul>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Busca de tecnologias
+    const searchInput = document.getElementById('techSearch');
+    if (searchInput) {
+      searchInput.addEventListener('keyup', function() {
+        const searchValue = this.value.toLowerCase();
+        const techItems = document.querySelectorAll('.tech-item');
+        
+        techItems.forEach(item => {
+          const nome = item.getAttribute('data-name');
+          
+          if (nome.includes(searchValue)) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    }
+    
+    // Ordenação de tecnologias
+    const sortOptions = document.querySelectorAll('.sort-option');
+    const techGrid = document.getElementById('techGrid');
+    
+    if (sortOptions && techGrid) {
+      sortOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          // Atualizar classe ativa
+          sortOptions.forEach(opt => opt.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Ordenar itens
+          const sortType = this.getAttribute('data-sort');
+          const techItems = Array.from(document.querySelectorAll('.tech-item'));
+          
+          techItems.sort((a, b) => {
+            if (sortType === 'name') {
+              return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
+            } else if (sortType === 'projects') {
+              return parseInt(b.getAttribute('data-projects')) - parseInt(a.getAttribute('data-projects'));
+            }
+            return 0;
+          });
+          
+          // Reordenar no DOM
+          techItems.forEach(item => {
+            techGrid.appendChild(item);
+          });
+        });
+      });
+    }
+    
+    // Animação hover para cards
+    const techCards = document.querySelectorAll('.tech-card');
+    techCards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.borderColor = 'var(--primary-color)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.borderColor = 'var(--border-color)';
+      });
+    });
+  });
+</script>
 {% endblock %}

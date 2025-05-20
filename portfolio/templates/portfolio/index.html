@@ -1,7 +1,126 @@
 {% extends "portfolio/base.html" %}
 {% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<style>
+  .tech-icon {
+    font-size: 3rem;
+    margin: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .tech-icon:hover {
+    transform: scale(1.2);
+    color: var(--primary-color);
+  }
+  
+  .highlight-text {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-    <h2>🚀 Bem-vindo(a) ao meu portfólio!</h2>
-    <p>Sou apaixonado(a) por tecnologia e estou a aprender a construir experiências incríveis na web.</p>
-    <p>Neste site, vais encontrar os meus projetos, aprendizagens e sonhos digitais.</p>
+  <!-- Hero Section -->
+  <section class="hero text-center text-white mb-5">
+    <div class="hero-content" data-aos="fade-up">
+      <h1 id="typing-effect" data-text="Bem-vindo ao meu portfólio!">Bem-vindo ao meu portfólio!</h1>
+      <p class="lead">Desenvolvedor web apaixonado por criar experiências incríveis na web</p>
+      <div class="mt-4">
+        <a href="{% url 'portfolio:projetos' %}" class="btn btn-light btn-lg me-3 animate-pulse">
+          <i class="fas fa-project-diagram me-2"></i>Ver Projetos
+        </a>
+        <a href="{% url 'portfolio:cv' %}" class="btn btn-outline-light btn-lg">
+          <i class="fas fa-file-alt me-2"></i>Currículo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Sobre -->
+  <section class="mb-5" data-aos="fade-up">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+        <h2 class="mb-4">Sobre <span class="highlight-text">Mim</span></h2>
+        <p class="lead mb-4">Sou um desenvolvedor web apaixonado por tecnologia e inovação.</p>
+        <p>Estou sempre em busca de novos desafios e oportunidades para expandir meu conhecimento e habilidades no desenvolvimento web. Meu objetivo é criar experiências digitais que sejam não apenas visualmente atraentes, mas também funcionais e intuitivas.</p>
+        <a href="{% url 'portfolio:apresentacao' %}" class="btn btn-primary mt-3">
+          <i class="fas fa-user me-2"></i>Saiba mais
+        </a>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
+        <div class="p-4 rounded bg-light text-center shadow-sm">
+          <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_iorpbol0.json" 
+                         background="transparent" speed="1" style="height: 300px" loop autoplay>
+          </lottie-player>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção de Destaque -->
+  <section class="mb-5" data-aos="fade-up">
+    <h2 class="text-center mb-5">Minhas <span class="highlight-text">Habilidades</span></h2>
+    <div class="row text-center">
+      <div class="col-md-4 mb-4" data-aos="zoom-in" data-aos-delay="100">
+        <div class="card h-100">
+          <div class="card-body">
+            <i class="fas fa-laptop-code tech-icon text-primary"></i>
+            <h3 class="card-title">Desenvolvimento Web</h3>
+            <p class="card-text">Criação de aplicações web modernas e responsivas, utilizando as melhores práticas e tecnologias.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4" data-aos="zoom-in" data-aos-delay="200">
+        <div class="card h-100">
+          <div class="card-body">
+            <i class="fas fa-mobile-alt tech-icon text-success"></i>
+            <h3 class="card-title">Design Responsivo</h3>
+            <p class="card-text">Desenvolvimento de interfaces adaptáveis a diferentes tamanhos de tela e dispositivos.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4" data-aos="zoom-in" data-aos-delay="300">
+        <div class="card h-100">
+          <div class="card-body">
+            <i class="fas fa-database tech-icon text-info"></i>
+            <h3 class="card-title">Backend & Banco de Dados</h3>
+            <p class="card-text">Implementação de lógica de servidor e gerenciamento eficiente de dados.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção de Convite para Ver Projetos -->
+  <section class="mb-5 text-center py-5 bg-light rounded" data-aos="fade-up">
+    <div class="container">
+      <h2 class="mb-4">Veja meus <span class="highlight-text">Projetos</span></h2>
+      <p class="lead mb-4">Confira alguns dos meus trabalhos recentes e descubra como posso ajudar a transformar suas ideias em realidade</p>
+      <a href="{% url 'portfolio:projetos' %}" class="btn btn-primary btn-lg">
+        <i class="fas fa-project-diagram me-2"></i>Explorar Projetos
+      </a>
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<script>
+  // Animação ao scroll para elementos da página
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.classList.add('animate__animated', 'animate__pulse');
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.classList.remove('animate__animated', 'animate__pulse');
+      });
+    });
+  });
+</script>
 {% endblock %}
