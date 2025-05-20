@@ -17,11 +17,9 @@
     <h1>Filipe Palma</h1>
     <nav>
       <a href="{% url 'portfolio:index' %}">Home</a>
-      <a href="{% url 'portfolio:sobre' %}">Sobre</a>
-      <a href="{% url 'portfolio:interesses' %}">Interesses</a>
       <a href="{% url 'portfolio:projetos' %}">Projetos</a>
       <a href="{% url 'portfolio:tecnologias' %}">Tecnologias</a>
-      <a href="{% url 'portfolio:apresentacao' %}">Técnica</a>
+      <a href="{% url 'portfolio:apresentacao' %}">Sobre</a>
       <a href="{% url 'portfolio:cv' %}">CV</a>
       {% if user.is_authenticated %}
         <li><a href="{% url 'profile' %}">{{ user.username }}</a></li>
