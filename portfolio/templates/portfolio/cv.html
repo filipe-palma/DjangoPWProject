@@ -11,7 +11,7 @@
     border-radius: 10px;
     margin-bottom: 2rem;
   }
-  
+
   .profile-img {
     width: 200px;
     height: 200px;
@@ -21,11 +21,11 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
   }
-  
+
   .profile-img:hover {
     transform: scale(1.05);
   }
-  
+
   .cv-section {
     padding: 2rem;
     margin-bottom: 2rem;
@@ -34,11 +34,11 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     transition: transform 0.3s ease;
   }
-  
+
   .cv-section:hover {
     transform: translateY(-5px);
   }
-  
+
   .cv-section-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -47,12 +47,12 @@
     background-clip: text;
     color: transparent;
   }
-  
+
   .timeline {
     position: relative;
     margin: 2rem 0;
   }
-  
+
   .timeline::before {
     content: '';
     position: absolute;
@@ -62,13 +62,13 @@
     width: 3px;
     background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
   }
-  
+
   .timeline-item {
     position: relative;
     padding-left: 40px;
     margin-bottom: 2rem;
   }
-  
+
   .timeline-item::before {
     content: '';
     position: absolute;
@@ -81,19 +81,19 @@
     border: 3px solid var(--card-bg);
     z-index: 1;
   }
-  
+
   .timeline-item-content {
     padding: 1rem;
     border-radius: 5px;
     background-color: var(--hover-color);
   }
-  
+
   .timeline-date {
     color: var(--primary-color);
     font-weight: 600;
     margin-bottom: 0.5rem;
   }
-  
+
   .skill-badge {
     display: inline-block;
     padding: 0.4rem 0.8rem;
@@ -105,18 +105,18 @@
     color: white;
     transition: all 0.3s ease;
   }
-  
+
   .skill-badge:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
   }
-  
+
   .contact-item {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
   }
-  
+
   .contact-icon {
     width: 40px;
     height: 40px;
@@ -128,12 +128,12 @@
     border-radius: 50%;
     margin-right: 1rem;
   }
-  
+
   .cv-footer {
     text-align: center;
     padding: 2rem 0;
   }
-  
+
   .cv-download {
     display: inline-flex;
     align-items: center;
@@ -146,13 +146,13 @@
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   }
-  
+
   .cv-download:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     color: white;
   }
-  
+
   .cv-download i {
     margin-right: 0.5rem;
   }
@@ -165,7 +165,7 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8">
-          <img src="{% static 'portfolio/images/foto.jpg' %}" alt="Filipe Palma" class="profile-img mb-4" data-aos="zoom-in">
+          <img src="{% static 'portfolio/images/fotoperfil.jpg' %}" alt="Filipe Palma" class="profile-img mb-4" data-aos="zoom-in">
           <h1 class="display-4 mb-3" data-aos="fade-up" data-aos-delay="200">Filipe Palma</h1>
           <p class="lead mb-4" data-aos="fade-up" data-aos-delay="300">Desenvolvedor Web | Engenharia Informática</p>
           <div class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="400">
@@ -190,7 +190,7 @@
           <i class="fas fa-graduation-cap"></i>
         </div>
         <h2 class="mb-4">Educação</h2>
-        
+
         <div class="timeline">
           <div class="timeline-item" data-aos="fade-right">
             <div class="timeline-item-content">
@@ -200,7 +200,7 @@
               <p class="text-muted">Áreas de foco: Desenvolvimento Web, Algoritmos, Bases de Dados, Inteligência Artificial</p>
             </div>
           </div>
-          
+
           <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
             <div class="timeline-item-content">
               <div class="timeline-date">2018 - 2021</div>
@@ -211,14 +211,14 @@
           </div>
         </div>
       </section>
-      
+
       <!-- Experiência -->
       <section class="cv-section" data-aos="fade-up">
         <div class="cv-section-icon">
           <i class="fas fa-briefcase"></i>
         </div>
         <h2 class="mb-4">Experiência</h2>
-        
+
         <div class="timeline">
           <div class="timeline-item" data-aos="fade-right">
             <div class="timeline-item-content">
@@ -228,7 +228,7 @@
               <p>Auxiliei na organização do evento, proporcionando suporte técnico aos participantes e palestrantes.</p>
             </div>
           </div>
-          
+
           <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
             <div class="timeline-item-content">
               <div class="timeline-date">2022 - 2023</div>
@@ -239,14 +239,14 @@
           </div>
         </div>
       </section>
-      
+
       <!-- Projetos Relevantes -->
       <section class="cv-section" data-aos="fade-up">
         <div class="cv-section-icon">
           <i class="fas fa-project-diagram"></i>
         </div>
         <h2 class="mb-4">Projetos Relevantes</h2>
-        
+
         <div class="card mb-3" data-aos="fade-right">
           <div class="card-body">
             <h4 class="card-title">Portfólio Pessoal</h4>
@@ -255,7 +255,7 @@
             <a href="{% url 'portfolio:projetos' %}" class="btn btn-sm btn-primary">Ver Detalhes</a>
           </div>
         </div>
-        
+
         <div class="card" data-aos="fade-right" data-aos-delay="100">
           <div class="card-body">
             <h4 class="card-title">Biblioteca Virtual</h4>
@@ -266,7 +266,7 @@
         </div>
       </section>
     </div>
-    
+
     <!-- Coluna Direita -->
     <div class="col-lg-4">
       <!-- Informações Pessoais -->
@@ -275,7 +275,7 @@
           <i class="fas fa-user"></i>
         </div>
         <h2 class="mb-4">Informações Pessoais</h2>
-        
+
         <div class="contact-item">
           <div class="contact-icon">
             <i class="fas fa-envelope"></i>
@@ -285,7 +285,7 @@
             <a href="mailto:filipepalma9@hotmail.com">filipepalma9@hotmail.com</a>
           </div>
         </div>
-        
+
         <div class="contact-item">
           <div class="contact-icon">
             <i class="fas fa-map-marker-alt"></i>
@@ -295,7 +295,7 @@
             Lisboa, Portugal
           </div>
         </div>
-        
+
         <div class="contact-item">
           <div class="contact-icon">
             <i class="fas fa-language"></i>
@@ -306,14 +306,14 @@
           </div>
         </div>
       </section>
-      
+
       <!-- Habilidades -->
       <section class="cv-section" data-aos="fade-left" data-aos-delay="100">
         <div class="cv-section-icon">
           <i class="fas fa-laptop-code"></i>
         </div>
         <h2 class="mb-4">Habilidades Técnicas</h2>
-        
+
         <div data-aos="fade-up">
           <h5>Linguagens de Programação</h5>
           <div class="mb-3">
@@ -323,7 +323,7 @@
             <span class="skill-badge">C#</span>
           </div>
         </div>
-        
+
         <div data-aos="fade-up" data-aos-delay="100">
           <h5>Frontend</h5>
           <div class="mb-3">
@@ -333,7 +333,7 @@
             <span class="skill-badge">Bootstrap</span>
           </div>
         </div>
-        
+
         <div data-aos="fade-up" data-aos-delay="200">
           <h5>Backend</h5>
           <div class="mb-3">
@@ -342,7 +342,7 @@
             <span class="skill-badge">Node.js</span>
           </div>
         </div>
-        
+
         <div data-aos="fade-up" data-aos-delay="300">
           <h5>Bancos de Dados</h5>
           <div class="mb-3">
@@ -353,14 +353,14 @@
           </div>
         </div>
       </section>
-      
+
       <!-- Certificações -->
       <section class="cv-section" data-aos="fade-left" data-aos-delay="200">
         <div class="cv-section-icon">
           <i class="fas fa-certificate"></i>
         </div>
         <h2 class="mb-4">Certificações</h2>
-        
+
         <div class="timeline">
           <div class="timeline-item">
             <div class="timeline-item-content">
@@ -369,7 +369,7 @@
               <p class="text-muted">Coursera</p>
             </div>
           </div>
-          
+
           <div class="timeline-item">
             <div class="timeline-item-content">
               <div class="timeline-date">2022</div>
@@ -381,10 +381,10 @@
       </section>
     </div>
   </div>
-  
+
   <!-- Botão de Download -->
   <div class="cv-footer" data-aos="fade-up">
-    <a href="#" class="cv-download">
+    <a href="https://mega.nz/file/vWhUTZwB#Yjlu6JyP3aoBsweeb2KofcsWgoBcIvrujdSTfRRLIJo" class="cv-download">
       <i class="fas fa-file-download"></i> Baixar CV em PDF
     </a>
   </div>
@@ -395,7 +395,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     // Adicionar animações aos elementos quando visíveis
     const sections = document.querySelectorAll('.cv-section');
-    
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -404,7 +404,7 @@
         }
       });
     }, { threshold: 0.1 });
-    
+
     sections.forEach(section => {
       section.style.opacity = 0;
       observer.observe(section);

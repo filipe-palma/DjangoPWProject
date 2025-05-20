@@ -10,13 +10,13 @@
     border-radius: 10px;
     margin-bottom: 2rem;
   }
-  
+
   .timeline {
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
   }
-  
+
   .timeline::after {
     content: '';
     position: absolute;
@@ -27,14 +27,14 @@
     left: 50%;
     margin-left: -3px;
   }
-  
+
   .timeline-container {
     padding: 10px 40px;
     position: relative;
     background-color: inherit;
     width: 50%;
   }
-  
+
   .timeline-container::after {
     content: '';
     position: absolute;
@@ -47,15 +47,15 @@
     background: var(--secondary-color);
     border: 4px solid var(--primary-color);
   }
-  
+
   .left {
     left: 0;
   }
-  
+
   .right {
     left: 50%;
   }
-  
+
   .left::before {
     content: " ";
     position: absolute;
@@ -65,7 +65,7 @@
     border-width: 10px 0 10px 10px;
     border-color: transparent transparent transparent var(--border-color);
   }
-  
+
   .right::before {
     content: " ";
     position: absolute;
@@ -75,11 +75,11 @@
     border-width: 10px 10px 10px 0;
     border-color: transparent var(--border-color) transparent transparent;
   }
-  
+
   .right::after {
     left: -10px;
   }
-  
+
   .timeline-content {
     padding: 1.5rem;
     background-color: var(--card-bg);
@@ -87,7 +87,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   }
-  
+
   .tech-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -96,7 +96,7 @@
     background-clip: text;
     color: transparent;
   }
-  
+
   .skill-bar {
     width: 100%;
     height: 10px;
@@ -104,7 +104,7 @@
     border-radius: 5px;
     margin-bottom: 1.5rem;
   }
-  
+
   .skill-progress {
     height: 100%;
     border-radius: 5px;
@@ -112,39 +112,39 @@
     position: relative;
     animation: animate-skill 1s ease-in-out forwards;
   }
-  
+
   @keyframes animate-skill {
     0% { width: 0; }
   }
-  
+
   /* Responsividade da timeline */
   @media screen and (max-width: 768px) {
     .timeline::after {
       left: 31px;
     }
-    
+
     .timeline-container {
       width: 100%;
       padding-left: 70px;
       padding-right: 25px;
     }
-    
+
     .timeline-container::before {
       left: 60px;
       border: medium solid var(--border-color);
       border-width: 10px 10px 10px 0;
       border-color: transparent var(--border-color) transparent transparent;
     }
-    
+
     .left::after, .right::after {
       left: 22px;
     }
-    
+
     .right {
       left: 0%;
     }
   }
-  
+
   .diagram-container {
     background-color: var(--card-bg);
     padding: 1.5rem;
@@ -152,13 +152,13 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     margin: 2rem 0;
   }
-  
+
   .diagram-container img {
     max-width: 100%;
     height: auto;
     border-radius: 5px;
   }
-  
+
   .code-block {
     background-color: #2d2d2d;
     color: #f8f8f2;
@@ -168,7 +168,7 @@
     overflow-x: auto;
     font-family: 'Fira Code', monospace;
   }
-  
+
   .highlight {
     color: var(--primary-color);
     font-weight: 600;
@@ -184,22 +184,22 @@
       <p class="lead">Uma visão técnica da arquitetura e desenvolvimento deste portfólio</p>
     </div>
   </section>
-  
+
   <!-- Seção Sobre Mim -->
   <section class="mb-5" data-aos="fade-up">
     <div class="row align-items-center">
       <div class="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right">
-        <img src="https://via.placeholder.com/500x500" alt="Filipe Palma" class="img-fluid rounded-circle shadow">
+        <img src="{% static 'portfolio/images/fotoperfil.jpg' %}" alt="Filipe Palma" class="img-fluid rounded-circle shadow">
       </div>
       <div class="col-lg-7" data-aos="fade-left">
         <h2 class="mb-4">Olá, sou o <span class="highlight">Filipe Palma</span></h2>
         <p class="lead mb-4">Desenvolvedor Web apaixonado por tecnologia e boas práticas de programação</p>
         <p>Minha jornada na área de desenvolvimento começou há alguns anos, quando descobri a paixão por criar soluções digitais que impactam positivamente a vida das pessoas. Desde então, venho me especializando em tecnologias web modernas como Django, React, e outras ferramentas do ecossistema atual.</p>
         <p>Meu objetivo é construir aplicações que sejam não apenas robustas e escaláveis, mas também intuitivas e acessíveis para todos os usuários.</p>
-        
+
         <div class="mt-4">
           <h4 class="mb-3">Minhas habilidades:</h4>
-          
+
           <div class="mb-3">
             <div class="d-flex justify-content-between">
               <strong>Django/Python</strong>
@@ -209,7 +209,7 @@
               <div class="skill-progress" style="width: 90%"></div>
             </div>
           </div>
-          
+
           <div class="mb-3">
             <div class="d-flex justify-content-between">
               <strong>HTML/CSS/JavaScript</strong>
@@ -219,7 +219,7 @@
               <div class="skill-progress" style="width: 85%"></div>
             </div>
           </div>
-          
+
           <div class="mb-3">
             <div class="d-flex justify-content-between">
               <strong>React</strong>
@@ -229,7 +229,7 @@
               <div class="skill-progress" style="width: 75%"></div>
             </div>
           </div>
-          
+
           <div>
             <div class="d-flex justify-content-between">
               <strong>UI/UX Design</strong>
@@ -243,14 +243,14 @@
       </div>
     </div>
   </section>
-  
+
   <!-- Arquitetura MVT -->
   <section class="mb-5" data-aos="fade-up">
     <h2 class="mb-4">Arquitetura <span class="highlight">MVT</span> do Django</h2>
     <div class="row">
       <div class="col-lg-7 mb-4 mb-lg-0" data-aos="fade-right">
         <p>O Django adota o padrão arquitetônico Model-View-Template (MVT), uma variação do conhecido padrão MVC (Model-View-Controller). Esta arquitetura proporciona uma separação clara de responsabilidades, facilitando o desenvolvimento e a manutenção do código:</p>
-        
+
         <div class="card mb-3">
           <div class="card-body">
             <div class="d-flex align-items-center">
@@ -264,7 +264,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="card mb-3">
           <div class="card-body">
             <div class="d-flex align-items-center">
@@ -278,7 +278,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="card">
           <div class="card-body">
             <div class="d-flex align-items-center">
@@ -293,7 +293,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="col-lg-5" data-aos="fade-left">
         <div class="diagram-container">
           <img src="{% static 'portfolio/images/diagramaportfolio.png' %}" alt="Diagrama MVT" class="img-fluid">
@@ -304,12 +304,12 @@ class Projeto(models.Model):
     titulo = models.CharField(max_length=100)
     descricao = models.TextField()
     github = models.URLField()
-    
+
 # views.py - Exemplo de View
 def projetos_list(request):
     projetos = Projeto.objects.all()
     return render(request, 'projetos.html', {'projetos': projetos})
-    
+
 # projetos.html - Exemplo de Template
 {% verbatim %}
 {% for projeto in projetos %}
@@ -321,12 +321,12 @@ def projetos_list(request):
       </div>
     </div>
   </section>
-  
+
   <!-- Diagrama ER -->
   <section class="mb-5" data-aos="fade-up">
     <h2 class="mb-4"><span class="highlight">Diagrama</span> de Entidade-Relacionamento</h2>
     <p class="lead mb-4">A estrutura de dados do projeto é organizada através dos seguintes relacionamentos entre os modelos:</p>
-    
+
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div class="col" data-aos="zoom-in">
         <div class="card h-100">
@@ -340,7 +340,7 @@ def projetos_list(request):
           </div>
         </div>
       </div>
-      
+
       <div class="col" data-aos="zoom-in" data-aos-delay="100">
         <div class="card h-100">
           <div class="card-body">
@@ -353,7 +353,7 @@ def projetos_list(request):
           </div>
         </div>
       </div>
-      
+
       <div class="col" data-aos="zoom-in" data-aos-delay="200">
         <div class="card h-100">
           <div class="card-body">
@@ -368,7 +368,7 @@ def projetos_list(request):
       </div>
     </div>
   </section>
-  
+
   <!-- Timeline do Projeto -->
   <section class="mb-5" data-aos="fade-up">
     <h2 class="mb-4">Evolução do <span class="highlight">Projeto</span></h2>
@@ -399,7 +399,7 @@ def projetos_list(request):
       </div>
     </div>
   </section>
-  
+
   <!-- Mapa do Site -->
   <section class="mb-5" data-aos="fade-up">
     <h2 class="mb-4">Estrutura do <span class="highlight">Site</span></h2>
@@ -421,7 +421,7 @@ def projetos_list(request):
 └─ cv/ (Currículo)</code></pre>
             </div>
           </div>
-          
+
           <div class="col-lg-6" data-aos="fade-left">
             <h4 class="mb-3">URLs e Views</h4>
             <p>O sistema de roteamento do Django mapeia URLs para funções ou classes em <code>views.py</code> que processam as requisições HTTP e retornam as respostas apropriadas.</p>
@@ -443,7 +443,7 @@ def projetos_list(request):
   document.addEventListener('DOMContentLoaded', function() {
     // Animação para as barras de progresso de habilidades
     const skillBars = document.querySelectorAll('.skill-progress');
-    
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -456,7 +456,7 @@ def projetos_list(request):
         }
       });
     }, { threshold: 0.1 });
-    
+
     skillBars.forEach(bar => {
       observer.observe(bar);
     });
