@@ -57,6 +57,10 @@ class ArtigoDetailView(generic.DetailView):
                 com.artigo = self.object
                 com.usuario = request.user if request.user.is_authenticated else None
                 
+                # Set nome to username, email fields from user
+                com.nome = request.user.username
+                com.email = request.user.email
+                
                 # Comentários de autores são aprovados automaticamente
                 if request.user.groups.filter(name='Autores').exists():
                     com.aprovado = True
@@ -64,7 +68,18 @@ class ArtigoDetailView(generic.DetailView):
                 com.save()
                 messages.success(request, 'Seu comentário foi enviado com sucesso' + 
                                 (' e aprovado automaticamente.' if com.aprovado else ' e aguarda aprovação.'))
-            return redirect(self.object)
+                return redirect(self.object)
+            else:
+                # Form is invalid - show error messages
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"{field}: {error}")
+                # Re-render the page with the form errors
+                ctx = self.get_context_data()
+                ctx['form_comentario'] = form 
+                # Keep the avaliação form fresh
+                ctx['form_avaliacao'] = AvaliacaoForm()
+                return self.render_to_response(ctx)
             
         if 'submit_avaliacao' in request.POST:
             if not request.user.has_perm('artigos.add_avaliacao'):
@@ -76,9 +91,26 @@ class ArtigoDetailView(generic.DetailView):
                 aval = form.save(commit=False)
                 aval.artigo = self.object
                 aval.usuario = request.user if request.user.is_authenticated else None
+                
+                # Set nome to username and email fields from user
+                aval.nome = request.user.username
+                aval.email = request.user.email
+                
+                # No comentario field as per requirements
                 aval.save()
                 messages.success(request, 'Sua avaliação foi enviada com sucesso.')
-            return redirect(self.object)
+                return redirect(self.object)
+            else:
+                # Form is invalid - show error messages
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"{field}: {error}")
+                # Re-render the page with the form errors
+                ctx = self.get_context_data()
+                ctx['form_avaliacao'] = form
+                # Keep the comment form fresh
+                ctx['form_comentario'] = ComentarioForm()
+                return self.render_to_response(ctx)
             
         return super().get(request, *args, **kwargs)
 

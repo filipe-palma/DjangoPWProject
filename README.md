@@ -25,6 +25,14 @@ O projeto implementa um sistema de controle de acesso baseado em três grupos de
 3. **Usuários Default**: Podem apenas visualizar conteúdo e fazer comentários/avaliações em artigos.
    - Permissões: Visualização de todo o conteúdo, adição de comentários e avaliações (sujeitos à aprovação).
 
+### Sistema de Comentários e Avaliações
+
+O sistema implementa funcionalidades simplificadas para comentários e avaliações:
+
+- **Comentários**: Usuários autenticados podem adicionar apenas texto aos artigos. Os comentários de autores são aprovados automaticamente, enquanto os de outros usuários aguardam aprovação. O nome do usuário é exibido junto com o comentário.
+
+- **Avaliações**: Usuários autenticados podem avaliar artigos usando uma escala de 1 a 5 estrelas, sem comentário adicional. O nome do usuário é exibido junto com a avaliação.
+
 ### Restrições de Segurança
 
 O sistema implementa várias restrições de segurança:
