@@ -6,24 +6,49 @@ from django.core.paginator import Paginator
 from django import forms
 
 class UserForm(forms.ModelForm):
-    is_gestor = forms.BooleanField(required=False, label='É Gestor')
+    GROUP_CHOICES = [
+        ('', 'Usuário Default'),
+        ('gestor', 'Gestor'),
+        ('autor', 'Autor'),
+    ]
+    
+    group_choice = forms.ChoiceField(
+        choices=GROUP_CHOICES, 
+        required=False, 
+        label='Grupo do Usuário',
+        help_text='Apenas superusers podem alterar os grupos',
+        disabled=True  # Campo desativado por padrão
+    )
     
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'is_active']
+        fields = ['username', 'first_name', 'last_name', 'email', 'is_active', 'group_choice']
         
     def __init__(self, *args, **kwargs):
+        # O request é passado como argumento adicional
+        self.request = kwargs.pop('request', None)
         super(UserForm, self).__init__(*args, **kwargs)
+        
         self.fields['username'].widget.attrs.update({'class': 'form-control'})
         self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
         self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
         self.fields['email'].widget.attrs.update({'class': 'form-control'})
         self.fields['is_active'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['is_gestor'].widget.attrs.update({'class': 'form-check-input'})
+        self.fields['group_choice'].widget.attrs.update({'class': 'form-select'})
         
-        # Verificar se o usuário é gestor
+        # Habilitar o campo de grupo apenas para superusers
+        if self.request and self.request.user.is_superuser:
+            self.fields['group_choice'].disabled = False
+            self.fields['group_choice'].help_text = 'Escolha o grupo principal do usuário'
+        
+        # Verificar o grupo atual do usuário
         if self.instance and self.instance.pk:
-            self.fields['is_gestor'].initial = self.instance.groups.filter(name='Gestores').exists()
+            if self.instance.groups.filter(name='Gestores').exists():
+                self.fields['group_choice'].initial = 'gestor'
+            elif self.instance.groups.filter(name='Autores').exists():
+                self.fields['group_choice'].initial = 'autor'
+            else:
+                self.fields['group_choice'].initial = ''
 
 @login_required
 @permission_required('auth.view_user', raise_exception=True)
@@ -45,34 +70,37 @@ def user_list(request):
 def user_edit(request, user_id):
     user_obj = get_object_or_404(User, id=user_id)
     gestores_group = Group.objects.get(name='Gestores')
+    autores_group = Group.objects.get(name='Autores')
     usuarios_default_group = Group.objects.get(name='Usuários Default')
     
     if request.method == 'POST':
-        form = UserForm(request.POST, instance=user_obj)
+        form = UserForm(request.POST, instance=user_obj, request=request)
         if form.is_valid():
             user = form.save()
             
-            # Gerenciar grupos
-            is_gestor = form.cleaned_data.get('is_gestor')
-            if is_gestor:
-                # Adicionar ao grupo de gestores se não estiver
-                if not user.groups.filter(name='Gestores').exists():
+            # Apenas superusers podem alterar grupos
+            if request.user.is_superuser:
+                # Gerenciar grupos com base na seleção do form
+                group_choice = form.cleaned_data.get('group_choice')
+                
+                # Limpar todos os grupos primeiro
+                user.groups.clear()
+                
+                # Adicionar ao grupo apropriado
+                if group_choice == 'gestor':
                     user.groups.add(gestores_group)
-                # Remover do grupo de usuários padrão se estiver
-                if user.groups.filter(name='Usuários Default').exists():
-                    user.groups.remove(usuarios_default_group)
-            else:
-                # Remover do grupo de gestores se estiver
-                if user.groups.filter(name='Gestores').exists():
-                    user.groups.remove(gestores_group)
-                # Adicionar ao grupo de usuários padrão se não estiver
-                if not user.groups.filter(name='Usuários Default').exists():
+                elif group_choice == 'autor':
+                    user.groups.add(autores_group)
+                else:  # Default
                     user.groups.add(usuarios_default_group)
+                
+                messages.success(request, f'Usuário {user.username} foi atualizado com sucesso, incluindo seu grupo.')
+            else:
+                messages.success(request, f'Usuário {user.username} foi atualizado com sucesso. Apenas superusers podem alterar grupos.')
             
-            messages.success(request, f'Usuário {user.username} foi atualizado com sucesso.')
             return redirect('user_list')
     else:
-        form = UserForm(instance=user_obj)
+        form = UserForm(instance=user_obj, request=request)
     
     return render(request, 'autenticacao/user_edit.html', {
         'form': form,

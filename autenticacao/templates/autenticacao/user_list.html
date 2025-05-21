@@ -24,6 +24,12 @@
                     </div>
                     {% endif %}
                     
+                    {% if not request.user.is_superuser %}
+                    <div class="alert alert-info mb-4">
+                        <i class="fas fa-info-circle me-2"></i> <strong>Informação:</strong> Apenas superusers podem alterar os grupos dos usuários. Você pode editar outras informações do usuário, mas não poderá alterar seus grupos.
+                    </div>
+                    {% endif %}
+                    
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -44,12 +50,18 @@
                                     <td>{{ user.email }}</td>
                                     <td>
                                         {% for group in user.groups.all %}
-                                            <span class="badge {% if group.name == 'Gestores' %}bg-primary{% else %}bg-secondary{% endif %}">
+                                            <span class="badge 
+                                                {% if group.name == 'Gestores' %}bg-primary
+                                                {% elif group.name == 'Autores' %}bg-success
+                                                {% else %}bg-secondary{% endif %}">
                                                 {{ group.name }}
                                             </span>
                                         {% empty %}
                                             <span class="badge bg-warning">Sem grupo</span>
                                         {% endfor %}
+                                        {% if user.is_superuser %}
+                                            <span class="badge bg-danger">Superuser</span>
+                                        {% endif %}
                                     </td>
                                     <td>
                                         {% if user.is_active %}

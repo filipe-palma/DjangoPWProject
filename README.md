@@ -10,6 +10,31 @@ Este projeto é uma aplicação web de portfólio pessoal desenvolvida com Djang
 - **Layout Responsivo**: Design adaptável a todos os tamanhos de tela e dispositivos
 - **Gerenciamento de Portfolio**: Sistema completo para adicionar, editar e remover projetos e tecnologias
 - **Autenticação de Usuários**: Sistema de login, registro e gerenciamento de perfis
+- **Sistema de Grupos de Usuários**: Controle de acesso baseado em grupos com permissões específicas
+
+## Sistema de Grupos de Usuários
+
+O projeto implementa um sistema de controle de acesso baseado em três grupos de usuários:
+
+1. **Gestores**: Podem gerenciar projetos e tecnologias do portfólio, além de gerenciar usuários.
+   - Permissões: CRUD completo de projetos e tecnologias, visualização de artigos/comentários/avaliações, gestão de usuários.
+
+2. **Autores**: Podem gerenciar artigos e moderar comentários.
+   - Permissões: CRUD completo de artigos, aprovação/exclusão de comentários e avaliações, visualização de projetos.
+
+3. **Usuários Default**: Podem apenas visualizar conteúdo e fazer comentários/avaliações em artigos.
+   - Permissões: Visualização de todo o conteúdo, adição de comentários e avaliações (sujeitos à aprovação).
+
+### Restrição para Gerenciamento de Grupos
+
+Importante: O sistema implementa uma restrição adicional de segurança onde:
+
+- **Apenas superusers** podem alterar os grupos aos quais outros usuários pertencem
+- Outros usuários, incluindo Gestores, podem ver e editar informações básicas dos usuários, mas não podem mudar seus grupos
+- Esta restrição é implementada tanto no backend (controle de permissões) quanto no frontend (interface desabilitada)
+- Os formulários de edição de usuário mostram mensagens de aviso apropriadas para não-superusers
+
+Esta segregação de funções garante que cada tipo de usuário tenha acesso apenas às funcionalidades relevantes para seu papel no sistema, com controle adicional sobre a atribuição de permissões.
 
 ## Tecnologias Utilizadas
 

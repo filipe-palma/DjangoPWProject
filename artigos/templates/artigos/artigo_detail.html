@@ -92,10 +92,10 @@
               {% if user.groups.exists %}
                 <div class="alert alert-info mb-3">
                   <i class="fas fa-info-circle me-2"></i>
-                  {% if user.groups.filter(name='Gestores').exists %}
+                  {% if user.groups.filter(name='Autores').exists %}
                     Seus comentários serão aprovados automaticamente.
                   {% else %}
-                    Seu comentário será publicado após aprovação por um gestor.
+                    Seu comentário será publicado após aprovação por um autor.
                   {% endif %}
                 </div>
               {% endif %}

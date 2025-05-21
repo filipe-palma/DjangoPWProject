@@ -22,6 +22,18 @@
                     </div>
                     {% endif %}
                     
+                    {% if not request.user.is_superuser %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i> <strong>Atenção:</strong> Apenas superusers podem alterar os grupos dos usuários. As alterações de grupo não terão efeito.
+                    </div>
+                    {% endif %}
+                    
+                    {% if user_obj.is_superuser and not request.user.is_superuser %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-shield-alt me-2"></i> <strong>Atenção:</strong> Este usuário é um superuser. Apenas outros superusers podem modificar suas informações.
+                    </div>
+                    {% endif %}
+                    
                     <form method="post">
                         {% csrf_token %}
                         
@@ -79,17 +91,16 @@
                         
                         <hr class="my-4">
                         
-                        <div class="form-check mb-3">
-                            {{ form.is_gestor }}
-                            <label class="form-check-label" for="{{ form.is_gestor.id_for_label }}">
-                                <strong>{{ form.is_gestor.label }}</strong>
-                            </label>
-                            <div class="form-text text-info">
-                                <i class="fas fa-info-circle me-1"></i> Os gestores têm permissão para editar artigos, gerenciar comentários e editar usuários.
+                        <div class="mb-3">
+                            <label for="{{ form.group_choice.id_for_label }}" class="form-label">{{ form.group_choice.label }}:</label>
+                            {{ form.group_choice }}
+                            <div class="form-text {% if request.user.is_superuser %}text-info{% else %}text-danger{% endif %}">
+                                <i class="fas fa-info-circle me-1"></i> 
+                                {{ form.group_choice.help_text }}
                             </div>
-                            {% if form.is_gestor.errors %}
+                            {% if form.group_choice.errors %}
                             <div class="alert alert-danger mt-2">
-                                {{ form.is_gestor.errors }}
+                                {{ form.group_choice.errors }}
                             </div>
                             {% endif %}
                         </div>

@@ -75,13 +75,25 @@
                           </a>
                         </li>
                         <li>
-                          <a class="dropdown-item" href="{% url 'artigos:comentarios-moderacao' %}">
-                            <i class="fas fa-comments"></i> Moderar Comentários
+                          <a class="dropdown-item" href="{% url 'portfolio:criar_projeto' %}">
+                            <i class="fas fa-plus-circle"></i> Novo Projeto
                           </a>
+                        </li>
+                      {% elif group.name == 'Autores' %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                          <span class="dropdown-item-text text-success fw-bold">
+                            <i class="fas fa-pen-fancy"></i> Menu do Autor
+                          </span>
                         </li>
                         <li>
                           <a class="dropdown-item" href="{% url 'artigos:artigo-create' %}">
                             <i class="fas fa-plus-circle"></i> Novo Artigo
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="{% url 'artigos:comentarios-moderacao' %}">
+                            <i class="fas fa-comments"></i> Moderar Comentários
                           </a>
                         </li>
                       {% endif %}

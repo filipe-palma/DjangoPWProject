@@ -99,7 +99,9 @@ def profile_view(request):
         'user': user,
         'groups': groups,
         'is_gestor': user.groups.filter(name='Gestores').exists(),
+        'is_autor': user.groups.filter(name='Autores').exists(),
         'is_default': user.groups.filter(name='Usuários Default').exists(),
+        'is_superuser': user.is_superuser,
         'pode_gerenciar_usuarios': user.has_perm('auth.change_user'),
         'organized_permissions': organized_permissions,
     }
