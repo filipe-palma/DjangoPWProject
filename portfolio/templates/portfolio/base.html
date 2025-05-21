@@ -38,6 +38,9 @@
               <a class="nav-link" href="{% url 'portfolio:tecnologias' %}"><i class="fas fa-laptop-code"></i> Tecnologias</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'artigos:artigo-list' %}"><i class="fas fa-newspaper"></i> Artigos</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'portfolio:apresentacao' %}"><i class="fas fa-user"></i> Sobre</a>
             </li>
             <li class="nav-item">
@@ -46,11 +49,52 @@
           </ul>
           <ul class="navbar-nav">
             {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> {{ user.username }}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Sair</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-user-circle"></i> {{ user.username }}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                  <li>
+                    <a class="dropdown-item" href="{% url 'profile' %}">
+                      <i class="fas fa-id-card"></i> Meu Perfil
+                    </a>
+                  </li>
+                  
+                  {% if user.groups.all %}
+                    {% for group in user.groups.all %}
+                      {% if group.name == 'Gestores' %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                          <span class="dropdown-item-text text-primary fw-bold">
+                            <i class="fas fa-user-shield"></i> Menu do Gestor
+                          </span>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="{% url 'user_list' %}">
+                            <i class="fas fa-users-cog"></i> Gerenciar Usuários
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="{% url 'artigos:comentarios-moderacao' %}">
+                            <i class="fas fa-comments"></i> Moderar Comentários
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="{% url 'artigos:artigo-create' %}">
+                            <i class="fas fa-plus-circle"></i> Novo Artigo
+                          </a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                  
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                      <i class="fas fa-sign-out-alt"></i> Sair
+                    </a>
+                  </li>
+                </ul>
               </li>
             {% else %}
               <li class="nav-item">
@@ -94,6 +138,7 @@
             <li><a href="{% url 'portfolio:index' %}">Home</a></li>
             <li><a href="{% url 'portfolio:projetos' %}">Projetos</a></li>
             <li><a href="{% url 'portfolio:tecnologias' %}">Tecnologias</a></li>
+            <li><a href="{% url 'artigos:artigo-list' %}">Artigos</a></li>
           </ul>
         </div>
         <div class="col-md-3">

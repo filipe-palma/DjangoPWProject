@@ -1,0 +1,143 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}Moderação de Comentários{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h2 class="h4 mb-0"><i class="fas fa-comments"></i> Moderação de Comentários</h2>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <div class="mb-4">
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'artigos:comentarios-moderacao' %}?filter=pendente" class="btn btn-outline-warning {% if filter == 'pendente' %}active{% endif %}">
+                                <i class="fas fa-clock"></i> Pendentes
+                            </a>
+                            <a href="{% url 'artigos:comentarios-moderacao' %}?filter=aprovado" class="btn btn-outline-success {% if filter == 'aprovado' %}active{% endif %}">
+                                <i class="fas fa-check"></i> Aprovados
+                            </a>
+                            <a href="{% url 'artigos:comentarios-moderacao' %}?filter=todos" class="btn btn-outline-secondary {% if filter == 'todos' %}active{% endif %}">
+                                <i class="fas fa-list"></i> Todos
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Autor</th>
+                                    <th>Comentário</th>
+                                    <th>Artigo</th>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for comentario in comentarios %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ comentario.nome }}</strong><br>
+                                        <small>{{ comentario.email }}</small>
+                                    </td>
+                                    <td>
+                                        {{ comentario.conteudo|truncatewords:10 }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'artigos:artigo-detail' comentario.artigo.slug %}">
+                                            {{ comentario.artigo.titulo|truncatechars:30 }}
+                                        </a>
+                                    </td>
+                                    <td>{{ comentario.data_criacao|date:"d/m/Y H:i" }}</td>
+                                    <td>
+                                        {% if comentario.aprovado %}
+                                            <span class="badge bg-success">Aprovado</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Pendente</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            {% if not comentario.aprovado %}
+                                            <form method="post" action="{% url 'artigos:comentario-approve' comentario.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i> Aprovar
+                                                </button>
+                                            </form>
+                                            {% endif %}
+                                            <form method="post" action="{% url 'artigos:comentario-delete' comentario.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i> Excluir
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        Nenhum comentário {{ filter }}.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {% if page_obj.paginator.num_pages > 1 %}
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1{% if filter %}&filter={{ filter }}{% endif %}" aria-label="First">
+                                        <span aria-hidden="true">&laquo;&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if filter %}&filter={{ filter }}{% endif %}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            
+                            <li class="page-item disabled">
+                                <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                            </li>
+                            
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if filter %}&filter={{ filter }}{% endif %}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if filter %}&filter={{ filter }}{% endif %}" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

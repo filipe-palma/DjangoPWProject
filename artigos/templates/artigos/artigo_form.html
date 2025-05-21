@@ -1,14 +1,71 @@
 {% extends 'artigos/base.html' %}
-{% block content %}
-<h1>
-  {% if object %}Editar Artigo{% else %}Criar Novo Artigo{% endif %}
-</h1>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">
-    {% if object %}Salvar Alterações{% else %}Criar Artigo{% endif %}
-  </button>
-  <a href="{% url 'artigos:artigo-list' %}" class="btn btn-link">Cancelar</a>
-</form>
+{% load static %}
+
+{% block title %}{% if object %}Editar{% else %}Novo{% endif %} Artigo - Portfolio{% endblock %}
+
+{% block article_content %}
+<div class="container py-4" data-aos="fade-up">
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'artigos:artigo-list' %}">Artigos</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {% if object %}Editar Artigo{% else %}Novo Artigo{% endif %}
+      </li>
+    </ol>
+  </nav>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-light">
+      <h2 class="card-title mb-0">
+        <i class="fas {% if object %}fa-edit{% else %}fa-plus-circle{% endif %} me-2"></i>
+        {% if object %}Editar Artigo{% else %}Criar Novo Artigo{% endif %}
+      </h2>
+    </div>
+    <div class="card-body p-4">
+      <form method="post" enctype="multipart/form-data" class="article-form">
+        {% csrf_token %}
+        
+        {% for field in form %}
+          <div class="mb-4">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field.errors }}
+            
+            {% if field.name == 'conteudo' %}
+              <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" rows="10">{{ field.value|default:'' }}</textarea>
+            {% elif field.name == 'imagem_capa' %}
+              <div class="input-group">
+                {{ field }}
+              </div>
+              {% if object and object.imagem_capa %}
+                <div class="mt-2">
+                  <p>Imagem atual:</p>
+                  <img src="{{ object.imagem_capa.url }}" alt="Imagem atual" style="max-width: 200px" class="img-thumbnail">
+                </div>
+              {% endif %}
+            {% elif field.field.widget.input_type == 'select' %}
+              {{ field }}
+            {% else %}
+              <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" value="{{ field.value|default:'' }}">
+            {% endif %}
+            
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+          </div>
+        {% endfor %}
+        
+        <div class="d-flex justify-content-between mt-4">
+          <a href="{% url 'artigos:artigo-list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i> Cancelar
+          </a>
+          
+          <button type="submit" class="btn btn-primary">
+            <i class="fas {% if object %}fa-save{% else %}fa-plus{% endif %} me-2"></i>
+            {% if object %}Salvar Alterações{% else %}Criar Artigo{% endif %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
