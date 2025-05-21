@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
@@ -9,6 +9,8 @@ from .models import MagicLink
 from django.contrib.auth.models import User
 from django.utils import timezone
 from .forms import CustomUserCreationForm
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordResetView
 import uuid
 
 def login_view(request):
@@ -145,3 +147,28 @@ def verify_magic_link_view(request, token):
     except MagicLink.DoesNotExist:
         messages.error(request, 'Link mágico inválido.')
         return redirect('/autenticacao/login/')
+
+def password_reset_view(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            form.save(
+                request=request,
+                use_https=request.is_secure(),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                email_template_name='autenticacao/password_reset_email.html',
+                subject_template_name='autenticacao/password_reset_subject.txt',
+            )
+            return redirect('password_reset_done')
+    else:
+        form = PasswordResetForm()
+    
+    # Adicionar classes aos campos do formulário
+    form.fields['email'].widget.attrs.update({
+        'class': 'form-control',
+        'placeholder': 'Digite seu endereço de email'
+    })
+    
+    return render(request, 'autenticacao/password_reset_form.html', {
+        'form': form
+    })
