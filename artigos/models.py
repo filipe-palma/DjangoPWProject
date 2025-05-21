@@ -96,10 +96,10 @@ class Artigo(models.Model):
 class Comentario(models.Model):
     artigo = models.ForeignKey(Artigo, on_delete=models.CASCADE, related_name='comentarios')
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='comentarios')
-    nome = models.CharField(max_length=100)
-    email = models.EmailField()
+    nome = models.CharField(max_length=100, help_text="Preenchido automaticamente do usuário")
+    email = models.EmailField(help_text="Preenchido automaticamente do usuário")
     website = models.URLField(blank=True)
-    conteudo = models.TextField()
+    conteudo = models.TextField(help_text="Apenas texto é permitido nos comentários.")
     data_criacao = models.DateTimeField(auto_now_add=True)
     aprovado = models.BooleanField(default=False)
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='respostas')
@@ -123,11 +123,18 @@ class Avaliacao(models.Model):
 
     artigo = models.ForeignKey(Artigo, on_delete=models.CASCADE, related_name='avaliacoes')
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='avaliacoes')
-    nome = models.CharField(max_length=100)
-    email = models.EmailField()
-    pontuacao = models.IntegerField(choices=PONTUACAO_CHOICES)
-    comentario = models.TextField(blank=True)
+    nome = models.CharField(max_length=100, help_text="Preenchido automaticamente do usuário")
+    email = models.EmailField(help_text="Preenchido automaticamente do usuário")
+    pontuacao = models.IntegerField(choices=PONTUACAO_CHOICES, 
+                                   help_text="Avalie de 1 a 5 estrelas")
+    comentario = models.TextField(blank=True, help_text="Não utilizado conforme requisito")
     data_criacao = models.DateTimeField(auto_now_add=True)
+    
+    def clean(self):
+        # Validate that pontuacao is between 1 and 5
+        if self.pontuacao < 1 or self.pontuacao > 5:
+            from django.core.exceptions import ValidationError
+            raise ValidationError({'pontuacao': 'A pontuação deve ser entre 1 e 5.'})
 
     def __str__(self):
         return f'Avaliação de {self.nome} para {self.artigo.titulo}: {self.pontuacao}'

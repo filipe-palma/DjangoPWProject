@@ -1,4 +1,5 @@
 from django import forms
+import re
 from .models import Artigo, Comentario, Avaliacao
 
 class ArtigoForm(forms.ModelForm):
@@ -20,21 +21,33 @@ class ArtigoForm(forms.ModelForm):
 class ComentarioForm(forms.ModelForm):
     class Meta:
         model = Comentario
-        fields = ['nome', 'email', 'website', 'conteudo']
+        fields = ['conteudo']
         widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Seu nome'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Seu e-mail (não será publicado)'}),
-            'website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Seu website (opcional)'}),
-            'conteudo': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Seu comentário...'}),
+            'conteudo': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Seu comentário (apenas texto)...'}),
         }
+    
+    def clean_conteudo(self):
+        conteudo = self.cleaned_data['conteudo']
+        
+        # Check if the content contains URLs
+        url_pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+        if url_pattern.search(conteudo):
+            raise forms.ValidationError("O comentário não pode conter URLs.")
+        
+        return conteudo
 
 class AvaliacaoForm(forms.ModelForm):
     class Meta:
         model = Avaliacao
-        fields = ['nome', 'email', 'pontuacao', 'comentario']
+        fields = ['pontuacao']
         widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Seu nome'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Seu e-mail (não será publicado)'}),
             'pontuacao': forms.Select(attrs={'class': 'form-select'}),
-            'comentario': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Seu comentário sobre este artigo...'}),
         }
+    
+    def clean_pontuacao(self):
+        pontuacao = self.cleaned_data['pontuacao']
+        
+        if pontuacao < 1 or pontuacao > 5:
+            raise forms.ValidationError("A pontuação deve ser um valor entre 1 e 5.")
+            
+        return pontuacao
