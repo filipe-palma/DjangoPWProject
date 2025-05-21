@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import admin_views
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import SetPasswordForm
 
@@ -31,4 +32,8 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
         template_name='autenticacao/password_reset_complete.html'
     ), name='password_reset_complete'),
+    
+    # Gerenciamento de usuários (apenas para gestores)
+    path('admin/users/', admin_views.user_list, name='user_list'),
+    path('admin/users/<int:user_id>/edit/', admin_views.user_edit, name='user_edit'),
 ]

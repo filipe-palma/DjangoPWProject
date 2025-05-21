@@ -48,6 +48,11 @@ def register_view(request):
             user.last_name = form.cleaned_data['last_name']
             user.save()
             
+            # Adicionar o usuário ao grupo "Usuários Default"
+            from django.contrib.auth.models import Group
+            usuarios_default_group = Group.objects.get(name="Usuários Default")
+            user.groups.add(usuarios_default_group)
+            
             # Especificar o backend ao fazer login
             user_auth = authenticate(
                 request,
@@ -56,7 +61,7 @@ def register_view(request):
             )
             if user_auth:
                 login(request, user_auth)  # Este usuário já tem o backend configurado
-                messages.success(request, 'Conta criada com sucesso!')
+                messages.success(request, 'Conta criada com sucesso! Você foi adicionado ao grupo de Usuários Default.')
                 return redirect('/portfolio/index/')
     else:
         form = CustomUserCreationForm()
@@ -71,7 +76,34 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, 'autenticacao/profile.html')
+    user = request.user
+    
+    # Get user's groups
+    groups = user.groups.all()
+    
+    # Get permissions organized by model
+    from django.contrib.auth.models import Permission
+    from django.contrib.contenttypes.models import ContentType
+    
+    user_permissions = user.get_all_permissions()
+    
+    # Organize permissions by app/model for better readability
+    organized_permissions = {}
+    for perm in user_permissions:
+        app_label, codename = perm.split('.', 1)
+        if app_label not in organized_permissions:
+            organized_permissions[app_label] = []
+        organized_permissions[app_label].append(codename)
+    
+    context = {
+        'user': user,
+        'groups': groups,
+        'is_gestor': user.groups.filter(name='Gestores').exists(),
+        'is_default': user.groups.filter(name='Usuários Default').exists(),
+        'pode_gerenciar_usuarios': user.has_perm('auth.change_user'),
+        'organized_permissions': organized_permissions,
+    }
+    return render(request, 'autenticacao/profile.html', context)
 
 def magic_link_view(request):
     if request.method == 'POST':
@@ -136,6 +168,11 @@ def verify_magic_link_view(request, token):
             random_password = User.objects.make_random_password()
             user.set_password(random_password)
             user.save()
+            
+            # Adicionar o usuário recém-criado ao grupo "Usuários Default"
+            from django.contrib.auth.models import Group
+            usuarios_default_group = Group.objects.get(name="Usuários Default")
+            user.groups.add(usuarios_default_group)
 
         # Autenticar o usuário explicitamente antes de fazer login
         backend = 'django.contrib.auth.backends.ModelBackend'

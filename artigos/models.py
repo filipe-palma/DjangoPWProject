@@ -95,6 +95,7 @@ class Artigo(models.Model):
 
 class Comentario(models.Model):
     artigo = models.ForeignKey(Artigo, on_delete=models.CASCADE, related_name='comentarios')
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='comentarios')
     nome = models.CharField(max_length=100)
     email = models.EmailField()
     website = models.URLField(blank=True)
@@ -121,6 +122,7 @@ class Avaliacao(models.Model):
     )
 
     artigo = models.ForeignKey(Artigo, on_delete=models.CASCADE, related_name='avaliacoes')
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='avaliacoes')
     nome = models.CharField(max_length=100)
     email = models.EmailField()
     pontuacao = models.IntegerField(choices=PONTUACAO_CHOICES)
