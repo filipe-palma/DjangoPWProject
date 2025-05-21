@@ -29,13 +29,14 @@ class ArtigoDetailView(generic.DetailView):
         
         # Adicionar informações sobre permissões para o template
         user = self.request.user
-        # Somente Autores podem aprovar comentários e editar/excluir artigos
-        ctx['pode_aprovar_comentarios'] = user.has_perm('artigos.change_comentario')
-        ctx['pode_editar_artigo'] = user.has_perm('artigos.change_artigo')
-        ctx['pode_excluir_artigo'] = user.has_perm('artigos.delete_artigo')
-        ctx['pode_gerenciar_usuarios'] = user.has_perm('auth.change_user')
+        # Somente Autores e superusuários podem aprovar comentários e editar/excluir artigos
+        ctx['pode_aprovar_comentarios'] = user.is_superuser or user.has_perm('artigos.change_comentario')
+        ctx['pode_editar_artigo'] = user.is_superuser or user.has_perm('artigos.change_artigo')
+        ctx['pode_excluir_artigo'] = user.is_superuser or user.has_perm('artigos.delete_artigo')
+        ctx['pode_gerenciar_usuarios'] = user.is_superuser or user.has_perm('auth.change_user')
         ctx['is_autor'] = user.groups.filter(name='Autores').exists() if user.is_authenticated else False
         ctx['is_gestor'] = user.groups.filter(name='Gestores').exists() if user.is_authenticated else False
+        ctx['is_superuser'] = user.is_superuser if user.is_authenticated else False
         return ctx
 
     def post(self, request, *args, **kwargs):

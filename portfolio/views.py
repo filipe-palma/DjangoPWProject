@@ -6,9 +6,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 
-# Função para verificar se o usuário é um gestor
+# Função para verificar se o usuário é um gestor ou superusuário
 def is_gestor(user):
-    return user.groups.filter(name='Gestores').exists()
+    return user.is_superuser or user.groups.filter(name='Gestores').exists()
 
 def index_view(request):
     return render(request, "portfolio/index.html", {"data_atual": datetime.now()})

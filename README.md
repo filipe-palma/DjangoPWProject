@@ -25,14 +25,24 @@ O projeto implementa um sistema de controle de acesso baseado em três grupos de
 3. **Usuários Default**: Podem apenas visualizar conteúdo e fazer comentários/avaliações em artigos.
    - Permissões: Visualização de todo o conteúdo, adição de comentários e avaliações (sujeitos à aprovação).
 
-### Restrição para Gerenciamento de Grupos
+### Restrições de Segurança
 
-Importante: O sistema implementa uma restrição adicional de segurança onde:
+O sistema implementa várias restrições de segurança:
+
+#### Restrição para Gerenciamento de Grupos
 
 - **Apenas superusers** podem alterar os grupos aos quais outros usuários pertencem
 - Outros usuários, incluindo Gestores, podem ver e editar informações básicas dos usuários, mas não podem mudar seus grupos
 - Esta restrição é implementada tanto no backend (controle de permissões) quanto no frontend (interface desabilitada)
 - Os formulários de edição de usuário mostram mensagens de aviso apropriadas para não-superusers
+
+#### Restrição de Botões de Edição
+
+- Os botões de edição e exclusão só aparecem para usuários com as respectivas permissões
+- Gestores: podem ver botões de edição relacionados a projetos e tecnologias
+- Autores: podem ver botões de edição relacionados a artigos
+- Usuários Default: não veem nenhum botão de edição
+- Superusers: têm acesso a todos os botões de edição
 
 Esta segregação de funções garante que cada tipo de usuário tenha acesso apenas às funcionalidades relevantes para seu papel no sistema, com controle adicional sobre a atribuição de permissões.
 
