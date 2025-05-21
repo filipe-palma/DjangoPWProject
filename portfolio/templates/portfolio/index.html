@@ -8,12 +8,12 @@
     margin: 1rem;
     transition: all 0.3s ease;
   }
-  
+
   .tech-icon:hover {
     transform: scale(1.2);
     color: var(--primary-color);
   }
-  
+
   .highlight-text {
     color: var(--primary-color);
     font-weight: 600;
@@ -26,7 +26,7 @@
   <section class="hero text-center text-white mb-5">
     <div class="hero-content" data-aos="fade-up">
       <h1 id="typing-effect" data-text="Bem-vindo ao meu portfólio!">Bem-vindo ao meu portfólio!</h1>
-      <p class="lead">Desenvolvedor web apaixonado por criar experiências incríveis na web</p>
+      <p class="lead">Engenheiro informático apaixonado por criar experiências incríveis na web</p>
       <div class="mt-4">
         <a href="{% url 'portfolio:projetos' %}" class="btn btn-light btn-lg me-3 animate-pulse">
           <i class="fas fa-project-diagram me-2"></i>Ver Projetos
@@ -43,15 +43,15 @@
     <div class="row align-items-center">
       <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
         <h2 class="mb-4">Sobre <span class="highlight-text">Mim</span></h2>
-        <p class="lead mb-4">Sou um desenvolvedor web apaixonado por tecnologia e inovação.</p>
+        <p class="lead mb-4">Sou um engenheiro informático apaixonado por tecnologia e inovação.</p>
         <p>Estou sempre em busca de novos desafios e oportunidades para expandir meu conhecimento e habilidades no desenvolvimento web. Meu objetivo é criar experiências digitais que sejam não apenas visualmente atraentes, mas também funcionais e intuitivas.</p>
-        <a href="{% url 'portfolio:apresentacao' %}" class="btn btn-primary mt-3">
+        <a href="{% url 'portfolio:cv' %}" class="btn btn-primary mt-3">
           <i class="fas fa-user me-2"></i>Saiba mais
         </a>
       </div>
       <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
         <div class="p-4 rounded bg-light text-center shadow-sm">
-          <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_iorpbol0.json" 
+          <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_iorpbol0.json"
                          background="transparent" speed="1" style="height: 300px" loop autoplay>
           </lottie-player>
         </div>
@@ -111,12 +111,12 @@
   // Animação ao scroll para elementos da página
   document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.card');
-    
+
     cards.forEach(card => {
       card.addEventListener('mouseenter', function() {
         this.classList.add('animate__animated', 'animate__pulse');
       });
-      
+
       card.addEventListener('mouseleave', function() {
         this.classList.remove('animate__animated', 'animate__pulse');
       });
