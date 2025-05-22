@@ -38,6 +38,7 @@ body {
   flex-direction: column;
   margin: 0;
   padding: 0;
+  overflow-x: hidden; /* Previne scroll horizontal em layouts responsivos */
 }
 
 header {
@@ -141,6 +142,13 @@ footer {
 
 .card-body {
   padding: 1.5rem;
+}
+
+/* Estilo para toque em cards em dispositivos móveis */
+.card-touch {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
 /* Página Inicial - Hero Section */
@@ -252,10 +260,114 @@ footer {
   box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
 }
 
+/* Imagens responsivas */
+.img-fluid-custom {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Containers responsivos para vídeos e outros embedded content */
+.responsive-embed {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.responsive-embed iframe,
+.responsive-embed object,
+.responsive-embed embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Tabelas responsivas */
+.table-responsive-custom {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Grid responsivo para cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Ajustes para layout responsivo de tecnologias */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 575.98px) {
+  .tech-grid, .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Layout flexível para botões em telas pequenas */
+.btn-flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-flex-container .btn {
+  margin: 0;
+}
+
 /* Responsividade */
-@media (max-width: 768px) {
+/* Para dispositivos extra pequenos (celulares, até 575.98px) */
+@media (max-width: 575.98px) {
   .hero h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
+  }
+  
+  .hero p {
+    font-size: 0.9rem;
+  }
+  
+  .card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.4rem;
+  }
+  
+  .social-icons a {
+    font-size: 1.2rem;
+  }
+  
+  footer h4 {
+    font-size: 1.3rem;
+  }
+  
+  .projeto-item h3 {
+    font-size: 1.3rem;
+  }
+  
+  .tecnologia-badge {
+    font-size: 0.7rem;
+    margin-bottom: 0.4rem;
+  }
+}
+
+/* Para dispositivos pequenos (celulares em paisagem, tablets pequenos, 576px a 767.98px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .hero h1 {
+    font-size: 2.3rem;
   }
   
   .hero p {
@@ -264,6 +376,44 @@ footer {
   
   .card {
     margin-bottom: 1.5rem;
+  }
+}
+
+/* Para dispositivos médios (tablets, 768px a 991.98px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero p {
+    font-size: 1.1rem;
+  }
+  
+  .card {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Otimizações para telas grandes */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+  
+  .hero {
+    padding: 7rem 0;
+  }
+  
+  .hero h1 {
+    font-size: 4rem;
+  }
+  
+  .projetos-grid, .tech-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+  
+  .projeto-image {
+    height: 240px;
   }
 }
 
@@ -356,4 +506,106 @@ footer {
 
 .form-group {
   margin-bottom: 1.5rem;
+}
+
+/* Ajustes no formulário para telas pequenas */
+@media (max-width: 767.98px) {
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: 16px; /* Previne zoom automático em iOS */
+  }
+  
+  .auth-container {
+    padding: 1rem;
+  }
+}
+
+/* Menu de navegação responsivo */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background-color: var(--header-bg);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-nav {
+    padding: 0.5rem 0;
+  }
+  
+  .nav-link {
+    padding: 0.5rem 0.75rem;
+    margin: 0.25rem 0;
+  }
+  
+  .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: none;
+    padding: 0.5rem;
+  }
+  
+  .theme-toggle {
+    margin-top: 0.5rem;
+    margin-left: 0.75rem;
+  }
+}
+
+/* Otimizações para formulários em dispositivos móveis */
+@media (max-width: 575.98px) {
+  input, select, textarea {
+    font-size: 16px !important; /* Previne zoom automático em iOS */
+  }
+  
+  button {
+    padding: 0.6rem 1rem !important; /* Botões maiores para toque */
+  }
+  
+  /* Ajustes para modais em dispositivos móveis */
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+}
+
+/* Ajustes para dispositivos com tela sensível ao toque */
+@media (hover: none) {
+  .card:hover {
+    transform: none;
+  }
+  
+  .projeto-card:hover .projeto-image img {
+    transform: none;
+  }
+  
+  .tech-card:hover .tech-logo {
+    transform: none;
+  }
+  
+  .card-touch {
+    transform: scale(0.98);
+    transition: transform 0.1s;
+  }
+}
+
+/* Melhorias para leitores de tela e acessibilidade */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
 }
