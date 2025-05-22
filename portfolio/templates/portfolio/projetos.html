@@ -63,14 +63,12 @@
   
   .projeto-actions {
     margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
   }
   
   .btn-action {
     padding: 0.5rem 1rem;
     border-radius: 5px;
+    margin-right: 0.5rem;
     text-decoration: none;
     transition: all 0.3s ease;
     display: inline-flex;
@@ -102,61 +100,6 @@
     border-radius: 15px;
     overflow: hidden;
   }
-  
-  /* Estilos responsivos para projetos */
-  @media (max-width: 767.98px) {
-    .projeto-actions {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    
-    .btn-action {
-      margin-right: 0;
-      margin-bottom: 0.5rem;
-      width: 100%;
-      justify-content: center;
-    }
-    
-    .projeto-card h3 {
-      font-size: 1.3rem;
-    }
-    
-    .modal-dialog {
-      margin: 0.5rem;
-    }
-    
-    .modal-body {
-      padding: 1rem;
-    }
-  }
-  
-  @media (max-width: 575.98px) {
-    .highlight-section h1 {
-      font-size: 2rem;
-    }
-    
-    .highlight-section p.lead {
-      font-size: 1rem;
-    }
-    
-    .projeto-image {
-      height: 160px;
-    }
-  }
-  
-  /* Melhor organização de cards em telas diferentes */
-  .projetos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  
-  @media (max-width: 575.98px) {
-    .projetos-grid {
-      grid-template-columns: 1fr;
-    }
-  }
 </style>
 {% endblock %}
 
@@ -186,9 +129,9 @@
 
   <!-- Filtro de Projetos -->
   <div class="mb-4" data-aos="fade-up">
-    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-      <h2 class="mb-0 mb-md-0">Todos os Projetos</h2>
-      <div class="input-group" style="max-width: 300px;">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <h2 class="mb-0">Todos os Projetos</h2>
+      <div class="input-group w-auto">
         <input type="text" class="form-control" id="projetoSearch" placeholder="Buscar projetos...">
         <button class="btn btn-primary" type="button">
           <i class="fas fa-search"></i>
@@ -199,7 +142,7 @@
   </div>
   
   <!-- Lista de Projetos -->
-  <div class="projetos-grid mb-5">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
     {% for p in projetos %}
       <div class="col projeto-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
         <div class="card projeto-card h-100">
