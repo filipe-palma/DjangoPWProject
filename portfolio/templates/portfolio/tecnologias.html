@@ -72,6 +72,56 @@
     color: white;
     border-color: var(--primary-color);
   }
+  
+  /* Grid responsivo para tecnologias */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Ajustes responsivos */
+  @media (max-width: 767.98px) {
+    .tech-header {
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    .tech-header h1 {
+      font-size: 2rem;
+    }
+    
+    .tech-filter .d-flex {
+      flex-direction: column;
+    }
+    
+    .tech-filter .input-group {
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    .sortable-options {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 575.98px) {
+    .tech-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .tech-card h3 {
+      font-size: 1.3rem;
+    }
+    
+    .tech-logo {
+      width: 60px;
+      height: 60px;
+    }
+  }
 </style>
 {% endblock %}
 
@@ -86,7 +136,7 @@
 
   <!-- Filtro e Ordenação -->
   <div class="tech-filter" data-aos="fade-up">
-    <div class="d-flex justify-content-between align-items-center flex-wrap">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
       <div class="mb-3 mb-md-0">
         <input type="text" class="form-control" id="techSearch" placeholder="Buscar tecnologia...">
       </div>
@@ -124,9 +174,9 @@
   </div>
 
   <!-- Lista de Tecnologias -->
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5" id="techGrid">
+  <div class="tech-grid" id="techGrid">
     {% for t in techs %}
-      <div class="col tech-item" data-name="{{ t.nome|lower }}" data-projects="{{ t.projeto_set.count }}" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
+      <div class="tech-item" data-name="{{ t.nome|lower }}" data-projects="{{ t.projeto_set.count }}" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
         <div class="card tech-card h-100">
           <div class="card-body text-center">
             <img src="{{ t.logo.url }}" alt="{{ t.nome }}" class="tech-logo mb-3">
