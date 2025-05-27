@@ -352,16 +352,44 @@ def projetos_list(request):
           <div class="col-lg-6" data-aos="fade-right">
             <h4 class="mb-3">Mapa de Páginas</h4>
             <div class="code-block">
-              <pre><code>/
+              <pre><code>/portfolio/
 ├─ index/ (Página inicial)
+├─ sobre/ (Sobre mim)
+├─ interesses/ (Áreas de interesse)
+├─ areainteresse/ (Gestão das áreas de interesse)
+│  └─ editar/&lt;id&gt;/ (Edição de área de interesse)
 ├─ projetos/ (Lista de projetos)
-│  ├─ criar/ (Formulário de novo projeto)
-│  └─ &lt;id&gt;/ (Detalhes do projeto)
-│     ├─ editar/ (Edição de projeto)
-│     └─ apagar/ (Confirmação para apagar)
+│  ├─ novo/ (Formulário de novo projeto)
+│  ├─ editar/&lt;id&gt;/ (Edição de projeto)
+│  ├─ apagar/&lt;id&gt;/ (Confirmação para apagar projeto)
+│  ├─ &lt;id&gt;/imagens/ (Visualizar imagens do projeto)
+│  │  └─ nova/ (Adicionar imagem ao projeto)
+│  ├─ imagens/apagar/&lt;id&gt;/ (Apagar imagem)
+│  ├─ &lt;id&gt;/extras/ (Adicionar/editar detalhes extra)
+│  └─ &lt;id&gt;/extras/apagar/ (Remover detalhes extra)
 ├─ tecnologias/ (Lista de tecnologias)
+│  ├─ novo/ (Formulário de nova tecnologia)
+│  ├─ editar/&lt;id&gt;/ (Edição de tecnologia)
+│  └─ apagar/&lt;id&gt;/ (Confirmação para apagar tecnologia)
 ├─ apresentacao/ (Sobre o projeto)
-└─ cv/ (Currículo)</code></pre>
+└─ cv/ (Currículo)
+
+/artigos/
+├─ / (Lista de artigos)
+├─ novo/ (Criar novo artigo)
+├─ &lt;slug&gt;/ (Visualizar artigo)
+├─ &lt;slug&gt;/editar/ (Editar artigo)
+├─ &lt;slug&gt;/apagar/ (Apagar artigo)
+└─ comentarios/moderacao/ (Moderação de comentários)
+
+/autenticacao/
+├─ login/ (Página de login)
+├─ register/ (Página de registro)
+├─ logout/ (Logout)
+├─ profile/ (Perfil do usuário)
+├─ magic-link/ (Solicitar magic link)
+├─ password_reset/ (Recuperar senha)
+└─ admin/users/ (Gerenciamento de usuários)</code></pre>
             </div>
           </div>
 
