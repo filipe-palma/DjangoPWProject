@@ -30,6 +30,46 @@
     border-bottom: 1px solid var(--border-color);
   }
   
+  /* Estilos para corrigir sobreposição de checkboxes */
+  .categorias-checkbox ul,
+  .tags-checkbox ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  @media (max-width: 768px) {
+    .categorias-checkbox ul,
+    .tags-checkbox ul {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .categorias-checkbox ul,
+    .tags-checkbox ul {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .categorias-checkbox li,
+  .tags-checkbox li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    background-color: #f8f9fa;
+    padding: 6px 10px;
+    border-radius: 4px;
+  }
+  
+  .categorias-checkbox input,
+  .tags-checkbox input {
+    margin-right: 8px;
+  }
+  
   .article-actions {
     margin-top: 1.5rem;
   }

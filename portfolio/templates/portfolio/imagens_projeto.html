@@ -1,0 +1,40 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Imagens do Projeto: {{ projeto.titulo }}</h2>
+    
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="mb-3">
+        <a href="{% url 'portfolio:criar_imagem_projeto' projeto.id %}" class="btn btn-primary">Adicionar Imagem</a>
+        <a href="{% url 'portfolio:editar_projeto' projeto.id %}" class="btn btn-secondary">Voltar ao Projeto</a>
+    </div>
+    
+    <div class="row">
+        {% for imagem in imagens %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ imagem.imagem.url }}" class="card-img-top" alt="Imagem do Projeto">
+                <div class="card-body">
+                    <a href="{% url 'portfolio:apagar_imagem_projeto' imagem.id %}" class="btn btn-danger btn-sm">Remover</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">Nenhuma imagem cadastrada para este projeto.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
