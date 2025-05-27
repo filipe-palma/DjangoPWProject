@@ -18,6 +18,7 @@ urlpatterns = [
     path('tecnologias/editar/<int:id>/', views.editar_tecnologia, name='editar_tecnologia'),
     path('tecnologias/apagar/<int:id>/', views.apagar_tecnologia, name='apagar_tecnologia'),
     path('areainteresse/', views.areainteresse_view, name='areainteresse'),
+    path('areainteresse/editar/<int:id>/', views.editar_areainteresse, name='editar_areainteresse'),
     
     # AJAX Disciplinas URLs
     path('ajax/disciplinas/', views.ajax_listar_disciplinas, name='ajax_listar_disciplinas'),
