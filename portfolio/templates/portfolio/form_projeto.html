@@ -1,8 +1,260 @@
 {% extends "portfolio/base.html" %}
 {% block content %}
-  <h2>Novo Projeto</h2>
+  <h2>{% if form.instance.id %}Editar Projeto{% else %}Novo Projeto{% endif %}</h2>
+  
   <form method="post">{% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{% url 'portfolio:projetos' %}" class="btn btn-secondary">Cancelar</a>
   </form>
+  
+  {% if form.instance.id %}
+  <div class="mt-4">
+    <h3>Gerenciar Objetos Relacionados</h3>
+    <div class="list-group">      <a href="{% url 'portfolio:imagens_projeto' form.instance.id %}" class="list-group-item list-group-item-action">
+        <i class="fas fa-images me-2"></i> Gerenciar Imagens do Projeto
+      </a>
+      <a href="{% url 'portfolio:criar_editar_extras' form.instance.id %}" class="list-group-item list-group-item-action">
+        <i class="fas fa-info-circle me-2"></i> Gerenciar Informações Extras
+      </a>
+      <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#disciplinasModal">
+        <i class="fas fa-book me-2"></i> Gerenciar Disciplinas
+      </button>
+    </div>
+  </div>  {% endif %}
+
+  <!-- Modal para gerenciar disciplinas -->
+  <div class="modal fade" id="disciplinasModal" tabindex="-1" aria-labelledby="disciplinasModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="disciplinasModalLabel">Gerenciar Disciplinas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tabela de disciplinas existentes -->
+          <h6 class="mb-3">Disciplinas Disponíveis</h6>
+          <div class="table-responsive mb-4">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Ano</th>
+                  <th>Semestre</th>
+                  <th>Docente</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for disciplina in disciplinas %}
+                <tr>
+                  <td>{{ disciplina.nome }}</td>
+                  <td>{{ disciplina.ano }}</td>
+                  <td>{{ disciplina.semestre }}</td>
+                  <td>{{ disciplina.docente }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary editar-disciplina" data-id="{{ disciplina.id }}"
+                      data-nome="{{ disciplina.nome }}" data-ano="{{ disciplina.ano }}"
+                      data-semestre="{{ disciplina.semestre }}" data-docente="{{ disciplina.docente }}"
+                      data-moodle="{{ disciplina.moodle_url }}" data-paginauc="{{ disciplina.pagina_uc }}">
+                      Editar
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger apagar-disciplina" data-id="{{ disciplina.id }}" 
+                      data-nome="{{ disciplina.nome }}">
+                      Apagar
+                    </button>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center">Nenhuma disciplina cadastrada.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Formulário para adicionar/editar disciplina -->
+          <h6 class="mb-3" id="formulario-titulo">Nova Disciplina</h6>
+          <form id="disciplinaForm">
+            {% csrf_token %}
+            <input type="hidden" id="disciplina_id" name="disciplina_id">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome" required>
+              </div>
+              <div class="col-md-3">
+                <label for="ano" class="form-label">Ano:</label>
+                <input type="number" class="form-control" id="ano" name="ano" required>
+              </div>
+              <div class="col-md-3">
+                <label for="semestre" class="form-label">Semestre:</label>
+                <input type="text" class="form-control" id="semestre" name="semestre" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="docente" class="form-label">Docente:</label>
+              <input type="text" class="form-control" id="docente" name="docente" required>
+            </div>
+            <div class="mb-3">
+              <label for="moodle_url" class="form-label">URL do Moodle:</label>
+              <input type="url" class="form-control" id="moodle_url" name="moodle_url" required>
+            </div>
+            <div class="mb-3">
+              <label for="pagina_uc" class="form-label">Página da UC:</label>
+              <input type="url" class="form-control" id="pagina_uc" name="pagina_uc" required>
+            </div>
+            <div class="text-end">
+              <button type="button" class="btn btn-secondary" id="limparForm">Limpar</button>
+              <button type="submit" class="btn btn-primary" id="salvarDisciplina">Salvar</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmação para exclusão de disciplina -->
+  <div class="modal fade" id="confirmarExclusaoModal" tabindex="-1" aria-labelledby="confirmarExclusaoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="confirmarExclusaoModalLabel">Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <p>Tem certeza que deseja excluir a disciplina "<span id="disciplina-nome"></span>"?</p>
+          <p class="text-danger">Esta ação não pode ser desfeita.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <form id="formExcluirDisciplina" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="excluir_id" name="disciplina_id">
+            <button type="submit" class="btn btn-danger">Sim, excluir</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    // Configurar disciplinaForm para submissão via AJAX
+    document.getElementById('disciplinaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const disciplinaId = document.getElementById('disciplina_id').value;
+      let url = "{% url 'portfolio:ajax_criar_disciplina' %}";
+      let method = 'POST';
+      
+      if (disciplinaId) {
+        url = `/portfolio/ajax/disciplinas/editar/${disciplinaId}/`;
+      }
+      
+      fetch(url, {
+        method: method,
+        body: formData,
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          // Recarregar a página para mostrar as alterações
+          window.location.reload();
+        } else {
+          alert('Erro ao salvar disciplina: ' + JSON.stringify(data.errors));
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao processar sua solicitação.');
+      });
+    });
+    
+    // Configurar formExcluirDisciplina para submissão via AJAX
+    document.getElementById('formExcluirDisciplina').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const disciplinaId = document.getElementById('excluir_id').value;
+      
+      fetch(`/portfolio/ajax/disciplinas/apagar/${disciplinaId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          // Fechar o modal de confirmação
+          const modal = bootstrap.Modal.getInstance(document.getElementById('confirmarExclusaoModal'));
+          modal.hide();
+          
+          // Recarregar a página para mostrar as alterações
+          window.location.reload();
+        } else {
+          alert('Erro ao excluir disciplina');
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao processar sua solicitação.');
+      });
+    });
+    
+    // Botões para editar disciplinas
+    document.querySelectorAll('.editar-disciplina').forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const nome = this.getAttribute('data-nome');
+        const ano = this.getAttribute('data-ano');
+        const semestre = this.getAttribute('data-semestre');
+        const docente = this.getAttribute('data-docente');
+        const moodleUrl = this.getAttribute('data-moodle');
+        const paginaUc = this.getAttribute('data-paginauc');
+        
+        document.getElementById('disciplina_id').value = id;
+        document.getElementById('nome').value = nome;
+        document.getElementById('ano').value = ano;
+        document.getElementById('semestre').value = semestre;
+        document.getElementById('docente').value = docente;
+        document.getElementById('moodle_url').value = moodleUrl;
+        document.getElementById('pagina_uc').value = paginaUc;
+        document.getElementById('formulario-titulo').textContent = 'Editar Disciplina';
+        document.getElementById('salvarDisciplina').textContent = 'Atualizar';
+      });
+    });
+    
+    // Botão de limpar formulário
+    document.getElementById('limparForm').addEventListener('click', function() {
+      document.getElementById('disciplinaForm').reset();
+      document.getElementById('disciplina_id').value = '';
+      document.getElementById('formulario-titulo').textContent = 'Nova Disciplina';
+      document.getElementById('salvarDisciplina').textContent = 'Salvar';
+    });
+    
+    // Botões para apagar disciplina
+    document.querySelectorAll('.apagar-disciplina').forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const nome = this.getAttribute('data-nome');
+        document.getElementById('excluir_id').value = id;
+        document.getElementById('disciplina-nome').textContent = nome;
+        new bootstrap.Modal(document.getElementById('confirmarExclusaoModal')).show();
+      });
+    });
+  });
+</script>
 {% endblock %}
