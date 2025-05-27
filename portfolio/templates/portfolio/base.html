@@ -38,6 +38,9 @@
               <a class="nav-link" href="{% url 'portfolio:tecnologias' %}"><i class="fas fa-laptop-code"></i> Tecnologias</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'portfolio:areainteresse' %}"><i class="fas fa-laptop-code"></i> Areas</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'artigos:artigo-list' %}"><i class="fas fa-newspaper"></i> Artigos</a>
             </li>
             <li class="nav-item">
@@ -59,7 +62,7 @@
                       <i class="fas fa-id-card"></i> Meu Perfil
                     </a>
                   </li>
-                  
+
                   {% if user.groups.all %}
                     {% for group in user.groups.all %}
                       {% if group.name == 'Gestores' %}
@@ -99,7 +102,7 @@
                       {% endif %}
                     {% endfor %}
                   {% endif %}
-                  
+
                   <li><hr class="dropdown-divider"></li>
                   <li>
                     <a class="dropdown-item text-danger" href="{% url 'logout' %}">

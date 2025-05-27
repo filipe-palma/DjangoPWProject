@@ -54,3 +54,13 @@ class Visitor(models.Model):
     def get_or_create_visitor(cls, session_key):
         visitor, created = cls.objects.get_or_create(session_key=session_key)
         return visitor
+
+class AreaInteresse(models.Model):
+    nome = models.CharField(max_length=200)
+    descricao = models.TextField()
+    projetos = models.ManyToManyField(Projeto)
+    tecnologias = models.ManyToManyField(Tecnologia)
+    disciplinas = models.ManyToManyField(Disciplina)
+
+    def __str__(self):
+        return self.nome

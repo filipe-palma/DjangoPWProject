@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ProjetoForm, TecnologiaForm
+from .forms import ProjetoForm, TecnologiaForm, AreaInteresseForm
 from datetime import datetime
-from .models import Projeto, Tecnologia
+from .models import Projeto, Tecnologia, AreaInteresse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.http import HttpResponseForbidden
@@ -32,6 +32,12 @@ def apresentacao_view(request):
 
 def cv_view(request):
     return render(request, "portfolio/cv.html")
+
+def areainteresse_view(request):
+    areainteresse = AreaInteresse.objects.all()
+    return render(request, "portfolio/areainteresse.html", {"areainteresse": areainteresse})
+
+
 
 @login_required
 @user_passes_test(is_gestor)
@@ -84,6 +90,17 @@ def editar_tecnologia(request, id):
         messages.success(request, "Tecnologia atualizada com sucesso!")
         return redirect('portfolio:tecnologias')
     return render(request, 'portfolio/form_tecnologia.html', {'form': form, 'novo': False})
+
+@login_required
+@user_passes_test(is_gestor)
+def editar_areainteresse(request, id):
+    areainteresse = get_object_or_404(AreaInteresse, pk=id)
+    form = AreaInteresseForm(request.POST or None, request.FILES or None, instance=areainteresse)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Area de Interesse atualizada com sucesso!")
+        return redirect('portfolio:areainteresse')
+    return render(request, 'portfolio/form_areainteresse.html', {'form': form, 'novo': False})
 
 @login_required
 @user_passes_test(is_gestor)

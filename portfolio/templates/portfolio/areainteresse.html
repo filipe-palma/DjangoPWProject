@@ -1,0 +1,86 @@
+{% extends "portfolio/base.html" %}
+{% block title %}Minhas Areas de Interesse{% endblock %}
+
+{% block content %}
+  <!-- Hero Section para Tecnologias -->
+  <section class="tech-header text-center mb-5" data-aos="fade-up">
+    <div class="container py-4">
+      <h1 class="display-4 mb-3">Minhas <span style="text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Areas</span></h1>
+      <p class="lead mb-0">Areas de meu interesse profissional</p>
+    </div>
+  </section>
+
+  <!-- Filtro e Ordenação -->
+  <div class="tech-filter" data-aos="fade-up">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mb-3 mb-md-0">
+        <input type="text" class="form-control" id="techSearch" placeholder="Buscar tecnologia...">
+      </div>
+
+      <div>
+        <label class="me-2">Ordenar por:</label>
+        <div class="sortable-options">
+          <span class="sort-option active" data-sort="name">Nome</span>
+          <span class="sort-option" data-sort="projects">Projetos</span>
+        </div>
+      </div>
+    </div>
+
+
+    <hr>
+  </div>
+
+  <!-- Lista de Areas -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5" id="techGrid">
+    {% for a in areainteresse %}
+      <div class="col tech-item" data-name="{{ a.nome|lower }}" data-projects="{{ a.projeto_set.count }}" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
+        <div class="card tech-card h-100">
+          <div class="card-body text-center">
+            <h3 class="card-title">{{ a.nome }}</h3>
+            <p class="card-text">{{ a.descricao }}</p>
+
+            <div class="mt-3">
+              <p class="mb-2"><strong>Utilizada em:</strong></p>
+              <div>
+                {% for p in a.projeto_set.all %}
+                  <span class="tech-usage">{{ p.titulo }}</span>
+                {% empty %}
+                  <span class="text-muted">Nenhum projeto</span>
+                {% endfor %}
+              </div>
+            </div>
+
+            {% if request.user.is_superuser or request.user.groups.all %}
+              {% if request.user.is_superuser %}
+                <div class="mt-4 pt-3 border-top">
+                  <a href="{% url 'portfolio:editar_areainteresse' a.id %}" class="btn btn-sm btn-warning me-2">
+                    <i class="fas fa-edit me-1"></i> Editar
+                  </a>
+                </div>
+              {% else %}
+                {% for group in request.user.groups.all %}
+                  {% if group.name == 'Gestores' %}
+                    <div class="mt-4 pt-3 border-top">
+                      <a href="{% url 'portfolio:editar_areainteresse' a.id %}" class="btn btn-sm btn-warning me-2">
+                        <i class="fas fa-edit me-1"></i> Editar
+                      </a>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12 text-center py-5">
+        <div class="card p-5">
+          <i class="fas fa-microchip fa-4x text-muted mb-3"></i>
+          <h3>Nenhuma area de interesse encontrada</h3>
+          <p>Ainda não há areas de interesse cadastradas.</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
