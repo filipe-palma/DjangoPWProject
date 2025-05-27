@@ -84,6 +84,7 @@ header {
   left: 0;
   background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
   transition: width 0.3s ease;
+  z-index: 1;
 }
 
 .nav-link:hover::after {

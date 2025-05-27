@@ -1,0 +1,111 @@
+/* Correção para o menu de navegação */
+.navbar-nav .nav-item .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-nav .nav-item .nav-link i {
+  margin-right: 0;
+  width: 1.25rem;
+  text-align: center;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-nav .nav-item .nav-link span {
+  margin-left: 0.5rem;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: #ffffff !important;
+}
+
+/* Ajustar o dropdown do usuário */
+.navbar-nav .dropdown-menu {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .dropdown-item {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar-nav .dropdown-menu {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-nav .dropdown-item:hover,
+.navbar-nav .dropdown-item:focus {
+  background-color: var(--hover-color);
+  transition: all 0.2s ease;
+}
+
+/* Formatação dos links do dropdown */
+.dropdown-item {
+  display: flex !important;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item i {
+  margin-right: 0;
+  width: 1.25rem;
+  text-align: center;
+}
+
+.dropdown-item span {
+  margin-left: 0.5rem;
+}
+
+/* Estilos para textos descritivos no dropdown */
+.dropdown-item-text {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item-text i {
+  margin-right: 0;
+  width: 1.25rem;
+  text-align: center;
+}
+
+.dropdown-item-text span {
+  margin-left: 0.5rem;
+}
+
+/* Estilos responsivos para o menu */
+@media (max-width: 991px) {
+  .navbar-nav .nav-item .nav-link {
+    padding: 0.75rem 1rem;
+  }
+  
+  .navbar-nav .dropdown-menu {
+    background-color: transparent;
+    border: none;
+    padding-left: 1.5rem;
+  }
+  
+  .dropdown-item, .dropdown-item-text {
+    color: rgba(255, 255, 255, 0.85) !important;
+    padding: 0.5rem 0;
+  }
+  
+  .navbar-dark .navbar-nav .dropdown-item:hover,
+  .navbar-dark .navbar-nav .dropdown-item:focus {
+    background-color: transparent;
+    color: #ffffff !important;
+  }
+}
