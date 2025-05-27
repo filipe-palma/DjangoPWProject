@@ -4,68 +4,572 @@
 {% block title %}{% if object %}Editar{% else %}Novo{% endif %} Artigo - Portfolio{% endblock %}
 
 {% block article_content %}
-<div class="container py-4" data-aos="fade-up">
-  <nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'artigos:artigo-list' %}">Artigos</a></li>
-      <li class="breadcrumb-item active" aria-current="page">
-        {% if object %}Editar Artigo{% else %}Novo Artigo{% endif %}
-      </li>
-    </ol>
-  </nav>
-
-  <div class="card shadow-sm">
-    <div class="card-header bg-light">
-      <h2 class="card-title mb-0">
-        <i class="fas {% if object %}fa-edit{% else %}fa-plus-circle{% endif %} me-2"></i>
-        {% if object %}Editar Artigo{% else %}Criar Novo Artigo{% endif %}
-      </h2>
-    </div>
-    <div class="card-body p-4">
-      <form method="post" enctype="multipart/form-data" class="article-form">
-        {% csrf_token %}
-        
-        {% for field in form %}
-          <div class="mb-4">
-            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-            {{ field.errors }}
-            
-            {% if field.name == 'conteudo' %}
-              <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" rows="10">{{ field.value|default:'' }}</textarea>
-            {% elif field.name == 'imagem_capa' %}
-              <div class="input-group">
-                {{ field }}
-              </div>
-              {% if object and object.imagem_capa %}
-                <div class="mt-2">
-                  <p>Imagem atual:</p>
-                  <img src="{{ object.imagem_capa.url }}" alt="Imagem atual" style="max-width: 200px" class="img-thumbnail">
-                </div>
-              {% endif %}
-            {% elif field.field.widget.input_type == 'select' %}
-              {{ field }}
-            {% else %}
-              <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" value="{{ field.value|default:'' }}">
-            {% endif %}
-            
-            {% if field.help_text %}
-              <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
+  <h2>{% if form.instance.id %}Editar Artigo{% else %}Novo Artigo{% endif %}</h2>
+  
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% for field in form %}
+      {% if field.name == 'categorias' or field.name == 'tags' %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
+          <div class="bg-light p-3 border rounded">
+            {{ field }}
           </div>
-        {% endfor %}
-        
-        <div class="d-flex justify-content-between mt-4">
-          <a href="{% url 'artigos:artigo-list' %}" class="btn btn-outline-secondary">
-            <i class="fas fa-arrow-left me-2"></i> Cancelar
-          </a>
-          
-          <button type="submit" class="btn btn-primary">
-            <i class="fas {% if object %}fa-save{% else %}fa-plus{% endif %} me-2"></i>
-            {% if object %}Salvar Alterações{% else %}Criar Artigo{% endif %}
-          </button>
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
         </div>
-      </form>
+      {% else %}
+        <p>
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+        </p>
+      {% endif %}
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{% url 'artigos:artigo-list' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+  
+  <div class="mt-4">
+    <h3>Gerenciar Objetos Relacionados</h3>
+    <div class="list-group">
+      <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#autoresModal">
+        <i class="fas fa-user-edit me-2"></i> Gerenciar Autores
+      </button>
+      <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#categoriasModal">
+        <i class="fas fa-folder-plus me-2"></i> Gerenciar Categorias
+      </button>
+      <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#tagsModal">
+        <i class="fas fa-tags me-2"></i> Gerenciar Tags
+      </button>
+    </div>
+  </div>
+  
+  <!-- Modal para gerenciar categorias -->
+  <div class="modal fade" id="categoriasModal" tabindex="-1" aria-labelledby="categoriasModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="categoriasModalLabel">Gerenciar Categorias</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tabela de categorias existentes -->
+          <h6 class="mb-3">Categorias Disponíveis</h6>
+          <div class="table-responsive mb-4">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Descrição</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for categoria in categorias %}
+                <tr>
+                  <td>{{ categoria.nome }}</td>
+                  <td>{{ categoria.descricao|truncatechars:50 }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary editar-categoria" data-id="{{ categoria.id }}"
+                      data-nome="{{ categoria.nome }}" data-descricao="{{ categoria.descricao }}">
+                      <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger apagar-categoria" data-id="{{ categoria.id }}" 
+                      data-nome="{{ categoria.nome }}">
+                      <i class="fas fa-trash"></i> Apagar
+                    </button>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="3" class="text-center">Nenhuma categoria cadastrada.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Formulário para adicionar/editar categoria -->
+          <h6 class="mb-3" id="formulario-categoria-titulo">Nova Categoria</h6>
+          <form id="categoriaForm">
+            {% csrf_token %}
+            <input type="hidden" id="categoria_id" name="categoria_id">
+            <div class="mb-3">
+              <label for="nome_categoria" class="form-label">Nome:</label>
+              <input type="text" class="form-control" id="nome_categoria" name="nome" required>
+            </div>
+            <div class="mb-3">
+              <label for="descricao_categoria" class="form-label">Descrição:</label>
+              <textarea class="form-control" id="descricao_categoria" name="descricao" rows="3"></textarea>
+            </div>
+            <div class="text-end">
+              <button type="button" class="btn btn-secondary" id="limparFormCategoria">Limpar</button>
+              <button type="submit" class="btn btn-primary" id="salvarCategoria">Salvar</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para gerenciar tags -->
+  <div class="modal fade" id="tagsModal" tabindex="-1" aria-labelledby="tagsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tagsModalLabel">Gerenciar Tags</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tabela de tags existentes -->
+          <h6 class="mb-3">Tags Disponíveis</h6>
+          <div class="table-responsive mb-4">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for tag in tags %}
+                <tr>
+                  <td>{{ tag.nome }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary editar-tag" data-id="{{ tag.id }}"
+                      data-nome="{{ tag.nome }}">
+                      <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger apagar-tag" data-id="{{ tag.id }}" 
+                      data-nome="{{ tag.nome }}">
+                      <i class="fas fa-trash"></i> Apagar
+                    </button>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="2" class="text-center">Nenhuma tag cadastrada.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Formulário para adicionar/editar tag -->
+          <h6 class="mb-3" id="formulario-tag-titulo">Nova Tag</h6>
+          <form id="tagForm">
+            {% csrf_token %}
+            <input type="hidden" id="tag_id" name="tag_id">
+            <div class="mb-3">
+              <label for="nome_tag" class="form-label">Nome:</label>
+              <input type="text" class="form-control" id="nome_tag" name="nome" required>
+            </div>
+            <div class="text-end">
+              <button type="button" class="btn btn-secondary" id="limparFormTag">Limpar</button>
+              <button type="submit" class="btn btn-primary" id="salvarTag">Salvar</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para gerenciar autores -->
+  <div class="modal fade" id="autoresModal" tabindex="-1" aria-labelledby="autoresModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="autoresModalLabel">Gerenciar Autores</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tabela de autores existentes -->
+          <h6 class="mb-3">Autores Disponíveis</h6>
+          <div class="table-responsive mb-4">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for autor in autores %}
+                <tr>
+                  <td>{{ autor.nome }}</td>
+                  <td>{{ autor.email }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary editar-autor" data-id="{{ autor.id }}"
+                      data-nome="{{ autor.nome }}" data-bio="{{ autor.bio }}" data-email="{{ autor.email }}"
+                      data-website="{{ autor.website }}" data-twitter="{{ autor.twitter }}"
+                      data-github="{{ autor.github }}" data-linkedin="{{ autor.linkedin }}">
+                      <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger apagar-autor" data-id="{{ autor.id }}" 
+                      data-nome="{{ autor.nome }}">
+                      <i class="fas fa-trash"></i> Apagar
+                    </button>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="3" class="text-center">Nenhum autor cadastrado.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Formulário para adicionar/editar autor -->
+          <h6 class="mb-3" id="formulario-autor-titulo">Novo Autor</h6>
+          <form id="autorForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="autor_id" name="autor_id">
+            <div class="mb-3">
+              <label for="nome_autor" class="form-label">Nome:</label>
+              <input type="text" class="form-control" id="nome_autor" name="nome" required>
+            </div>
+            <div class="mb-3">
+              <label for="bio_autor" class="form-label">Biografia:</label>
+              <textarea class="form-control" id="bio_autor" name="bio" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="email_autor" class="form-label">Email:</label>
+              <input type="email" class="form-control" id="email_autor" name="email">
+            </div>
+            <div class="mb-3">
+              <label for="foto_autor" class="form-label">Foto:</label>
+              <input type="file" class="form-control" id="foto_autor" name="foto">
+            </div>
+            <div class="mb-3">
+              <label for="website_autor" class="form-label">Website:</label>
+              <input type="url" class="form-control" id="website_autor" name="website">
+            </div>
+            <div class="mb-3">
+              <label for="twitter_autor" class="form-label">Twitter:</label>
+              <input type="url" class="form-control" id="twitter_autor" name="twitter">
+            </div>
+            <div class="mb-3">
+              <label for="github_autor" class="form-label">GitHub:</label>
+              <input type="url" class="form-control" id="github_autor" name="github">
+            </div>
+            <div class="mb-3">
+              <label for="linkedin_autor" class="form-label">LinkedIn:</label>
+              <input type="url" class="form-control" id="linkedin_autor" name="linkedin">
+            </div>
+            <div class="text-end">
+              <button type="button" class="btn btn-secondary" id="limparFormAutor">Limpar</button>
+              <button type="submit" class="btn btn-primary" id="salvarAutor">Salvar</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmação para exclusão -->
+  <div class="modal fade" id="confirmarExclusaoModal" tabindex="-1" aria-labelledby="confirmarExclusaoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="confirmarExclusaoModalLabel">Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <p>Tem certeza que deseja excluir "<span id="item-nome"></span>"?</p>
+          <p class="text-danger">Esta ação não pode ser desfeita.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <form id="formExcluirItem" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="excluir_id" name="item_id">
+            <input type="hidden" id="excluir_tipo" name="item_tipo">
+            <button type="submit" class="btn btn-danger">Sim, excluir</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    // Configurar categoriaForm para submissão via AJAX
+    document.getElementById('categoriaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const categoriaId = document.getElementById('categoria_id').value;
+      let url = "{% url 'artigos:ajax-criar-categoria' %}";
+      
+      if (categoriaId) {
+        url = `/artigos/ajax/categorias/editar/${categoriaId}/`;
+      }
+      
+      fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          // Recarregar a página para mostrar as alterações
+          window.location.reload();
+        } else {
+          alert('Erro ao salvar categoria: ' + JSON.stringify(data.errors));
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao processar sua solicitação.');
+      });
+    });
+    
+    // Configurar tagForm para submissão via AJAX
+    document.getElementById('tagForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const tagId = document.getElementById('tag_id').value;
+      let url = "{% url 'artigos:ajax-criar-tag' %}";
+      
+      if (tagId) {
+        url = `/artigos/ajax/tags/editar/${tagId}/`;
+      }
+      
+      fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          // Recarregar a página para mostrar as alterações
+          window.location.reload();
+        } else {
+          alert('Erro ao salvar tag: ' + JSON.stringify(data.errors));
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao processar sua solicitação.');
+      });
+    });
+    
+    // Configurar formExcluirItem para submissão via AJAX
+    document.getElementById('formExcluirItem').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const itemId = document.getElementById('excluir_id').value;
+      const itemTipo = document.getElementById('excluir_tipo').value;
+      let url;
+      
+      if (itemTipo === 'categoria') {
+        url = `/artigos/ajax/categorias/apagar/${itemId}/`;
+      } else if (itemTipo === 'tag') {
+        url = `/artigos/ajax/tags/apagar/${itemId}/`;
+      } else if (itemTipo === 'autor') {
+        url = `/artigos/ajax/autores/apagar/${itemId}/`;
+      }
+      
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          // Fechar o modal de confirmação
+          const modal = bootstrap.Modal.getInstance(document.getElementById('confirmarExclusaoModal'));
+          modal.hide();
+          
+          // Recarregar a página para mostrar as alterações
+          window.location.reload();
+        } else {
+          alert('Erro ao excluir item: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao processar sua solicitação.');
+      });
+    });
+    
+    // Botões para editar categorias
+    document.querySelectorAll('.editar-categoria').forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const nome = this.getAttribute('data-nome');
+        const descricao = this.getAttribute('data-descricao');
+        
+        document.getElementById('categoria_id').value = id;
+        document.getElementById('nome_categoria').value = nome;
+        document.getElementById('descricao_categoria').value = descricao;
+        document.getElementById('formulario-categoria-titulo').textContent = 'Editar Categoria';
+        document.getElementById('salvarCategoria').textContent = 'Atualizar';
+      });
+    });
+    
+    // Botão de limpar formulário de categoria
+    document.getElementById('limparFormCategoria').addEventListener('click', function() {
+      document.getElementById('categoriaForm').reset();
+      document.getElementById('categoria_id').value = '';
+      document.getElementById('formulario-categoria-titulo').textContent = 'Nova Categoria';
+      document.getElementById('salvarCategoria').textContent = 'Salvar';
+    });
+    
+    // Botões para editar tags
+    document.querySelectorAll('.editar-tag').forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const nome = this.getAttribute('data-nome');
+        
+        document.getElementById('tag_id').value = id;
+        document.getElementById('nome_tag').value = nome;
+        document.getElementById('formulario-tag-titulo').textContent = 'Editar Tag';
+        document.getElementById('salvarTag').textContent = 'Atualizar';
+      });
+    });
+    
+    // Botão de limpar formulário de tag
+    document.getElementById('limparFormTag').addEventListener('click', function() {
+      document.getElementById('tagForm').reset();
+      document.getElementById('tag_id').value = '';
+      document.getElementById('formulario-tag-titulo').textContent = 'Nova Tag';
+      document.getElementById('salvarTag').textContent = 'Salvar';
+    });
+    
+    // Botões para apagar categoria
+    document.querySelectorAll('.apagar-categoria').forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const nome = this.getAttribute('data-nome');
+        document.getElementById('excluir_id').value = id;
+        document.getElementById('excluir_tipo').value = 'categoria';
+        document.getElementById('item-nome').textContent = nome;
+        new bootstrap.Modal(document.getElementById('confirmarExclusaoModal')).show();
+      });
+    });
+    
+    // Botões para apagar tag
+    document.querySelectorAll('.apagar-tag').forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const nome = this.getAttribute('data-nome');
+        document.getElementById('excluir_id').value = id;
+        document.getElementById('excluir_tipo').value = 'tag';
+        document.getElementById('item-nome').textContent = nome;
+        new bootstrap.Modal(document.getElementById('confirmarExclusaoModal')).show();
+      });
+    });
+    
+    // Configurar autorForm para submissão via AJAX
+    document.getElementById('autorForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const autorId = document.getElementById('autor_id').value;
+      let url = "{% url 'artigos:ajax-criar-autor' %}";
+      
+      if (autorId) {
+        url = `/artigos/ajax/autores/editar/${autorId}/`;
+      }
+      
+      fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          // Recarregar a página para mostrar as alterações
+          window.location.reload();
+        } else {
+          alert('Erro ao salvar autor: ' + JSON.stringify(data.errors));
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao processar sua solicitação.');
+      });
+    });
+    
+    // Botões para editar autores
+    document.querySelectorAll('.editar-autor').forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const nome = this.getAttribute('data-nome');
+        const bio = this.getAttribute('data-bio');
+        const email = this.getAttribute('data-email');
+        const website = this.getAttribute('data-website');
+        const twitter = this.getAttribute('data-twitter');
+        const github = this.getAttribute('data-github');
+        const linkedin = this.getAttribute('data-linkedin');
+        
+        document.getElementById('autor_id').value = id;
+        document.getElementById('nome_autor').value = nome;
+        document.getElementById('bio_autor').value = bio || '';
+        document.getElementById('email_autor').value = email || '';
+        document.getElementById('website_autor').value = website || '';
+        document.getElementById('twitter_autor').value = twitter || '';
+        document.getElementById('github_autor').value = github || '';
+        document.getElementById('linkedin_autor').value = linkedin || '';
+        document.getElementById('formulario-autor-titulo').textContent = 'Editar Autor';
+        document.getElementById('salvarAutor').textContent = 'Atualizar';
+      });
+    });
+    
+    // Botão de limpar formulário de autor
+    document.getElementById('limparFormAutor').addEventListener('click', function() {
+      document.getElementById('autorForm').reset();
+      document.getElementById('autor_id').value = '';
+      document.getElementById('formulario-autor-titulo').textContent = 'Novo Autor';
+      document.getElementById('salvarAutor').textContent = 'Salvar';
+    });
+    
+    // Botões para apagar autor
+    document.querySelectorAll('.apagar-autor').forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const nome = this.getAttribute('data-nome');
+        document.getElementById('excluir_id').value = id;
+        document.getElementById('excluir_tipo').value = 'autor';
+        document.getElementById('item-nome').textContent = nome;
+        new bootstrap.Modal(document.getElementById('confirmarExclusaoModal')).show();
+      });
+    });
+  });
+</script>
 {% endblock %}

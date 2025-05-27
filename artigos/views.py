@@ -5,9 +5,11 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from django.http import HttpResponseForbidden, HttpResponseRedirect
-from .models import Artigo, Comentario, Avaliacao
-from .forms import ArtigoForm, ComentarioForm, AvaliacaoForm
+from django.http import HttpResponseForbidden, HttpResponseRedirect, JsonResponse
+from .models import Artigo, Comentario, Avaliacao, Categoria, Tag, Autor
+from .forms import ArtigoForm, ComentarioForm, AvaliacaoForm, CategoriaForm, TagForm, AutorForm
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.text import slugify
 
 class ArtigoListView(generic.ListView):
     model = Artigo
@@ -123,6 +125,13 @@ class ArtigoCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
     
     def get_success_url(self):
         return reverse('artigos:artigo-detail', args=[self.object.slug])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = Categoria.objects.all()
+        context['tags'] = Tag.objects.all()
+        context['autores'] = Autor.objects.all()
+        return context
         
     def handle_no_permission(self):
         messages.error(self.request, 'Você não tem permissão para criar artigos. Apenas gestores podem realizar esta operação.')
@@ -137,6 +146,13 @@ class ArtigoUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     
     def get_success_url(self):
         return reverse('artigos:artigo-detail', args=[self.object.slug])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = Categoria.objects.all()
+        context['tags'] = Tag.objects.all()
+        context['autores'] = Autor.objects.all()
+        return context
         
     def handle_no_permission(self):
         messages.error(self.request, 'Você não tem permissão para editar artigos. Apenas gestores podem realizar esta operação.')
@@ -211,3 +227,162 @@ def delete_comment(request, comment_id):
     
     messages.error(request, 'Método não permitido.')
     return redirect('artigos:comentarios-moderacao')
+
+# AJAX views for categories
+@login_required
+@permission_required('artigos.add_categoria', raise_exception=True)
+@csrf_exempt
+def ajax_criar_categoria(request):
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST)
+        if form.is_valid():
+            categoria = form.save(commit=False)
+            categoria.slug = slugify(categoria.nome)
+            categoria.save()
+            return JsonResponse({
+                'status': 'success',
+                'id': categoria.id,
+                'nome': categoria.nome,
+                'descricao': categoria.descricao
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+@login_required
+@permission_required('artigos.change_categoria', raise_exception=True)
+@csrf_exempt
+def ajax_editar_categoria(request, id):
+    categoria = get_object_or_404(Categoria, pk=id)
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST, instance=categoria)
+        if form.is_valid():
+            categoria = form.save(commit=False)
+            categoria.slug = slugify(categoria.nome)
+            categoria.save()
+            return JsonResponse({
+                'status': 'success',
+                'id': categoria.id,
+                'nome': categoria.nome,
+                'descricao': categoria.descricao
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+@login_required
+@permission_required('artigos.delete_categoria', raise_exception=True)
+@csrf_exempt
+def ajax_apagar_categoria(request, id):
+    categoria = get_object_or_404(Categoria, pk=id)
+    if request.method == 'POST':
+        try:
+            categoria.delete()
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+# AJAX views for tags
+@login_required
+@permission_required('artigos.add_tag', raise_exception=True)
+@csrf_exempt
+def ajax_criar_tag(request):
+    if request.method == 'POST':
+        form = TagForm(request.POST)
+        if form.is_valid():
+            tag = form.save(commit=False)
+            tag.slug = slugify(tag.nome)
+            tag.save()
+            return JsonResponse({
+                'status': 'success',
+                'id': tag.id,
+                'nome': tag.nome
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+@login_required
+@permission_required('artigos.change_tag', raise_exception=True)
+@csrf_exempt
+def ajax_editar_tag(request, id):
+    tag = get_object_or_404(Tag, pk=id)
+    if request.method == 'POST':
+        form = TagForm(request.POST, instance=tag)
+        if form.is_valid():
+            tag = form.save(commit=False)
+            tag.slug = slugify(tag.nome)
+            tag.save()
+            return JsonResponse({
+                'status': 'success',
+                'id': tag.id,
+                'nome': tag.nome
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+@login_required
+@permission_required('artigos.delete_tag', raise_exception=True)
+@csrf_exempt
+def ajax_apagar_tag(request, id):
+    tag = get_object_or_404(Tag, pk=id)
+    if request.method == 'POST':
+        try:
+            tag.delete()
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+# AJAX views for authors
+@login_required
+@permission_required('artigos.add_autor', raise_exception=True)
+@csrf_exempt
+def ajax_criar_autor(request):
+    if request.method == 'POST':
+        form = AutorForm(request.POST, request.FILES)
+        if form.is_valid():
+            autor = form.save()
+            return JsonResponse({
+                'status': 'success',
+                'id': autor.id,
+                'nome': autor.nome,
+                'email': autor.email
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+@login_required
+@permission_required('artigos.change_autor', raise_exception=True)
+@csrf_exempt
+def ajax_editar_autor(request, id):
+    autor = get_object_or_404(Autor, pk=id)
+    if request.method == 'POST':
+        form = AutorForm(request.POST, request.FILES, instance=autor)
+        if form.is_valid():
+            autor = form.save()
+            return JsonResponse({
+                'status': 'success',
+                'id': autor.id,
+                'nome': autor.nome,
+                'email': autor.email
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+@login_required
+@permission_required('artigos.delete_autor', raise_exception=True)
+@csrf_exempt
+def ajax_apagar_autor(request, id):
+    autor = get_object_or_404(Autor, pk=id)
+    if request.method == 'POST':
+        try:
+            autor.delete()
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})

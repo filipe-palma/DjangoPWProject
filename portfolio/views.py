@@ -50,7 +50,14 @@ def criar_projeto(request):
         form.save()
         messages.success(request, "Projeto criado com sucesso!")
         return redirect('portfolio:projetos')
-    return render(request, 'portfolio/form_projeto.html', {'form': form})
+    
+    # Get all disciplines for the modal
+    disciplinas = Disciplina.objects.all()
+    
+    return render(request, 'portfolio/form_projeto.html', {
+        'form': form,
+        'disciplinas': disciplinas
+    })
 
 @login_required
 @user_passes_test(is_gestor)

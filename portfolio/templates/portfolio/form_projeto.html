@@ -6,22 +6,30 @@
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="{% url 'portfolio:projetos' %}" class="btn btn-secondary">Cancelar</a>
-  </form>
-  
-  {% if form.instance.id %}
+  </form>  
   <div class="mt-4">
     <h3>Gerenciar Objetos Relacionados</h3>
-    <div class="list-group">      <a href="{% url 'portfolio:imagens_projeto' form.instance.id %}" class="list-group-item list-group-item-action">
+    <div class="list-group">
+      {% if form.instance.id %}
+      <a href="{% url 'portfolio:imagens_projeto' form.instance.id %}" class="list-group-item list-group-item-action">
         <i class="fas fa-images me-2"></i> Gerenciar Imagens do Projeto
       </a>
       <a href="{% url 'portfolio:criar_editar_extras' form.instance.id %}" class="list-group-item list-group-item-action">
         <i class="fas fa-info-circle me-2"></i> Gerenciar Informações Extras
       </a>
+      {% else %}
+      <div class="list-group-item text-muted">
+        <i class="fas fa-images me-2"></i> Gerenciar Imagens do Projeto (disponível após salvar)
+      </div>
+      <div class="list-group-item text-muted">
+        <i class="fas fa-info-circle me-2"></i> Gerenciar Informações Extras (disponível após salvar)
+      </div>
+      {% endif %}
       <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#disciplinasModal">
         <i class="fas fa-book me-2"></i> Gerenciar Disciplinas
       </button>
     </div>
-  </div>  {% endif %}
+  </div>
 
   <!-- Modal para gerenciar disciplinas -->
   <div class="modal fade" id="disciplinasModal" tabindex="-1" aria-labelledby="disciplinasModalLabel" aria-hidden="true">
