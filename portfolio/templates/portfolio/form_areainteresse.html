@@ -1,10 +1,56 @@
 {% extends "portfolio/base.html" %}
 {% block title %}Editar Area{% endblock %}
 {% block content %}
+<div class="container mt-4">
   <h2>Editar Area</h2>
-  <form method="post" enctype="multipart/form-data">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-    <a href="{% url 'portfolio:areainteresse' %}">Cancelar</a>
+  
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    
+    <div class="mb-3">
+      <label for="{{ form.nome.id_for_label }}" class="form-label">Nome:</label>
+      {{ form.nome }}
+      {% if form.nome.errors %}
+        <div class="text-danger">{{ form.nome.errors }}</div>
+      {% endif %}
+    </div>
+    
+    <div class="mb-3">
+      <label for="{{ form.descricao.id_for_label }}" class="form-label">Descrição:</label>
+      {{ form.descricao }}
+      {% if form.descricao.errors %}
+        <div class="text-danger">{{ form.descricao.errors }}</div>
+      {% endif %}
+    </div>
+    
+    <div class="mb-3">
+      <label for="{{ form.projetos.id_for_label }}" class="form-label">Projetos:</label>
+      {{ form.projetos }}
+      {% if form.projetos.errors %}
+        <div class="text-danger">{{ form.projetos.errors }}</div>
+      {% endif %}
+    </div>
+    
+    <div class="mb-3">
+      <label for="{{ form.tecnologias.id_for_label }}" class="form-label">Tecnologias:</label>
+      {{ form.tecnologias }}
+      {% if form.tecnologias.errors %}
+        <div class="text-danger">{{ form.tecnologias.errors }}</div>
+      {% endif %}
+    </div>
+    
+    <div class="mb-3">
+      <label for="{{ form.disciplinas.id_for_label }}" class="form-label">Disciplinas:</label>
+      {{ form.disciplinas }}
+      {% if form.disciplinas.errors %}
+        <div class="text-danger">{{ form.disciplinas.errors }}</div>
+      {% endif %}
+    </div>
+    
+    <div>
+      <button type="submit" class="btn btn-primary">Salvar</button>
+      <a href="{% url 'portfolio:areainteresse' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
   </form>
+</div>
 {% endblock %}

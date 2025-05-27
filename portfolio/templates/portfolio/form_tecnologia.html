@@ -3,10 +3,48 @@
   {% if novo %}Nova Tecnologia{% else %}Editar Tecnologia{% endif %}
 {% endblock %}
 {% block content %}
+<div class="container mt-4">
   <h2>{% if novo %}Nova Tecnologia{% else %}Editar Tecnologia{% endif %}</h2>
-  <form method="post" enctype="multipart/form-data">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-    <a href="{% url 'portfolio:tecnologias' %}">Cancelar</a>
+  
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    
+    <div class="mb-3">
+      <label for="{{ form.nome.id_for_label }}" class="form-label">Nome:</label>
+      {{ form.nome }}
+      {% if form.nome.errors %}
+        <div class="text-danger">{{ form.nome.errors }}</div>
+      {% endif %}
+    </div>
+    
+    <div class="mb-3">
+      <label for="{{ form.logo.id_for_label }}" class="form-label">Logo:</label>
+      {{ form.logo }}
+      {% if form.logo.errors %}
+        <div class="text-danger">{{ form.logo.errors }}</div>
+      {% endif %}
+    </div>
+    
+    <div class="mb-3">
+      <label for="{{ form.descricao.id_for_label }}" class="form-label">Descrição:</label>
+      {{ form.descricao }}
+      {% if form.descricao.errors %}
+        <div class="text-danger">{{ form.descricao.errors }}</div>
+      {% endif %}
+    </div>
+    
+    <div class="mb-3">
+      <label for="{{ form.repositorio.id_for_label }}" class="form-label">URL do Repositório:</label>
+      {{ form.repositorio }}
+      {% if form.repositorio.errors %}
+        <div class="text-danger">{{ form.repositorio.errors }}</div>
+      {% endif %}
+    </div>
+    
+    <div>
+      <button type="submit" class="btn btn-primary">Salvar</button>
+      <a href="{% url 'portfolio:tecnologias' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
   </form>
+</div>
 {% endblock %}
