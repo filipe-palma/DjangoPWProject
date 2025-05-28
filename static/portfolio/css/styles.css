@@ -1,0 +1,608 @@
+/* 
+ * CONSOLIDATED CSS FILE
+ * This file contains all the CSS from the portfolio app
+ * Combines: style.css, navbar-fix.css, landscape-fix.css, menu-spacing-fix.css
+ */
+
+/* ========== MAIN STYLES (from style.css) ========== */
+/* Portfolio - Estilo Moderno e Interativo */
+:root {
+  /* Variáveis de cores para tema claro */
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --bg-color: #f8f9fa;
+  --text-color: #333;
+  --card-bg: #fff;
+  --header-bg: #2c3e50;
+  --footer-bg: #2c3e50;
+  --border-color: #ddd;
+  --hover-color: #e9ecef;
+  --error-color: #dc3545;
+}
+
+[data-theme="dark"] {
+  /* Variáveis de cores para tema escuro */
+  --primary-color: #00b4d8;
+  --secondary-color: #4ade80;
+  --bg-color: #121212;
+  --text-color: #f0f0f0;
+  --card-bg: #1e1e1e;
+  --header-bg: #0f172a;
+  --footer-bg: #0f172a;
+  --border-color: #333;
+  --hover-color: #2a2a2a;
+  --error-color: #dc3545;
+}
+
+/* Correções para prevenir overflow horizontal */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Estilo base */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease-in-out;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: var(--header-bg);
+  color: #fff;
+  padding: 1.5rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+  padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #fff !important;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand span {
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-left: 0.5rem;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  margin: 0 0.5rem;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  transition: width 0.3s ease;
+  z-index: 1;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+
+main {
+  flex: 1;
+  padding: 2rem 0;
+}
+
+footer {
+  background-color: var(--footer-bg);
+  color: #fff;
+  padding: 2rem 0;
+  margin-top: auto;
+}
+
+/* Botão de alternar tema */
+.theme-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  margin-left: 1rem;
+}
+
+/* Efeitos em Cards */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Página Inicial - Hero Section */
+.hero {
+  position: relative;
+  padding: 5rem 0;
+  text-align: center;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 1s ease;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Lista de Projetos */
+.projeto-item {
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.5rem 0;
+}
+
+.projeto-item:last-child {
+  border-bottom: none;
+}
+
+.projeto-item h3 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.tecnologia-badge {
+  display: inline-block;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.action-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.2s;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Formulários */
+.form-control {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .card {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Contador de visitantes */
+.visitor-counter {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+/* Animações */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Efeito para botões */
+.btn {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.btn:hover::before {
+  left: 0;
+}
+
+/* Estilos para o formulário de registro */
+.auth-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.form-control {
+  border: 1px solid var(--border-color);
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+  outline: 0;
+}
+
+.form-text {
+  color: #6c757d;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.form-text ul {
+  padding-left: 1.25rem;
+}
+
+.alert-danger {
+  color: var(--error-color);
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+[data-theme="dark"] .form-text {
+  color: #adb5bd;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* ========== NAVBAR FIX (from navbar-fix.css) ========== */
+/* Correção para o menu de navegação */
+.navbar-nav .nav-item .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-nav .nav-item .nav-link i {
+  margin-right: 0;
+  width: 1.25rem;
+  text-align: center;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-nav .nav-item .nav-link span {
+  margin-left: 0.5rem;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: #ffffff !important;
+}
+
+/* Ajustar o dropdown do usuário */
+.navbar-nav .dropdown-menu {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .dropdown-item {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar-nav .dropdown-menu {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-nav .dropdown-item:hover,
+.navbar-nav .dropdown-item:focus {
+  background-color: var(--hover-color);
+  transition: all 0.2s ease;
+}
+
+/* Formatação dos links do dropdown */
+.dropdown-item {
+  display: flex !important;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item i {
+  margin-right: 0;
+  width: 1.25rem;
+  text-align: center;
+}
+
+.dropdown-item span {
+  margin-left: 0.5rem;
+}
+
+/* Estilos para textos descritivos no dropdown */
+.dropdown-item-text {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item-text i {
+  margin-right: 0;
+  width: 1.25rem;
+  text-align: center;
+}
+
+.dropdown-item-text span {
+  margin-left: 0.5rem;
+}
+
+/* Estilos responsivos para o menu */
+@media (max-width: 991px) {
+  .navbar-nav .nav-item .nav-link {
+    padding: 0.75rem 1rem;
+    flex-wrap: nowrap;
+  }
+  
+  .navbar-nav .dropdown-menu {
+    background-color: transparent;
+    border: none;
+    padding-left: 1.5rem;
+    box-shadow: none;
+  }
+}
+
+/* ========== LANDSCAPE FIX (from landscape-fix.css) ========== */
+/* Correções específicas para orientação landscape (horizontal) */
+
+/* Ajustes específicos para dispositivos em landscape */
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Reduzir tamanho do navbar e seus elementos */
+  .navbar {
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.4rem;
+  }
+  
+  .navbar-brand i {
+    font-size: 1.2rem;
+  }
+  
+  /* Tornar o menu mais compacto */
+  .navbar-nav .nav-item .nav-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Melhorar espaçamento do conteúdo principal */
+  main {
+    padding: 1rem 0;
+  }
+  
+  /* Ajustar altura do dropdown em modo landscape */
+  .navbar-collapse {
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+  
+  /* Reduzir o padding horizontal para evitar overflow */
+  .container, .container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  /* Reduzir tamanho do conteúdo do footer em landscape */
+  footer {
+    padding: 1rem 0;
+  }
+  
+  footer h4 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Especificamente para dispositivos muito pequenos em landscape */
+@media (orientation: landscape) and (max-height: 400px) {
+  .navbar-collapse {
+    max-height: 70vh;
+  }
+  
+  .navbar-nav .nav-item .nav-link i {
+    font-size: 0.85rem;
+  }
+  
+  .navbar-brand span {
+    font-size: 1.2rem;
+  }
+}
+
+/* ========== MENU SPACING FIX (from menu-spacing-fix.css) ========== */
+/* Correções específicas para o alinhamento do menu de navegação */
+
+/* Tornar o menu mais compacto horizontalmente */
+@media (min-width: 992px) {
+  /* Reduzir o espaçamento horizontal dos itens do menu */
+  .navbar-nav .nav-item .nav-link {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin: 0 0.1rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Remover margem extra do menu secundário */
+  .navbar-nav.mt-lg-0 {
+    margin-top: 0 !important;
+  }
+  
+  /* Certifique-se de que o container aproveita todo o espaço disponível */
+  .navbar .container {
+    max-width: none;
+    width: 100%;
+  }
+  
+  /* Forçar todos os itens a ficarem na mesma linha */
+  .navbar-collapse .d-flex {
+    flex-wrap: nowrap !important;
+  }
+  
+  /* Reduzir o espaço ocupado pelo logotipo/brand */
+  .navbar-brand {
+    margin-right: 0.5rem;
+  }
+  
+  /* Ajustar ícones para economizar espaço */
+  .navbar-nav .nav-item .nav-link i {
+    margin-right: 0;
+    width: 1rem;
+  }
+  
+  .navbar-nav .nav-item .nav-link span {
+    margin-left: 0.3rem;
+  }
+}
+
+/* Para telas maiores, espaçamento mais confortável */
+@media (min-width: 1200px) {
+  .navbar-nav .nav-item .nav-link {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    margin: 0 0.2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Para telas muito grandes, espaçamento normal */
+@media (min-width: 1400px) {
+  .navbar-nav .nav-item .nav-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: 0 0.3rem;
+  }
+}
