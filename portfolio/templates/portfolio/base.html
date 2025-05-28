@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, shrink-to-fit=no">
   <title>{% block title %}Portfolio{% endblock %}</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,117 +15,121 @@
   <!-- Custom CSS -->
   <link href="/static/portfolio/css/style.css" rel="stylesheet">
   <link href="/static/portfolio/css/navbar-fix.css" rel="stylesheet">
+  <link href="/static/portfolio/css/landscape-fix.css" rel="stylesheet">
+  <link href="/static/portfolio/css/menu-spacing-fix.css" rel="stylesheet">
   {% block extra_css %}{% endblock %}
 </head>
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark px-2">
+      <div class="container px-2">
         <a class="navbar-brand" href="{% url 'portfolio:index' %}">
           <i class="fas fa-code"></i><span>Filipe Palma</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'portfolio:index' %}"><i class="fas fa-home"></i><span>Home</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'portfolio:projetos' %}"><i class="fas fa-project-diagram"></i><span>Projetos</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'portfolio:tecnologias' %}"><i class="fas fa-laptop-code"></i><span>Tecnologias</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'portfolio:areainteresse' %}"><i class="fas fa-lightbulb"></i><span>Interesses</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'artigos:artigo-list' %}"><i class="fas fa-newspaper"></i><span>Artigos</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'portfolio:apresentacao' %}"><i class="fas fa-info-circle"></i><span>Sobre</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'portfolio:cv' %}"><i class="fas fa-file-alt"></i><span>CV</span></a>
-            </li>
-          </ul>
-          <ul class="navbar-nav">
-            {% if user.is_authenticated %}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fas fa-user-circle"></i><span>{{ user.username }}</span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                  <li>
-                    <a class="dropdown-item" href="{% url 'profile' %}">
-                      <i class="fas fa-id-card"></i><span>Meu Perfil</span>
-                    </a>
-                  </li>
-
-                  {% if user.groups.all %}
-                    {% for group in user.groups.all %}
-                      {% if group.name == 'Gestores' %}
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                          <span class="dropdown-item-text text-primary fw-bold">
-                            <i class="fas fa-user-shield"></i><span>Menu do Gestor</span>
-                          </span>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="{% url 'user_list' %}">
-                            <i class="fas fa-users-cog"></i><span>Gerenciar Usuários</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="{% url 'portfolio:criar_projeto' %}">
-                            <i class="fas fa-plus-circle"></i><span>Novo Projeto</span>
-                          </a>
-                        </li>
-                      {% elif group.name == 'Autores' %}
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                          <span class="dropdown-item-text text-success fw-bold">
-                            <i class="fas fa-pen-fancy"></i><span>Menu do Autor</span>
-                          </span>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="{% url 'artigos:artigo-create' %}">
-                            <i class="fas fa-plus-circle"></i><span>Novo Artigo</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="{% url 'artigos:comentarios-moderacao' %}">
-                            <i class="fas fa-comments"></i><span>Moderar Comentários</span>
-                          </a>
-                        </li>
-                      {% endif %}
-                    {% endfor %}
-                  {% endif %}
-
-                  <li><hr class="dropdown-divider"></li>
-                  <li>
-                    <a class="dropdown-item text-danger" href="{% url 'logout' %}">
-                      <i class="fas fa-sign-out-alt"></i><span>Sair</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            {% else %}
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="d-flex flex-column flex-lg-row justify-content-between w-100 align-items-lg-center">
+            <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i><span>Entrar</span></a>
+                <a class="nav-link" href="{% url 'portfolio:index' %}"><i class="fas fa-home"></i><span>Home</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'register' %}"><i class="fas fa-user-plus"></i><span>Registrar</span></a>
+                <a class="nav-link" href="{% url 'portfolio:projetos' %}"><i class="fas fa-project-diagram"></i><span>Projetos</span></a>
               </li>
-            {% endif %}
-            <li>
-              <button id="theme-toggle" class="theme-toggle" title="Alternar tema">
-                <i id="theme-toggle-icon" class="fas fa-moon"></i>
-              </button>
-            </li>
-          </ul>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'portfolio:tecnologias' %}"><i class="fas fa-laptop-code"></i><span>Tecnologias</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'portfolio:areainteresse' %}"><i class="fas fa-lightbulb"></i><span>Interesses</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'artigos:artigo-list' %}"><i class="fas fa-newspaper"></i><span>Artigos</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'portfolio:apresentacao' %}"><i class="fas fa-info-circle"></i><span>Sobre</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'portfolio:cv' %}"><i class="fas fa-file-alt"></i><span>CV</span></a>
+              </li>
+            </ul>
+            <ul class="navbar-nav mt-3 mt-lg-0 flex-nowrap">
+              {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle text-truncate" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i><span>{{ user.username }}</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li>
+                      <a class="dropdown-item" href="{% url 'profile' %}">
+                        <i class="fas fa-id-card"></i><span>Meu Perfil</span>
+                      </a>
+                    </li>
+
+                    {% if user.groups.all %}
+                      {% for group in user.groups.all %}
+                        {% if group.name == 'Gestores' %}
+                          <li><hr class="dropdown-divider"></li>
+                          <li>
+                            <span class="dropdown-item-text text-primary fw-bold">
+                              <i class="fas fa-user-shield"></i><span>Menu do Gestor</span>
+                            </span>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" href="{% url 'user_list' %}">
+                              <i class="fas fa-users-cog"></i><span>Gerenciar Usuários</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" href="{% url 'portfolio:criar_projeto' %}">
+                              <i class="fas fa-plus-circle"></i><span>Novo Projeto</span>
+                            </a>
+                          </li>
+                        {% elif group.name == 'Autores' %}
+                          <li><hr class="dropdown-divider"></li>
+                          <li>
+                            <span class="dropdown-item-text text-success fw-bold">
+                              <i class="fas fa-pen-fancy"></i><span>Menu do Autor</span>
+                            </span>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" href="{% url 'artigos:artigo-create' %}">
+                              <i class="fas fa-plus-circle"></i><span>Novo Artigo</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" href="{% url 'artigos:comentarios-moderacao' %}">
+                              <i class="fas fa-comments"></i><span>Moderar Comentários</span>
+                            </a>
+                          </li>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                      <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt"></i><span>Sair</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i><span>Entrar</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'register' %}"><i class="fas fa-user-plus"></i><span>Registrar</span></a>
+                </li>
+              {% endif %}
+              <li class="nav-item d-flex align-items-center">
+                <button id="theme-toggle" class="theme-toggle" title="Alternar tema">
+                  <i id="theme-toggle-icon" class="fas fa-moon"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>

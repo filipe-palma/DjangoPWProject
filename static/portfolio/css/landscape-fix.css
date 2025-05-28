@@ -1,0 +1,70 @@
+/* Correções específicas para orientação landscape (horizontal) */
+
+/* Ajustes gerais para prevenir overflow horizontal */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Ajustes específicos para dispositivos em landscape */
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Reduzir tamanho do navbar e seus elementos */
+  .navbar {
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.4rem;
+  }
+  
+  .navbar-brand i {
+    font-size: 1.2rem;
+  }
+  
+  /* Tornar o menu mais compacto */
+  .navbar-nav .nav-item .nav-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Melhorar espaçamento do conteúdo principal */
+  main {
+    padding: 1rem 0;
+  }
+  
+  /* Ajustar altura do dropdown em modo landscape */
+  .navbar-collapse {
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+  
+  /* Reduzir o padding horizontal para evitar overflow */
+  .container, .container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  /* Reduzir tamanho do conteúdo do footer em landscape */
+  footer {
+    padding: 1rem 0;
+  }
+  
+  footer h4 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Especificamente para dispositivos muito pequenos em landscape */
+@media (orientation: landscape) and (max-height: 400px) {
+  .navbar-collapse {
+    max-height: 70vh;
+  }
+  
+  .navbar-nav .nav-item .nav-link i {
+    font-size: 0.85rem;
+  }
+  
+  .navbar-brand span {
+    font-size: 1.2rem;
+  }
+}
