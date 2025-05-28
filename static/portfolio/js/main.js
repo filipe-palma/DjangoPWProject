@@ -97,3 +97,76 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(typingElement);
     }
 });
+
+// Fechar menu móvel quando um item é clicado
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar se estamos em um dispositivo móvel (largura < 992px)
+    const isMobile = () => window.innerWidth < 992;
+    
+    // Pegar todos os links do navbar
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    const navbarCollapse = document.getElementById('navbarNav');
+    const bsCollapse = navbarCollapse ? new bootstrap.Collapse(navbarCollapse, {toggle: false}) : null;
+    
+    // Adicionar evento de clique para cada link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            // Se estamos em dispositivo móvel e o menu está aberto, fechá-lo
+            if (isMobile() && navbarCollapse && navbarCollapse.classList.contains('show')) {
+                bsCollapse.hide();
+            }
+        });
+    });
+    
+    // Evitar que o dropdown do usuário feche o menu inteiro em dispositivos móveis
+    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+    dropdownMenus.forEach(menu => {
+        menu.addEventListener('click', (e) => {
+            // Evitar propagação apenas em dispositivos móveis
+            if (isMobile()) {
+                e.stopPropagation();
+            }
+        });
+    });
+});
+
+// Detectar e corrigir problemas de overflow horizontal
+document.addEventListener('DOMContentLoaded', function() {
+  const checkForOverflow = () => {
+    const docWidth = document.documentElement.clientWidth;
+    let hasHorizontalOverflow = false;
+    
+    // Verificar se há elementos que extrapolam a largura da viewport
+    document.querySelectorAll('*').forEach(element => {
+      const rect = element.getBoundingClientRect();
+      if (rect.right > docWidth || rect.left < 0) {
+        if (!(element instanceof SVGElement)) { // Ignorar elementos SVG
+          hasHorizontalOverflow = true;
+          
+          // Se for um elemento do navbar, ajustar automaticamente
+          if (element.closest('.navbar') || element.closest('.dropdown-menu')) {
+            element.style.maxWidth = '100%';
+            element.style.overflowX = 'hidden';
+          }
+        }
+      }
+    });
+    
+    // Se detectar overflow, aplicar correções específicas
+    if (hasHorizontalOverflow) {
+      document.body.style.overflowX = 'hidden';
+      document.documentElement.style.overflowX = 'hidden';
+      
+      // Ajustar elementos do navbar que podem estar causando problemas
+      const navbarElements = document.querySelectorAll('.navbar-nav, .dropdown-menu');
+      navbarElements.forEach(el => {
+        el.style.maxWidth = '100vw';
+        el.style.width = 'auto';
+      });
+    }
+  };
+  
+  // Executar ao carregar e ao redimensionar
+  checkForOverflow();
+  window.addEventListener('resize', checkForOverflow);
+});

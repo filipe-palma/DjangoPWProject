@@ -90,12 +90,14 @@
 @media (max-width: 991px) {
   .navbar-nav .nav-item .nav-link {
     padding: 0.75rem 1rem;
+    flex-wrap: nowrap;
   }
   
   .navbar-nav .dropdown-menu {
     background-color: transparent;
     border: none;
     padding-left: 1.5rem;
+    box-shadow: none;
   }
   
   .dropdown-item, .dropdown-item-text {
@@ -107,5 +109,238 @@
   .navbar-dark .navbar-nav .dropdown-item:focus {
     background-color: transparent;
     color: #ffffff !important;
+  }
+
+  .navbar-collapse {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .navbar-nav {
+    width: 100%;
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
+
+  /* Ajustes para os ícones em dispositivos móveis */
+  .navbar-nav .nav-item .nav-link i {
+    width: 1.5rem;
+    text-align: left;
+  }
+  
+  /* Garantir que o botão de tema seja visível e funcional em todos os dispositivos */
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+  }
+}
+
+/* Ajustes de responsividade adicionais */
+/* Garanta que o navbar não ultrapasse a largura da tela */
+.navbar .container {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .navbar .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .navbar .container {
+    max-width: 1140px;
+  }
+}
+
+/* Ajuste para dispositivos muito pequenos */
+@media (max-width: 360px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+  
+  .navbar-nav .nav-item .nav-link {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .navbar-nav .nav-item .nav-link i {
+    margin-right: 0;
+    width: 1rem;
+  }
+  
+  .navbar-nav .nav-item .nav-link span {
+    margin-left: 0.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Ajustes adicionais para dispositivos extremamente pequenos */
+@media (max-width: 320px) {
+  .navbar-brand {
+    font-size: 1rem;
+  }
+  
+  .navbar-brand span {
+    margin-left: 0.25rem;
+  }
+  
+  .navbar-nav .nav-item .nav-link {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+  }
+  
+  .navbar-nav .nav-item .nav-link i {
+    font-size: 0.9rem;
+  }
+  
+  .dropdown-item, .dropdown-item-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Garantir que o dropdown não ultrapasse os limites da tela */
+@media (min-width: 992px) {
+  .navbar-nav .dropdown-menu {
+    max-height: 80vh;
+    overflow-y: auto;
+    right: 0;
+    left: auto;
+  }
+}
+
+/* Estilos para o botão de tema */
+.theme-toggle {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  padding: 0;
+  margin-left: 0.5rem;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+@media (max-width: 991px) {
+  .theme-toggle {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Estilos específicos para orientação landscape (horizontal) */
+@media (max-height: 500px) and (orientation: landscape) {
+  .navbar-collapse {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .navbar-nav .nav-item .nav-link {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .navbar-nav .nav-item .nav-link i {
+    font-size: 0.9rem;
+  }
+  
+  /* Ajustar o dropdown para não ultrapassar os limites em orientação landscape */
+  .navbar-nav .dropdown-menu {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+}
+
+/* Corrigir problema de espaço em branco horizontal */
+.navbar, .container {
+  max-width: 100vw !important;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Garantir que os menus dropdown não causem overflow */
+.dropdown-menu {
+  width: auto;
+  max-width: calc(100vw - 20px);
+  overflow-x: hidden;
+}
+
+/* Ajustes adicionais para evitar scroll horizontal */
+body {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Garantir que todo container respeite os limites da viewport */
+.container, .container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Estilos adicionais para evitar quebra de linha no navbar */
+@media (min-width: 992px) {
+  /* Garantir que não haja quebra de linha no menu principal */
+  .navbar-collapse .d-flex {
+    flex-wrap: nowrap !important;
+  }
+  
+  /* Melhorar comportamento do espaçamento */
+  .navbar .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  /* Reduzir o tamanho dos itens para caber em uma linha */
+  .navbar-nav .nav-item .nav-link {
+    padding: 0.5rem 0.4rem;
+    font-size: 0.95rem;
+  }
+
+  /* Reduzir o espaço do texto no nome de usuário para evitar overflow */
+  .navbar-nav .dropdown-toggle span {
+    max-width: 100px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Reduzir espaçamento do botão de tema */
+  .theme-toggle {
+    margin-left: 0.25rem;
+    padding: 0.25rem;
   }
 }

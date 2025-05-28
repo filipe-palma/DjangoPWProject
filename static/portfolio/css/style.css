@@ -27,6 +27,13 @@
   --error-color: #dc3545;
 }
 
+/* Correções para prevenir overflow horizontal */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
 /* Estilo base */
 body {
   font-family: 'Poppins', sans-serif;

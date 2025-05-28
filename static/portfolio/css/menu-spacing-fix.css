@@ -1,0 +1,62 @@
+/* Correções específicas para o alinhamento do menu de navegação */
+
+/* Tornar o menu mais compacto horizontalmente */
+@media (min-width: 992px) {
+  /* Reduzir o espaçamento horizontal dos itens do menu */
+  .navbar-nav .nav-item .nav-link {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin: 0 0.1rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Remover margem extra do menu secundário */
+  .navbar-nav.mt-lg-0 {
+    margin-top: 0 !important;
+  }
+  
+  /* Certifique-se de que o container aproveita todo o espaço disponível */
+  .navbar .container {
+    max-width: none;
+    width: 100%;
+  }
+  
+  /* Forçar todos os itens a ficarem na mesma linha */
+  .navbar-collapse .d-flex {
+    flex-wrap: nowrap !important;
+  }
+  
+  /* Reduzir o espaço ocupado pelo logotipo/brand */
+  .navbar-brand {
+    margin-right: 0.5rem;
+  }
+  
+  /* Ajustar ícones para economizar espaço */
+  .navbar-nav .nav-item .nav-link i {
+    margin-right: 0;
+    width: 1rem;
+  }
+  
+  .navbar-nav .nav-item .nav-link span {
+    margin-left: 0.3rem;
+  }
+}
+
+/* Para telas maiores, espaçamento mais confortável */
+@media (min-width: 1200px) {
+  .navbar-nav .nav-item .nav-link {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    margin: 0 0.2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Para telas muito grandes, espaçamento normal */
+@media (min-width: 1400px) {
+  .navbar-nav .nav-item .nav-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: 0 0.3rem;
+  }
+}
